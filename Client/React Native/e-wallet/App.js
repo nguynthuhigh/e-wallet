@@ -1,19 +1,36 @@
-import { StyleSheet, Text, View,Image } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Hello World</Text>
-      <Image source={'./assets/icon'}></Image>
+      <View style={styles.flexContainer}>
+        <TextInput style={styles.input} />
+        <View style={styles.circle} />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '80%',
+    marginHorizontal: 'auto',
+    marginTop: 20,
+  },
+  flexContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  input: {
+    borderRadius: 4,
+    borderWidth: 1,
+    width: '70%',
+  },
+  circle: {
+    borderRadius: 15,
+    width: 30,
+    height: 30,
+    backgroundColor: 'black',
   },
 });
