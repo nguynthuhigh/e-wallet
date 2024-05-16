@@ -6,10 +6,14 @@ import Lucky_Money from '../../assets/lucky_money.svg'
 import Scan from '../../assets/scan.svg'
 import Back_Arrow from '../../assets/arrow_back.svg'
 import Bg_Blue from '../../assets/bg_blue.svg'
+import Recommend_User from './recommend_user';
+import History from './history';
+import { useNavigation } from '@react-navigation/native';
 function LogoTitle() {
+    const navigation = useNavigation();
     return (
       <View className='flex-row justify-between w-full mt-[35px] '>
-          <TouchableOpacity className=""  onPress={''}>
+          <TouchableOpacity className=""   onPress={() => navigation.goBack()}>
             <Back_Arrow width={30} height={26.5}/>
             
           </TouchableOpacity>
@@ -28,7 +32,7 @@ function LogoTitle() {
 export default function Transfer(){
   return(
     <View className="w-full">
-          <Bg_Blue className="w-full "/>
+        <Bg_Blue width="100%" height="100%"/>
           <View className="px-4 mt-2 w-full absolute">
           <LogoTitle></LogoTitle>
       
@@ -50,7 +54,9 @@ export default function Transfer(){
               <Text className="mt-2">Lì xì</Text>
             </TouchableOpacity>
         </View>
-    </View>
+        <Recommend_User></Recommend_User>
+        <History></History>
+      </View>
     </View>
 
   )
