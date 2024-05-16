@@ -1,9 +1,9 @@
 import {  Text, View, TextInput, Button, Image,Pressable } from 'react-native';
 
 
-export default function Account(){
+export default function History(){
   return(
-    <Text>Account</Text>
+    <Text>History</Text>
   )
 }
 

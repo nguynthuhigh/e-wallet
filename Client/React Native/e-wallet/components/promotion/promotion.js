@@ -1,9 +1,9 @@
 import {  Text, View, TextInput, Button, Image,Pressable } from 'react-native';
 
 
-export default function Account(){
+export default function Promotion(){
   return(
-    <Text>Account</Text>
+    <Text>Promotion</Text>
   )
 }
 
