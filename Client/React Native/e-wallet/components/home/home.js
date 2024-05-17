@@ -1,4 +1,4 @@
-import {  Text, View, TextInput, Button, Image,Pressable,Linking } from 'react-native';
+import {  Text, View, TextInput, Button, Image,Pressable,Linking,TouchableOpacity } from 'react-native';
 import Transfer from '../transfer/transfer';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -9,10 +9,10 @@ const Stack = createNativeStackNavigator();
 function Index({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button
-        title="Go to Transfer"
-        onPress={() => navigation.navigate('Transfer')}
-      />
+      <TouchableOpacity className="flex-col items-center"  onPress={() => navigation.navigate('Transfer')}>
+        <Image className='w-[33px] h-[31px]' source={require('../../assets/gif/transfer.gif')}></Image>
+        <Text >Chuyển tiền</Text>
+      </TouchableOpacity>
     </View>
   );
 }

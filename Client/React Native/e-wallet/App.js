@@ -83,7 +83,7 @@ const TabNavigation =()=>{
                   />
                   
                   <Image
-                  source={require('./assets/menu/scan.png')} 
+                  source={require('./assets/gif/scan_qr.gif')} 
                   style={{
                       width: 60,
                       height: 60,
