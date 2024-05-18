@@ -8,7 +8,7 @@ import Promotion from './components/promotion/promotion';
 import Scan from './components/scan/scan';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
 const Tab = createBottomTabNavigator();
 NativeWindStyleSheet.setOutput({
   default: "native",

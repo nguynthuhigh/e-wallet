@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         example: ["Inter Thin"],
+        inter: ['Inter-Regular', 'Inter-Bold'],
       },
     },
   },
