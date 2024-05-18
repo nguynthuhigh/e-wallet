@@ -60,27 +60,40 @@ function Index({ navigation }) {
 
         <View className="flex-row justify-between mt-4 ">
           
-          <TouchableOpacity className="flex-col items-center"  onPress={() => navigation.navigate('Transfer')}>
-              <View>
+          <TouchableOpacity className="flex-col items-center mb-auto"  onPress={() => navigation.navigate('Transfer')}>
               <LottieView
-                    style={{flex:1}}
-                    source={require('../../assets/animation/animation.json')}
+                    style={{flex:1,width:30, height:30}}
+                    source={require('../../assets/animation/transfer.json')}
                     autoPlay
                     loop
                   />
-              </View>
               <Text className="font-medium">Chuyển tiền</Text>
           </TouchableOpacity>
           <TouchableOpacity className="flex-col items-center"  onPress={() => navigation.navigate('Transfer')}>
-              <Image className='w-[33px] h-[31px]' source={require('../../assets/gif/transfer.gif')}></Image>
+                <LottieView
+                    style={{flex:1,width:30, height:30}}
+                    source={require('../../assets/animation/transfer.json')}
+                    autoPlay
+                    loop
+                  />
               <Text className="font-medium">Nhận tiền</Text>
           </TouchableOpacity>
           <TouchableOpacity className="flex-col items-center"  onPress={() => navigation.navigate('Transfer')}>
-              <Image className='w-[33px] h-[31px]' source={require('../../assets/gif/transfer.gif')}></Image>
+          <LottieView
+                    style={{flex:1,width:30, height:30}}
+                    source={require('../../assets/animation/transfer.json')}
+                    autoPlay
+                    loop
+                  />
               <Text className="font-medium w-[80px] text-center">QR Thanh Toán</Text>
           </TouchableOpacity>
           <TouchableOpacity className="flex-col items-center"  onPress={() => navigation.navigate('Transfer')}>
-              <Image className='w-[33px] h-[31px]' source={require('../../assets/gif/transfer.gif')}></Image>
+          <LottieView
+                    style={{flex:1,width:30, height:30}}
+                    source={require('../../assets/animation/transfer.json')}
+                    autoPlay
+                    loop
+                  />
               <Text className="font-medium w-[60px] text-center">Quét mã QR</Text>
           </TouchableOpacity>
         </View>

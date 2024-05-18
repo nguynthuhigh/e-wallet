@@ -82,12 +82,11 @@ const TabNavigation =()=>{
                   }} className='absolute top-[-8]'
                   />
                   
-                  <Image
-                  source={require('./assets/gif/scan_qr.gif')} 
-                  style={{
-                      width: 60,
-                      height: 60,
-                  }}
+                  <LottieView
+                    style={{flex:1,width:60, height:60}}
+                    source={require('./assets/animation/qr_scan.json')}
+                    autoPlay
+                    loop
                   />
                   <Text style={{ color: focused ? '#0094FF' : 'gray'}} className="z-10 mt-1" >Quét mọi mã</Text>
 
