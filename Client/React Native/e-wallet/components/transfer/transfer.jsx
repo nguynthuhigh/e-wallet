@@ -8,17 +8,19 @@ import Bg_Blue from '../../assets/bg_blue.svg'
 import Recommend_User from './recommend_user';
 import History from './history';
 import Header from '../header/header';
-
-export default function Transfer(){
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+const Stack = createNativeStackNavigator();
+import ConfirmSend from './confirm_send';
+const Index = ({navigation})=>{
   return(
-      <View className="w-full h-full">
+    <View className="w-full h-full">
         
           <Bg_Blue width="100%" height="100%"/>
             <ScrollView className="px-4 mt-2 w-full absolute">
             <Header/>
         
             <View className="flex-row p-4 py-[20px] w-[100%] mt-5 mx-auto bg-white rounded-xl justify-between ">
-              <TouchableOpacity className="flex-col items-center w-[84px]" onPress={''}>
+              <TouchableOpacity className="flex-col items-center w-[84px]" onPress={()=>navigation.navigate('ConfirmSend')}>
                 <Transfers width={30} height={26.5}/>
                 <Text className="mt-2">Đến ví khác</Text>
               </TouchableOpacity>
@@ -39,6 +41,19 @@ export default function Transfer(){
           <History></History>
         </ScrollView>
       </View>
+  )
+}
+
+export default function Transfer(){
+  return(
+    <Stack.Navigator
+    screenOptions={{
+      headerShown: false,
+    
+      }}>
+      <Stack.Screen name="Index" component={Index} />
+      <Stack.Screen name="ConfirmSend" component={ConfirmSend} />
+    </Stack.Navigator>
   )
 }
 

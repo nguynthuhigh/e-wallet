@@ -1,4 +1,4 @@
-import {  Text, View, TextInput, Button, ImageBackground ,Image,Pressable,StyleSheet,ScrollView } from 'react-native';
+import {  Text, View,Image,Pressable,StyleSheet,ScrollView } from 'react-native';
 import Bg_Blue from '../../assets/bg_blue.svg'
 import Gray_1 from '../../assets/svg/gray_acc_1.svg'
 import Gray_2 from '../../assets/svg/gray_acc_2.svg'
@@ -7,14 +7,10 @@ import QrCode from '../../assets/svg/qr_code_acc.svg'
 import Card from '../../assets/svg/card.svg'
 import Arrow_More from '../../assets/svg/arrow_more.svg'
 import ETH from '../../assets/svg/eth.svg'
+import {LinearGradient} from 'expo-linear-gradient';
 export default function Account(){
   return(
-    <ImageBackground
-        className="w-full "
-      
-        source={ require('../../assets/bg.png') }
-  
-      >
+    <LinearGradient className="h-full w-full" start={{x: 0, y: 0}} end={{x: 0, y: 1}} colors={['#0094FF','#F2F2F2']}  locations={[0, 0.3]} style={{fontFamily:'inter'}}> 
         <ScrollView>
           <View className=' p-4 w-full'>
           <View >
@@ -108,7 +104,7 @@ export default function Account(){
         
           
         </ScrollView>
-    </ImageBackground>
+    </LinearGradient>
   )
 }
 const Item = ()=>{

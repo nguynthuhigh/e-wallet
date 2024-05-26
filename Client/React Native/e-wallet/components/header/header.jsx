@@ -8,7 +8,6 @@ export default function Header(){
       <View className='flex-row justify-between w-full mt-[35px] '>
           <TouchableOpacity className=""   onPress={() => navigation.goBack()}>
             <Back_Arrow width={30} height={26.5}/>
-            
           </TouchableOpacity>
           <Text className='font-bold color-white text-[18px]'>Chuyển tiền</Text>
           <View className="w-[35px] h-[35px] flex-row justify-center items-center">
