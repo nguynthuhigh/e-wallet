@@ -11,7 +11,7 @@ import EyeClosed from '../../assets/svg/eyeClosed.svg'
 import {LinearGradient} from 'expo-linear-gradient';
 import { useState } from 'react';
 import LottieView from 'lottie-react-native';
-
+import ConfirmSend from '../transfer/confirm_send';
 const Stack = createNativeStackNavigator();
 
 function Index({ navigation }) {
@@ -69,7 +69,7 @@ function Index({ navigation }) {
                   />
               <Text className="font-medium">Chuyển tiền</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="flex-col items-center"  onPress={() => navigation.navigate('Transfer')}>
+          <TouchableOpacity className="flex-col items-center"  onPress={() => navigation.navigate('ConfirmSend')}>
                 <LottieView
                     style={{flex:1,width:30, height:30}}
                     source={require('../../assets/animation/transfer.json')}
@@ -115,6 +115,8 @@ export default function Home(){
           <Stack.Screen name="Index" component={Index} 
         />
           <Stack.Screen name="Transfer" component={Transfer} />
+          <Stack.Screen name="ConfirmSend" component={ConfirmSend} />
+
         </Stack.Navigator>
   )
 }

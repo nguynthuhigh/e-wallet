@@ -1,6 +1,6 @@
 import { ImageBackground, Text, View, TextInput, Button, Image,FlatList } from 'react-native';
 import User from './user';
-import { UserData } from '../../dummy data/user';
+import { UserData } from '../../dummy data/data';
 
 import { FlatGrid } from 'react-native-super-grid';
 export default function Recommend_User(){
