@@ -19,8 +19,8 @@ function Index({ navigation }) {
   
   return (
     
-   <ScrollView className="bg-white pt-5">
-    <LinearGradient className="rounded-b-[50px] p-[3px] pt-0 w-full" start={{x: 0, y: 0}} end={{x: 0, y: 1}} colors={['#FFFFFF','#0094FF']}>
+   <ScrollView className="bg-white pt-8">
+    <LinearGradient className="rounded-b-[50px] p-[3px] pt-0 w-[full] mx-auto" start={{x: 0, y: 0}} end={{x: 0, y: 1}} colors={['#FFFFFF','#0094FF']}>
 
       <View className="bg-white p-5 rounded-b-[50px]" style={{fontFamily:'inter'}}>
         <View className="flex-row w-full ">
