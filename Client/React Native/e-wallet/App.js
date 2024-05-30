@@ -19,7 +19,7 @@ const TabNavigation =()=>{
   screenOptions={{
   headerShown: false,
   tabBarShowLabel: false,
-  tabBarStyle:{height:80}
+  tabBarStyle:{height:'11%'}
   }} className="font-bold"
   >
   <Tab.Screen 
@@ -28,7 +28,7 @@ const TabNavigation =()=>{
     
       options={{
         tabBarIcon: ({ focused }) => (
-          <View style={{ alignItems: 'center' }}>
+          <View className="w-[50px] mr-6 items-center " >
             <View className={focused ? "w-full h-[2px] rounded-full bg-[#0094FF] top-[-15]" : "w-full h-[2px] top-[-12]"} />
             <Image
               source={require('./assets/menu/home.png')} 
@@ -38,7 +38,7 @@ const TabNavigation =()=>{
                 tintColor: focused ? '#0094FF' : 'gray' 
               }}
             />
-            <Text style={{ color: focused ? '#0094FF' : 'gray'}} className="mt-[5px]">Home</Text>
+            <Text style={{ color: focused ? '#0094FF' : 'gray'}} className="mt-[5px] text-xs">Home</Text>
           </View>
         )
       }}
@@ -62,7 +62,7 @@ const TabNavigation =()=>{
               tintColor: focused ? '#0094FF' : 'gray' 
               }}
           />
-          <Text style={{ color: focused ? '#0094FF' : 'gray'}}  className="mt-[5px]">Ưu đãi</Text>
+          <Text style={{ color: focused ? '#0094FF' : 'gray'}}  className="mt-[5px] text-xs">Ưu đãi</Text>
           </View>
       )
       }}/>
@@ -88,7 +88,7 @@ const TabNavigation =()=>{
                     autoPlay
                     loop
                   />
-                  <Text style={{ color: focused ? '#0094FF' : 'gray'}} className="z-10 mt-1" >Quét mọi mã</Text>
+                  <Text style={{ color: focused ? '#0094FF' : 'gray'}} className="z-10 mt-1 text-xs" >Quét mọi QR</Text>
 
               </View>
               </View>
@@ -107,7 +107,7 @@ const TabNavigation =()=>{
               tintColor: focused ? '#0094FF' : 'gray' 
               }}
           />
-          <Text style={{ color: focused ? '#0094FF' : 'gray'}}  className="mt-[5px]">Lịch sử GD</Text>
+          <Text style={{ color: focused ? '#0094FF' : 'gray'}}  className="mt-[5px] text-xs">Lịch sử GD</Text>
           </View>
       )
       }} 
@@ -125,7 +125,7 @@ const TabNavigation =()=>{
               tintColor: focused ? '#0094FF' : 'gray' 
               }}
           />
-          <Text style={{ color: focused ? '#0094FF' : 'gray'}} className="mt-[5px]">Tôi</Text>
+          <Text style={{ color: focused ? '#0094FF' : 'gray'}} className="mt-[5px] text-xs">Tôi</Text>
           </View>
       )
       }}
