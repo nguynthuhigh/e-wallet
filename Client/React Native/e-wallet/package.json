@@ -16,6 +16,8 @@
     "@react-navigation/native-stack": "^6.9.26",
     "@react-navigation/stack": "^6.3.29",
     "@rneui/themed": "^4.0.0-rc.8",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "eslint-import-resolver-babel-module": "^5.3.2",
     "expo": "~51.0.5",
     "expo-linear-gradient": "~13.0.2",
     "expo-status-bar": "~1.12.1",

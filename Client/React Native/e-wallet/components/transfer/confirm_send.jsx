@@ -11,7 +11,7 @@ export default function ConfirmSend(){
 
     return(
         <LinearGradient className="h-full w-full" start={{x: 0, y: 0}} end={{x: 0, y: 1}} colors={['#0094FF','#F2F2F2']}  locations={[0, 0.3]} style={{fontFamily:'inter'}}> 
-            <View className="mt-2">
+            <View className="mt-8">
                 <View className="flex-row p-4 items-center">
                     <TouchableOpacity   onPress={() => navigation.goBack()}>
                         <View className="bg-[#554242] "></View>
