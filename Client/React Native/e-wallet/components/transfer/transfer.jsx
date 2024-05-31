@@ -9,51 +9,40 @@ import Recommend_User from './recommend_user';
 import History from './history';
 import Header from '../header/header';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-const Stack = createNativeStackNavigator();
-import ConfirmSend from './confirm_send';
-const Index = ({navigation})=>{
-  return(
-    <View className="w-full h-full">
-        
-          <Bg_Blue width="100%" height="100%"/>
-            <ScrollView className="px-4 mt-2 w-full absolute">
-            <Header/>
-        
-            <View className="flex-row p-4 py-[20px] w-[100%] mt-5 mx-auto bg-white rounded-xl justify-between ">
-              <TouchableOpacity className="flex-col items-center w-[84px]" onPress={()=>navigation.navigate('ConfirmSend')}>
-                <Transfers width={30} height={26.5}/>
-                <Text className="mt-2">Đến ví khác</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="flex-col  items-center w-[84px]"  onPress={''}>
-                <Bank width={30} height={26.5}/>
-                <Text className='text-center mt-2'>Chuyển đến ngân hàng</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="flex-col   items-center w-[84px]"  onPress={''}>
-                <Scan width={25} height={28}/>
-                <Text className="mt-2">Quét mã QR</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="flex-col  items-center w-[84px]"  onPress={''}>
-                <Lucky_Money width={30} height={26.5}/>
-                <Text className="mt-2">Lì xì</Text>
-              </TouchableOpacity>
-          </View>
-          <Recommend_User></Recommend_User>
-          <History></History>
-        </ScrollView>
-      </View>
-  )
-}
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function Transfer(){
+  const navigation = useNavigation()
   return(
-    <Stack.Navigator
-    screenOptions={{
-      headerShown: false,
-    
-      }}>
-      <Stack.Screen name="Index" component={Index} />
-      <Stack.Screen name="ConfirmSend" component={ConfirmSend} />
-    </Stack.Navigator>
+     <View className="w-full h-full">
+        
+     <Bg_Blue width="100%" height="100%"/>
+       <ScrollView className="px-4 w-full absolute">
+       <Header/>
+   
+       <View className="flex-row p-4 py-[20px] w-[100%] mt-5 mx-auto bg-white rounded-xl justify-between ">
+         <TouchableOpacity className="flex-col items-center w-[84px]" onPress={()=>navigation.navigate('ConfirmSend')}>
+           <Transfers width={30} height={26.5}/>
+           <Text className="mt-2">Đến ví khác</Text>
+         </TouchableOpacity>
+         <TouchableOpacity className="flex-col  items-center w-[84px]"  onPress={''}>
+           <Bank width={30} height={26.5}/>
+           <Text className='text-center mt-2'>Chuyển đến ngân hàng</Text>
+         </TouchableOpacity>
+         <TouchableOpacity className="flex-col   items-center w-[84px]"  onPress={''}>
+           <Scan width={25} height={28}/>
+           <Text className="mt-2">Quét mã QR</Text>
+         </TouchableOpacity>
+         <TouchableOpacity className="flex-col  items-center w-[84px]"  onPress={''}>
+           <Lucky_Money width={30} height={26.5}/>
+           <Text className="mt-2">Lì xì</Text>
+         </TouchableOpacity>
+     </View>
+     <Recommend_User></Recommend_User>
+     <History></History>
+   </ScrollView>
+ </View>
   )
 }
 

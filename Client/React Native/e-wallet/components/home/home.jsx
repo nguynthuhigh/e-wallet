@@ -3,7 +3,7 @@ import Transfer from '../transfer/transfer';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Menu from '../menu/menu';
-import Notification from '../../assets/svg/notification.svg'
+import Notification_Icon from '../../assets/svg/notification.svg'
 import Search from '../../assets/svg/search.svg'
 import CashIn from '../../assets/svg/cashin.svg'
 import Eye from '../../assets/svg/eye.svg'
@@ -12,6 +12,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import { useState } from 'react';
 import LottieView from 'lottie-react-native';
 import ConfirmSend from '../transfer/confirm_send';
+import Notification from '../notification/notification';
 const Stack = createNativeStackNavigator();
 
 function Index({ navigation }) {
@@ -35,7 +36,7 @@ function Index({ navigation }) {
           <View className="flex-row ml-auto justify-between">
             <Search className="w-[30px] h-[30px] px-4"/>
             <View className="w-[10px]"></View>
-            <Notification className="w-[30px] h-[30px]"/>
+            <Notification_Icon className="w-[30px] h-[30px]"/>
           </View>
         </View>
         <View className="w-[90%] h-[0.5px] mt-3 mx-auto bg-[#F2F2F2]"></View>
@@ -112,11 +113,10 @@ export default function Home(){
           headerShown: false,
         
           }}>
-          <Stack.Screen name="Index" component={Index} 
-        />
+          <Stack.Screen name="Index" component={Index} />
+          <Stack.Screen name="Notification" component={Notification}/>
           <Stack.Screen name="Transfer" component={Transfer} />
           <Stack.Screen name="ConfirmSend" component={ConfirmSend} />
-
         </Stack.Navigator>
   )
 }

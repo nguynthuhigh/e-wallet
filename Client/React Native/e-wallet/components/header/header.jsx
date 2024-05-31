@@ -5,7 +5,7 @@ import Back_Arrow from '../../assets/arrow_back.svg'
 export default function Header(){
     const navigation = useNavigation();
     return (
-      <View className='flex-row justify-between w-full mt-[35px] '>
+      <View className='flex-row justify-between w-full mt-16 '>
           <TouchableOpacity className=""   onPress={() => navigation.goBack()}>
             <Back_Arrow width={30} height={26.5}/>
           </TouchableOpacity>

@@ -1,4 +1,4 @@
-import {  Text, View,Image,Pressable,StyleSheet,ScrollView } from 'react-native';
+import {  Text, View,Image,Pressable,StyleSheet,ScrollView, TouchableOpacity } from 'react-native';
 import Bg_Blue from '../../assets/bg_blue.svg'
 import Gray_1 from '../../assets/svg/gray_acc_1.svg'
 import Gray_2 from '../../assets/svg/gray_acc_2.svg'
@@ -8,7 +8,9 @@ import Card from '../../assets/svg/card.svg'
 import Arrow_More from '../../assets/svg/arrow_more.svg'
 import ETH from '../../assets/svg/eth.svg'
 import {LinearGradient} from 'expo-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
 export default function Account(){
+  const navigation = useNavigation()
   return(
     <LinearGradient className="h-full w-full" start={{x: 0, y: 0}} end={{x: 0, y: 1}} colors={['#0094FF','#F2F2F2']}  locations={[0, 0.3]} style={{fontFamily:'inter'}}> 
         <ScrollView>
@@ -57,13 +59,16 @@ export default function Account(){
               <View className="mt-[60px] ">
                 <Text className="font-bold text-[20px] my-4">Cài đặt</Text>
                 <View className="w-full rounded-t-xl bg-white p-4">
-                    <View className="flex-row w-full my-3">
-                      <Card className="ml-2"></Card>
-                      <Text className="ml-5 font-bold text-[14px]">Quản lí tài khoản/thẻ</Text>
-                      <View className="ml-auto">
-                        <Arrow_More ></Arrow_More>
+                    <TouchableOpacity onPress={()=>{navigation.navigate('Notification')}}>
+                      <View className="flex-row w-full my-3">
+                        <Card className="ml-2"></Card>
+                        <Text className="ml-5 font-bold text-[14px]">Cài đặt thông báo</Text>
+                        <View className="ml-auto">
+                          <Arrow_More ></Arrow_More>
+                        </View>
                       </View>
-                    </View>
+                    </TouchableOpacity>
+                 
                     <View className="flex-row w-full my-3">
                       <Card className="ml-2"></Card>
                       <Text className="ml-5 font-bold text-[14px]">Quản lí tài khoản/thẻ</Text>
