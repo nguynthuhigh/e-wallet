@@ -1,17 +1,21 @@
 const {Schema, model} = require('mongoose')
 
 const userSchema = new Schema({
-    phone:{
+    full_name:{
         type:String,
-        required:[true,"Phone number is invalid"],
-        unique:[true,"Phone number already exists"],
-        minLength:[10,"Phone number is invalid"],
-
+    },
+    email:{
+        type:String,
+        required:true,
     },
     password:{
         type:String,
-        required:true,
-        minLength:[6,"Password must be at least 6 characters"]
+    },
+    role:{
+      type:String,
+      required:true,
+      default:"user"
+
     }
 })
 const User = model('User',userSchema)
