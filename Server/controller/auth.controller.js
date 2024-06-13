@@ -4,7 +4,7 @@ const OTPservices = require('../services/OTPservices')
 const otpGenerator = require('otp-generator')
 const {OTP} = require('../models/otp.model')
 const bcrypt = require('../utils/bcrypt');
-const nodemailer = require('../services/nodemailer')
+const nodemailer = require('../utils/nodemailer')
 module.exports  = {
     Register:async (req,res)=>{
         const {email,password} = req.body
@@ -53,6 +53,16 @@ module.exports  = {
        } catch (error) {
             return res.status(400).json({erorr:error,message:"Mã OTP đã hết hạn vui lòng thử lại"})
        }
+    },
+    updateProfile: async(req,res)=>{
+        try {
+            const {email,full_name} = req.body
+            await User.findOneAndUpdate({email:email},{full_name:full_name}).then(result =>{
+                res.status(200).json({message:"Sucess",data:result})
+            })
+        } catch (error) {
+            res.status(400).json({error:error,message:"Cập nhật thông tin thất bại"})
+        }
     },
     Login: async(req,res)=>{
         try {

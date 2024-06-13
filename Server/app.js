@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 //routes
 const routerUser = require('./routes/auth.routes');
 const routeRole = require('./routes/role.routes')
+const routeCredit = require('./routes/creditcard.routes')
+
 //bodyParser
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}))
@@ -12,6 +14,7 @@ app.use(bodyParser.json())
 
 app.use('/api/user',routerUser)
 app.use('/api/role/v1',routeRole)
+app.use('/api/card/v1',routeCredit)
 
 
 mongoose.connect(process.env.MONGODB_URI).then(result=>{
