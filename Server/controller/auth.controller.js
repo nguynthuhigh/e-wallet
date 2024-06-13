@@ -16,10 +16,8 @@ module.exports  = {
                 //create OTP
                 await OTPservices.createOTP(email,passwordHash,OTP_Generator)
                 //send nodemailer
-                
-
-                console.log(nodemailer.sendMail(email,"Mã OTP của bạn "+OTP_Generator +" Nhập mã pay acc!","Chúng tôi đến từ pressPay!"))
-                console.log(email)
+                nodemailer.sendMail(email,"Mã OTP của bạn "+OTP_Generator +" Nhập mã pay acc!","Chúng tôi đến từ pressPay!")
+                console.log(OTP_Generator)
                 res.status(200).json({message:"Check your email",email:email})
 
             } catch (error) {
