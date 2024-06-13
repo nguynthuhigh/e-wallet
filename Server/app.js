@@ -12,9 +12,9 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
-app.use('/api/user',routerUser)
-app.use('/api/role/v1',routeRole)
-app.use('/api/card/v1',routeCredit)
+app.use('/api/v1/user',routerUser)
+app.use('/api/v1/role',routeRole)
+app.use('/api/v1/card',routeCredit)
 
 
 mongoose.connect(process.env.MONGODB_URI).then(result=>{
