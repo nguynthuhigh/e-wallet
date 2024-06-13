@@ -5,7 +5,7 @@ const userAuth = require("../middlewares/user.Middlewares")
 router.post('/register',userAuth.validateRegister,AuthController.Register)
 router.post('/verify',AuthController.VerifyAccount)
 router.post('/login',AuthController.Login)
-router.post('/account',AuthController.Account)
-
+router.post('/account',AuthController.Account) //Need auth user
+router.put('/update',AuthController.updateProfile)  //Need auth user
 
 module.exports = router;
