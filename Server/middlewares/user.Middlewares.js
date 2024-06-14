@@ -1,4 +1,4 @@
-const {registerSchema} = require("../validators/userValidator")
+const {registerSchema} = require("../validates/user.validate")
 exports.validateRegister = async (req, res, next) => {
     try {
         await registerSchema.validate(req.body);

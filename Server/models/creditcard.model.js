@@ -1,21 +1,30 @@
 const {Schema, model} = require('mongoose')
 const cryptoJS = require('../utils/crypto-js')
-const { scrypt } = require('crypto')
 const creaditCardSchema = new Schema({
-    email: {
-        type:String,
+    name:{
+        type: String,
+        set:cryptoJS.encrypt,
+        required: true
     },
     number: {
         type: String,
+        required: true
     },
     cvv: {
         type: String,
         set:cryptoJS.encrypt,
     },
-    expires: {
+    expiryMonth: {
         type: String,
         set:cryptoJS.encrypt,
+        required: true
     },
+    expiryYear: {
+        type: String,
+        set:cryptoJS.encrypt,
+        required: true
+    },
+    userID: {type:Schema.Types.ObjectId, ref:'User'}
 },
 )
 const CreditCard = model('CreditCard',creaditCardSchema)
