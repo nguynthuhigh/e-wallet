@@ -23,7 +23,6 @@ module.exports = {
         return new Promise((resolve,reject)=>{
             jwt.verify(token, process.env.SERECT_TOKEN, (err, decoded) => {
                 if (err) {
-                    res.status(404).json({ message: 'Unauthorized' });
                     reject(err)
                 } else {
                     resolve(decoded) 

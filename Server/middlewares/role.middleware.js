@@ -1,18 +1,27 @@
 const tokenAuth = require('../services/tokenServices')
 const { User } = require('../models/user.model');
-exports.verifyRole =  (req, res, next,role) => {
-    tokenAuth.verifyToken(req, res, async () => {
-        try {
-            const userFind = await User.findOne({ phone: req.user.phone });
-            if (userFind.role === role) {
-                return next(); 
+exports.verifyRole = (role)=>{
+    return async  (req, res, next) => {
+        const token = req.headers.authorization?.slice(7);
+        if(token){
+            try {
+                const result = await tokenAuth.verifyToken(token);
+                const user = await User.findById(result.id);
+                if (user && user.role === role) {
+                    req.user = result.id;
+                    return next();
+                } else {
+                    return res.status(400).json({ message: "Không đủ quyền truy cập" });
+                }
+            } catch (err) {
+                return res.status(400).json({ error: err.message });
             }
-            res.status(401).json("Page not found");
-        } catch (error) {
-            res.status(500).json({ message: "Internal Server Error" });
         }
-    });
-};
+        else{
+            return res.status(404).json({message:"Page not found"})
+        }
+    };
+}
 exports.VerifyUser = (req,res,next)=>{
 
     const token = req.headers.authorization?.slice(7);
@@ -28,13 +37,4 @@ exports.VerifyUser = (req,res,next)=>{
     else{
         return res.status(404).json({message:"Page not found"})
     }
-    // auth.verifyToken(req,res, async ()=>{
-    //     try {
-
-    //         const userFind = await User.findById(id);
-    //         req.user = {userFind}
-    //     } catch (error) {
-    //         res.status(404).json({ message: "Page not found" }); 
-    //     }
-    // })
 }
