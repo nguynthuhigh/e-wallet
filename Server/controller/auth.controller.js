@@ -5,6 +5,7 @@ const otpGenerator = require('otp-generator')
 const {OTP} = require('../models/otp.model')
 const bcrypt = require('../utils/bcrypt');
 const nodemailer = require('../utils/nodemailer')
+const jwt = require('../services/tokenServices')
 module.exports  = {
     Register:async (req,res)=>{
         const {email,password} = req.body
@@ -36,9 +37,10 @@ module.exports  = {
             otpSchema=otpArray[otpArray.length-1]
             if(otpSchema){
                 if(OTPservices.verifyOTP(otp,otpSchema.otp)){
-                    await User.create({email:email,password:otpSchema.password})
+                    const data = await User.create({email:email,password:otpSchema.password})
                     await OTP.deleteMany({email:email})
-                    return res.status(200).json({message:"Sucess",message:"Xác thực OTP thành công"})
+                    const token =await jwt.createToken(data._id)
+                    return res.status(200).json({message:"Sucess",token:token,message:"Xác thực OTP thành công"})
                 }
                 else{
                     return res.status(400).json({message:"Không thể xác thực OTP vui lòng thử lại"})
@@ -54,8 +56,8 @@ module.exports  = {
     },
     updateProfile: async(req,res)=>{
         try {
-            const {email,full_name} = req.body
-            await User.findOneAndUpdate({email:email},{full_name:full_name}).then(result =>{
+            const id = req.user
+            await User.findByIdAndUpdate(id,req.body).then(result =>{
                 res.status(200).json({message:"Sucess",data:result})
             })
         } catch (error) {
@@ -64,13 +66,15 @@ module.exports  = {
     },
     Login: async(req,res)=>{
         try {
-            const {email, password} = req.body;
+            const {email,password} = req.body;
             const userFind = await User.findOne({email:email})
             if(userFind){
                 const passwordHash = userFind.password;
                 if(bcrypt.bcryptCompare(password,passwordHash)){
-                    const token = createToken(email);
-                    res.status(200).json({token:token,message:"Đăng nhập thành công"})
+                    const OTP_Generator = otpGenerator.generate(6, {digits:true, upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
+                    await OTPservices.createOTP(email,passwordHash,OTP_Generator)
+                    nodemailer.sendMail(email,"Mã OTP đăng nhập của bạn là "+OTP_Generator +"\n Vui lòng không gửi cho bất kỳ ai.","Chúng tôi đến từ pressPay!")
+                    res.status(200).json({message:"Kiểm tra email để xác nhận"})
                 }
                 else{
                     res.status(400).json({err, message:"Mật khẩu không đúng"})
@@ -83,8 +87,24 @@ module.exports  = {
             res.status(400).json({error:error,message:"Tài khoản hoặc mật khẩu không đúng"})
         }
     },
+    VerifyLogin:async(req,res)=>{
+        const {email,otp} = req.body
+        const otpArray = await OTP.find({email:email})
+        otpSchema=otpArray[otpArray.length-1]
+        if(otpSchema){
+            if(OTPservices.verifyOTP(otp,otpSchema.otp)){
+                await OTP.deleteMany({email:email})
+                const token =await jwt.createToken(data._id)
+                return res.status(200).json({message:"Sucess",token:token,message:"Xác thực OTP thành công"})
+            }
+            else{
+                return res.status(400).json({message:"Không thể xác thực OTP vui lòng thử lại"})
+            }
+        }
+    },
     Account: async (req,res)=>{
-        const userFind = await User.findOne({phone:req.user.phone})
+        const id = req.user
+        const userFind = await User.findById(id)
         res.status(200).json(userFind)
     }
 }

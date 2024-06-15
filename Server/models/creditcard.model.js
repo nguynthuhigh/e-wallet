@@ -25,7 +25,8 @@ const creaditCardSchema = new Schema({
         required: true
     },
     userID: {type:Schema.Types.ObjectId, ref:'User'}
-},
-)
+},{
+    timestamps: true 
+})
 const CreditCard = model('CreditCard',creaditCardSchema)
 module.exports = {CreditCard}

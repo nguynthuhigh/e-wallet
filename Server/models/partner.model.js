@@ -1,50 +1,49 @@
 const {Schema, model} = require('mongoose')
 
-const postSchema = new Schema({
-    title:{
-        type:String,
-        required:true
-    },
-    content:{
-        type:String,
-        required:true
-    },
-    image:{
-        type:String,
-        required:true
-    },
-    userID: {
-        type:Schema.Types.ObjectId,
-        ref:'User'
-    }
-},{
-    timestamps: true 
-})
 
-const replyPostSchema = new Schema({
-    comment:{
+const partnerSchema = new Schema({
+    brandName:{
         type:String,
         required:true
     },
-    image:{
+    description:{
+        type:String,
+        required:true 
+    },
+    phone:{
         type:String,
         required:true
     },
-    postID:{
-        type:Schema.Types.ObjectId,
-        ref:'Post',
+    address:{
+        type:String,
         required:true
     },
-    userID:{
-        type:Schema.Types.ObjectId,
-        ref:'User',
+    email:{
+        type:String,
         required:true
     }
 },{
     timestamps: true 
 })
 
-const Post = model('Post',postSchema)
-const replyPost = model('replyPost',replyPostSchema)
-
-module.exports = {Post,replyPost}
+const partnerBranchSchema = new Schema({
+    branchName:{
+        type:String,
+        required:true
+    },
+    address:{
+        type:String,
+        required:true
+    },
+    phone:{
+        type:String,
+        required:true
+    },
+    partnerID:{
+        type:Schema.Types.ObjectId,
+        ref:'Partner',
+        required:true
+    }
+},{
+    timestamps: true 
+})
