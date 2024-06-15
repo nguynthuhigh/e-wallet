@@ -16,7 +16,13 @@ const userSchema = new Schema({
       required:true,
       default:"user"
 
+    },inactive:{
+        type:Boolean,
+        required:true,
+        default:false
     }
+},{
+    timestamps: true 
 })
 const User = model('User',userSchema)
 module.exports = {User}

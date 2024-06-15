@@ -20,7 +20,7 @@ module.exports = {
     }
 };
 
-const setRole =async (req,res,role)=>{
+const setRole = async(req,res,role)=>{
     try {
         const {_id} = req.body;
         const update = { role: role };
