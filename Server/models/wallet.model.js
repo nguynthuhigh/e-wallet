@@ -1,7 +1,13 @@
 const {Schema, model} = require('mongoose')
 
 const walletTypeSchema = new Schema({
-    typeName:{
+
+    code:{
+        type: String,
+        required:true,
+        unique:true
+    },
+    name:{
         type: String,
         required:true,
     }

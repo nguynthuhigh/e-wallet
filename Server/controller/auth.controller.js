@@ -1,11 +1,12 @@
 const respone = require("../utils/respone");    
 const {User} = require('../models/user.model'); 
-const OTPservices = require('../services/OTPservices')
+const OTPservices = require('../services/OTP.services')
 const otpGenerator = require('otp-generator')
 const {OTP} = require('../models/otp.model')
 const bcrypt = require('../utils/bcrypt');
 const nodemailer = require('../utils/nodemailer')
-const jwt = require('../services/tokenServices')
+const jwt = require('../services/token.services')
+const generateWallet = require('../services/wallet.services')
 module.exports  = {
     Register:async (req,res)=>{
         const {email,password} = req.body
@@ -37,9 +38,15 @@ module.exports  = {
             otpSchema=otpArray[otpArray.length-1]
             if(otpSchema){
                 if(OTPservices.verifyOTP(otp,otpSchema.otp)){
+                    //create new user
                     const data = await User.create({email:email,password:otpSchema.password})
+                    //delete all OTP
                     await OTP.deleteMany({email:email})
+                    //authorization 
                     const token =await jwt.createToken(data._id)
+                    //generate wallet
+                    generateWallet.generateWalletVND(data._id)
+                   
                     return res.status(200).json({message:"Sucess",token:token,message:"Xác thực OTP thành công"})
                 }
                 else{
@@ -94,12 +101,16 @@ module.exports  = {
         if(otpSchema){
             if(OTPservices.verifyOTP(otp,otpSchema.otp)){
                 await OTP.deleteMany({email:email})
-                const token =await jwt.createToken(data._id)
-                return res.status(200).json({message:"Sucess",token:token,message:"Xác thực OTP thành công"})
+                const dataUser = await User.findOne({email:email})
+                const token =await jwt.createToken(dataUser._id)
+                return res.status(200).json({token:token,message:"Xác thực OTP thành công"})
             }
             else{
                 return res.status(400).json({message:"Không thể xác thực OTP vui lòng thử lại"})
             }
+        }
+        else{
+            return res.status(400).json({message:"Mã OTP đã hết hạn vui lòng thử lại"})
         }
     },
     Account: async (req,res)=>{

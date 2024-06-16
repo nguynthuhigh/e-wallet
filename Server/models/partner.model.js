@@ -21,7 +21,11 @@ const partnerSchema = new Schema({
     email:{
         type:String,
         required:true
-    }
+    },
+    branchID:[{
+        type:Schema.Types.ObjectId,
+        ref:'PartnerBranch',
+    }]
 },{
     timestamps: true 
 })
@@ -44,6 +48,8 @@ const partnerBranchSchema = new Schema({
         ref:'Partner',
         required:true
     }
+
 },{
     timestamps: true 
 })
+

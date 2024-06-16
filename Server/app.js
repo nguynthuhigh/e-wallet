@@ -7,6 +7,9 @@ const routerAuth = require('./routes/auth.routes');
 const routeRole = require('./routes/role.routes')
 const routeCredit = require('./routes/creditcard.routes')
 const routeUser = require('./routes/user.routes')
+const routeWallet = require('./routes/wallet.routes')
+const routeTransaction = require('./routes/transaction.routes')
+
 //bodyParser
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}))
@@ -16,6 +19,10 @@ app.use('/api/v1/user',routerAuth)
 app.use('/api/v1/role',routeRole)
 app.use('/api/v1/card',routeCredit)
 app.use('/api/v1/admin',routeUser)
+app.use('/api/v1/wallet',routeWallet)
+app.use('/api/v1/transaction',routeTransaction)
+
+
 
 
 
