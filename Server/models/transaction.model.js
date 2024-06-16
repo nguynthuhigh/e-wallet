@@ -4,6 +4,12 @@ const transactionTypeSChema = new Schema({
     typeName:{
         type:String,
         required:true,
+        unique:true,
+    },
+    type:{
+        type:String,
+        required:true,
+        unique:true,
     }
 })
 
@@ -34,6 +40,7 @@ const transactionSchema = new Schema({
     branchID:{
         type:Schema.Types.ObjectId,
         ref:'PartnerBranch',
+        required:false
     }
 },{
     timestamps: true 

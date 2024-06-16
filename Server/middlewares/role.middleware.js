@@ -1,4 +1,4 @@
-const tokenAuth = require('../services/tokenServices')
+const tokenAuth = require('../services/token.services')
 const { User } = require('../models/user.model');
 exports.verifyRole = (role)=>{
     return async  (req, res, next) => {
