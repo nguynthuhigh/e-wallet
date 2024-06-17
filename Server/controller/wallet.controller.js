@@ -2,6 +2,7 @@ const {Wallet,WalletType} = require('../models/wallet.model')
 const {TransactionType,Transaction} = require('../models/transaction.model')
 const {startSession} = require('mongoose')
 const respone = require('../utils/respone')
+const wallet = require('../services/wallet.services')
 module.exports  = {
     //admin
     createWalletType:async(req,res)=>{
@@ -20,7 +21,6 @@ module.exports  = {
         })
     },
     //user
-    
     sendMoney: async (req, res) => {
         const session = await startSession();
         try {
@@ -63,6 +63,42 @@ module.exports  = {
             res.status(400).json({ error: error.message });
         } finally {
             session.endSession();
+        }
+    },
+    ethWallet:async(req,res)=>{
+        try {
+            const id = req.user
+            const type = await WalletType.findOne({code:"ETH"})
+            const wallet_eth =await Wallet.findOne({userID:id,walletTypeID:type._id})
+            if(wallet_eth){
+                return res.status(400).json({message:"Người dùng đã tạo ví ETH"})
+            }
+            await wallet.generateWalletETH(id,type._id).then(data=>{
+                return res.status(200).json({message:"Tạo ví thành công",address:data.address})
+
+            }).catch(err=>{
+                return res.status(400).json({message:"Tạo ví thất bại",err})
+            })
+        } catch (error) {
+            return res.status(400).json({error:error})
+        }
+    },
+    getAddressETH:async(req,res)=>{
+        try {
+            const id = req.user
+            const type = await WalletType.findOne({code:"ETH"})
+            const wallet_eth =await Wallet.findOne({userID:id,walletTypeID:type._id}).populate('walletTypeID').exec()
+            if(!wallet_eth){
+                return res.status(400).json({message:"Người dùng chưa tạo ví ETH"})
+            }
+            const wallet={
+                address:wallet_eth.address,
+                balance:wallet_eth.balance,
+                walletType:wallet_eth.walletTypeID
+            }
+            return res.status(200).json({message:"Success",data:wallet})
+        } catch (error) {
+            return res.status(400).json({error:error})
         }
     }
 }

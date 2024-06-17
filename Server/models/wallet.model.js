@@ -1,4 +1,5 @@
 const {Schema, model} = require('mongoose')
+const cryptoJS = require('../utils/crypto-js')
 
 const walletTypeSchema = new Schema({
 
@@ -16,6 +17,15 @@ const walletTypeSchema = new Schema({
 })
 
 const walletSchema = new Schema({
+    address:{
+        type:String,
+        required:false,
+    },
+    mnemonic:{
+        type:String,
+        required:false,
+        set:cryptoJS.encrypt,
+    },
     balance:{
         type:Number,
         required:true,
