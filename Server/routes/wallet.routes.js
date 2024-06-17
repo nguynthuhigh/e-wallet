@@ -9,6 +9,8 @@ const controller = require('../controller/wallet.controller')
 router.post('/post/walletype',roleAuth.verifyRole(ROLE.ADMIN),controller.createWalletType)
 router.get('/get/walletype',roleAuth.verifyRole(ROLE.ADMIN),controller.getWalletType)
 router.put('/send-money',roleAuth.VerifyUser,controller.sendMoney)
+router.post('/post/wallet-eth',roleAuth.VerifyUser,controller.ethWallet)
+router.post('/get/address-eth',roleAuth.VerifyUser,controller.getAddressETH)
 
 
 module.exports = router

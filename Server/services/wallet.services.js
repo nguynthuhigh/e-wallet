@@ -1,5 +1,5 @@
 const {Wallet,WalletType} = require('../models/wallet.model')
-
+const {ethers} = require('ethers')
 module.exports = {
     generateWalletVND:async (userID)=>{
         try {
@@ -34,15 +34,24 @@ module.exports = {
             return false;
         }
     },
-    generateWalletETH:async (userID)=>{
+    generateWalletETH: (userID,typeID)=>{
         try {
-            const type = await WalletType.findOne({code:"ETH"})
-            if(!type){
-                throw new Error("Can't find wallet type")
-            }
-            const walletTypeID = type._id
-            await Wallet.create({userID:userID,walletTypeID:walletTypeID});
-            return true
+            return new Promise((resolve,reject)=>{
+                const wallet = ethers.Wallet.createRandom();
+                console.log(wallet)
+                const createWallet = Wallet.create({
+                    address:wallet.address,
+                    mnemonic: wallet.mnemonic.phrase,
+                    userID:userID,
+                    walletTypeID:typeID
+                });
+                if(createWallet){
+                    resolve(createWallet)
+                }
+                else{
+                    reject(false)
+                }
+            })
         } catch (error) {
             console.error("Lỗi khi tạo ví ETH:", err);
             return false;
