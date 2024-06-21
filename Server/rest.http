@@ -63,6 +63,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVjNGM2Z
 Content-Type: application/json
 
 ###
+##eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmZmZGQ0MDkzZTZiM2E4NDFiMjY0MyIsImlhdCI6MTcxODYxNTUwOH0.QhwBNIp9DE2V3ucekZQNXPhaO11b8y7kjwWrSxdYZHU
 POST http://localhost:8888/api/v1/wallet/get/address-eth
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVjNGM2ZGI5NDFjOWIwMmMzN2RiYiIsImlhdCI6MTcxODUzNTM2Nn0.7iHRTDvTe6kiSZduP3nD-l4v9aR_m5V9At59z37Jy6I
 Content-Type: application/json

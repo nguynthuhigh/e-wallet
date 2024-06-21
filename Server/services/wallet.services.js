@@ -8,7 +8,6 @@ module.exports = {
                 throw new Error("Can't find wallet type")
             }
             const walletTypeID = type._id
-            console.log(walletTypeID)
             await Wallet.create({userID:userID,walletTypeID:walletTypeID}).then(()=>{
                 return true
             }).catch(()=>{
@@ -27,10 +26,14 @@ module.exports = {
                 throw new Error("Can't find wallet type")
             }
             const walletTypeID = type._id
-            await Wallet.create({userID:userID,walletTypeID:walletTypeID});
-            return true
+            await Wallet.create({userID:userID,walletTypeID:walletTypeID}).then(()=>{
+                return true
+            }).catch(()=>{
+                console.error("Error generation USD wallet:", err);
+            });
+            
         } catch (error) {
-            console.error("Lỗi khi tạo ví USD:", err);
+            console.error("Error generation USD wallet:", err);
             return false;
         }
     },
