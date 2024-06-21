@@ -46,7 +46,7 @@ module.exports  = {
                     const token =await jwt.createToken(data._id)
                     //generate wallet
                     generateWallet.generateWalletVND(data._id)
-                   
+                    generateWallet.generateWalletUSD(data._id)
                     return res.status(200).json({message:"Sucess",token:token,message:"Xác thực OTP thành công"})
                 }
                 else{
