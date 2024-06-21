@@ -1,0 +1,68 @@
+POST http://localhost:8888/api/v1/wallet/post/walletype
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmRiMjdkMjQ5ZDJhNDY0ZjMyNDc3MyIsImlhdCI6MTcxODQ2NTE0OX0.r61EHZYDDA26EMC-3YJtlHyvUZe3yy1Y5Es6ZjofoXw
+Content-Type: application/json
+
+{
+    "code":"ETH",
+    "name":"Ethereum"
+}
+#####
+GET http://localhost:8888/api/v1/wallet/get/walletype
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmRiMjdkMjQ5ZDJhNDY0ZjMyNDc3MyIsImlhdCI6MTcxODQ2NTE0OX0.r61EHZYDDA26EMC-3YJtlHyvUZe3yy1Y5Es6ZjofoXw
+Content-Type: application/json
+###
+POST http://localhost:8888/api/v1/transaction/post/transactionType
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmRiMjdkMjQ5ZDJhNDY0ZjMyNDc3MyIsImlhdCI6MTcxODQ2NTE0OX0.r61EHZYDDA26EMC-3YJtlHyvUZe3yy1Y5Es6ZjofoXw
+Content-Type: application/json
+
+{
+    "typeName":"Chuyển tiền",
+    "type":"send"
+}
+###
+PUT http://localhost:8888/api/v1/wallet/send-money
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVjNGM2ZGI5NDFjOWIwMmMzN2RiYiIsImlhdCI6MTcxODUzNTM2Nn0.7iHRTDvTe6kiSZduP3nD-l4v9aR_m5V9At59z37Jy6I
+Content-Type: application/json
+
+{
+    "receiver":"666db27d249d2a464f324773",
+    "amount":"10",
+    "wallet_type":"VND",
+    "transaction_type":"send",
+    "message":"Em dep lam"
+}
+###
+PUT http://localhost:8888/api/v1/wallet/send-money
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmRiMjdkMjQ5ZDJhNDY0ZjMyNDc3MyIsImlhdCI6MTcxODU1NjE4NH0.HcJ4CH0F6Wf_Ri5v3LpAT7W5TwQV6a0oS0Vv2qPHYgc
+Content-Type: application/json
+
+{
+    "receiver":"666ec4c6db941c9b02c37dbb",
+    "amount":"10",
+    "wallet_type":"VND",
+    "transaction_type":"send",
+    "message":"Em dep lam"
+}
+
+###
+GET http://localhost:8888/api/v1/transaction/get/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmRiMjdkMjQ5ZDJhNDY0ZjMyNDc3MyIsImlhdCI6MTcxODU1NjE4NH0.HcJ4CH0F6Wf_Ri5v3LpAT7W5TwQV6a0oS0Vv2qPHYgc
+Content-Type: application/json
+###
+GET http://localhost:8888/api/v1/transaction/get/transactions-send
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmRiMjdkMjQ5ZDJhNDY0ZjMyNDc3MyIsImlhdCI6MTcxODU1NjE4NH0.HcJ4CH0F6Wf_Ri5v3LpAT7W5TwQV6a0oS0Vv2qPHYgc
+Content-Type: application/json
+###
+GET http://localhost:8888/api/v1/transaction/get/transactions-receive
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmRiMjdkMjQ5ZDJhNDY0ZjMyNDc3MyIsImlhdCI6MTcxODU1NjE4NH0.HcJ4CH0F6Wf_Ri5v3LpAT7W5TwQV6a0oS0Vv2qPHYgc
+Content-Type: application/json
+
+###
+POST http://localhost:8888/api/v1/wallet/post/wallet-eth
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVjNGM2ZGI5NDFjOWIwMmMzN2RiYiIsImlhdCI6MTcxODUzNTM2Nn0.7iHRTDvTe6kiSZduP3nD-l4v9aR_m5V9At59z37Jy6I
+Content-Type: application/json
+
+###
+POST http://localhost:8888/api/v1/wallet/get/address-eth
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVjNGM2ZGI5NDFjOWIwMmMzN2RiYiIsImlhdCI6MTcxODUzNTM2Nn0.7iHRTDvTe6kiSZduP3nD-l4v9aR_m5V9At59z37Jy6I
+Content-Type: application/json
