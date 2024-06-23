@@ -9,9 +9,9 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import { Link, useNavigation } from "expo-router";
-import { Message } from "../../../dummy-data/data.js";
-import BackArrow from "../../../assets/svg/arrow_back.svg";
+import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Message } from "../../../dummy-data/data.js";
 const Transfer = () => {
   const navigation = useNavigation();
   const [price, setPrice] = useState(0);
@@ -19,36 +19,7 @@ const Transfer = () => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <LinearGradient
-          className="h-full w-full"
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          colors={["#0094FF", "#F2F2F2"]}
-          locations={[0, 0.3]}
-        >
           <View>
-            <View className="flex-row p-4 items-center">
-              <TouchableOpacity onPress={() => navigation.popToTop()}>
-                <View className="bg-[#554242] "></View>
-                <BackArrow className="absolute" width={30} height={26.5} />
-              </TouchableOpacity>
-              <View className="w-[35px] h-[35px] flex-row justify-center items-center">
-                <View className="w-full rounded-full h-full bg-white absolute"></View>
-                <Image
-                  className="rounded-full"
-                  style={{ width: 30, height: 30 }}
-                  source={{ uri: "https://reactjs.org/logo-og.png" }}
-                />
-              </View>
-              <View className="ml-2">
-                <Text className="text-white text-[15px] font-semibold">
-                  Nguyễn Minh Nguyên
-                </Text>
-                <Text className="text-white text-[13px] font-medium">
-                  036988962x
-                </Text>
-              </View>
-            </View>
             <View className="w-[95%] mx-auto bg-white rounded-md">
               <View className="mx-auto my-5">
                 <TextInput
@@ -66,12 +37,13 @@ const Transfer = () => {
                   multiline
                   value={content}
                   className="w-[100%] h-[100px] border-[1px] border-[#C9C9C9] rounded-md p-4 text-[15px]"
-                  placeholder="Nhập hoặc trọn bên dưới"
+                  placeholder="Nhập hoặc chọn bên dưới"
                 ></TextInput>
               </View>
               <View className="p-4 flex-row flex-wrap">
                 {Message.map((item, index) => (
-                  <TouchableOpacity key={index}
+                  <TouchableOpacity
+                    key={index}
                     onPress={() => {
                       setContent(item.message);
                     }}
@@ -116,8 +88,8 @@ const Transfer = () => {
               </TouchableOpacity>
             </View>
           </View>
-        </LinearGradient>
       </ScrollView>
+      <StatusBar backgroundColor="#fff" style="inverted" />
     </SafeAreaView>
   );
 };
