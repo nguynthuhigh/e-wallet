@@ -5,7 +5,7 @@ import LottieView from "lottie-react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { withLayoutContext } from "expo-router";
 const { Navigator } = createMaterialTopTabNavigator();
-
+import { useSegments } from "expo-router";
 export const MaterialTopTabs = withLayoutContext(Navigator);
 import { View, Text } from "react-native";
 import constants from "../../constants";
@@ -13,6 +13,15 @@ const { icons } = constants;
 import TabIcon from "../../components/TabIcon";
 
 const TabLayout = () => {
+  const segment = useSegments();
+  const page = segment[segment.length - 1];
+  const pagesToHideBar = [
+    "transfer",
+    "scan-qr",
+    "receive-money",
+    "qr-payment",
+    "notification",
+  ];
   return (
     <>
       <MaterialTopTabs
@@ -41,6 +50,9 @@ const TabLayout = () => {
           options={{
             title: "Home",
             headerShown: false,
+            tabBarStyle: {
+              display: pagesToHideBar.includes(page) ? "none" : "flex",
+            },
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.home}
@@ -105,6 +117,9 @@ const TabLayout = () => {
           options={{
             title: "Ví",
             headerShown: false,
+            tabBarStyle: {
+              display: pagesToHideBar.includes(page) ? "none" : "flex",
+            },
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.account}
