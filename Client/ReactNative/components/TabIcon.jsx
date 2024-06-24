@@ -3,7 +3,7 @@ import React from "react";
 
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
-    <View className="flex-col items-center justify-center gap-y-2">
+    <View className="flex-col items-center justify-center gap-2">
       <Image
         source={icon}
         resizeMode="contain"
@@ -11,7 +11,7 @@ const TabIcon = ({ icon, color, name, focused }) => {
         className="w-6 h-6"
       />
       <Text
-        className={` text-xs ${focused ? " font-semibold" : " font-medium"} text-center w-[80px]`}
+        className={` text-xs ${focused ? " font-semibold" : " font-normal"} text-center`}
         style={{ color: color }}
       >
         {name}
