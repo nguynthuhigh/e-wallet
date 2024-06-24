@@ -1,19 +1,15 @@
 import {
   View,
   Text,
-  Image,
   TextInput,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import { Link, useNavigation } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Message } from "../../../dummy-data/data.js";
 const Transfer = () => {
-  const navigation = useNavigation();
   const [price, setPrice] = useState(0);
   const [content, setContent] = useState("");
   return (
@@ -88,6 +84,7 @@ const Transfer = () => {
               </TouchableOpacity>
             </View>
           </View>
+          
       </ScrollView>
       <StatusBar backgroundColor="#fff" style="inverted" />
     </SafeAreaView>
