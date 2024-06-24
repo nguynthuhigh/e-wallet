@@ -6,7 +6,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
 import constants from "../../../constants";
 import EyeIcon from "../../../assets/svg/eye.svg";
-import EyeClosedIcon from "../../../assets/svg/eye.svg";
+import EyeClosedIcon from "../../../assets/svg/eyeClosed.svg";
 import SearchIcon from "../../../assets/svg/search.svg";
 import NotificationIcon from "../../../assets/svg/notification.svg";
 import CashInIcon from "../../../assets/svg/cashin.svg";
