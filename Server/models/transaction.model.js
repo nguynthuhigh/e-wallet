@@ -1,31 +1,29 @@
 const {Schema, model} = require('mongoose')
 
-const transactionTypeSChema = new Schema({
-    typeName:{
-        type:String,
-        required:true,
-        unique:true,
-    },
+const transactionSchema = new Schema({
     type:{
         type:String,
         required:true,
-        unique:true,
-    }
-})
-
-const transactionSchema = new Schema({
+        enum:['transfer','payment','deposit','withdrawl']
+    },
     amount:{
         type:Number,
         required:true,
     },
-    description:{
+    message:{
         type:String,
         required:true,
     },
-    transactionTypeID:{
-        type:Schema.Types.ObjectId,
-        ref:'TransactionType',
+    status:{
+        type:String,
         required:true,
+        enum:['pending','completed','fail'],
+        default:"pending"
+    },
+    currency:{
+        type:String,
+        ref:'Currency',
+        required:true, 
     },
     sender:{
         type:Schema.Types.ObjectId,
@@ -35,19 +33,23 @@ const transactionSchema = new Schema({
     receiver:{
         type:Schema.Types.ObjectId,
         ref:'Wallet',
-        required:true,
+        required:false,
     },
     branchID:{
         type:Schema.Types.ObjectId,
-        ref:'PartnerBranch',
+        ref:'Partner',
+        required:false
+    },
+    creditcard:{
+        type:Schema.Types.ObjectId,
+        ref:'CreditCard',
         required:false
     }
+   
 },{
     timestamps: true 
 })
 
 
-const TransactionType = model('TransactionType',transactionTypeSChema)
 const Transaction= model('Transaction',transactionSchema)
-
-module.exports = {TransactionType,Transaction}
+module.exports = {Transaction}

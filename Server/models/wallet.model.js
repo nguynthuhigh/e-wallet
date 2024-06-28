@@ -1,9 +1,11 @@
 const {Schema, model} = require('mongoose')
 const cryptoJS = require('../utils/crypto-js')
 
-const walletTypeSchema = new Schema({
-
-    code:{
+const currencySchema = new Schema({
+    _id:{
+        type: String,
+    },
+    symbol:{
         type: String,
         required:true,
         unique:true
@@ -11,6 +13,8 @@ const walletTypeSchema = new Schema({
     name:{
         type: String,
         required:true,
+        unique:true
+
     }
 },{
     timestamps: true 
@@ -36,15 +40,23 @@ const walletSchema = new Schema({
         required:true,
         ref:'User'
     },
-    walletTypeID:{
-        type:Schema.Types.ObjectId,
-        ref:'WalletType'
-    }
+    currencies:[{
+        balance:{
+            type:Number,
+            default:0,
+            required:true
+        },
+        currency:{
+            type:String,
+            required:true,
+            ref:'Currency',
+        }
+    }]
 },{
     timestamps: true 
 })
 
-const WalletType = model('WalletType',walletTypeSchema)
+const Currency = model('Currency',currencySchema)
 const Wallet= model('Wallet',walletSchema)
 
-module.exports = {WalletType,Wallet}
+module.exports = {Wallet,Currency}
