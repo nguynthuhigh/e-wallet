@@ -4,14 +4,15 @@ import { SplashScreen, Stack } from "expo-router";
 SplashScreen.preventAutoHideAsync();
 const RootLayout = () => {
   const [fontsLoaded, error] = useFonts({
-    "NotoSans_ExtraCondensed-ExtraBold": require("../assets/fonts/NotoSans_ExtraCondensed-ExtraBold.ttf"),
-    "NotoSans_ExtraCondensed-Light": require("../assets/fonts/NotoSans_ExtraCondensed-Light.ttf"),
-    "NotoSans_ExtraCondensed-Medium": require("../assets/fonts/NotoSans-Medium.ttf"),
-    "NotoSans_ExtraCondensed-Regular": require("../assets/fonts/NotoSans-Regular.ttf"),
-    "NotoSans-Italic": require("../assets/fonts/NotoSans-Italic.ttf"),
-    "NotoSans-Light": require("../assets/fonts/NotoSans-Light.ttf"),
-    "NotoSans-Medium": require("../assets/fonts/NotoSans-Medium.ttf"),
-    "NotoSans-Regular": require("../assets/fonts/NotoSans-Regular.ttf"),
+    "Inter-Black": require("../assets/fonts/Inter-Black.ttf"),
+    "Inter-Bold": require("../assets/fonts/Inter-Bold.ttf"),
+    "Inter-ExtraBold": require("../assets/fonts/Inter-ExtraBold.ttf"),
+    "Inter-ExtraLight": require("../assets/fonts/Inter-ExtraLight.ttf"),
+    "Inter-Light": require("../assets/fonts/Inter-Light.ttf"),
+    "Inter-Medium": require("../assets/fonts/Inter-Medium.ttf"),
+    "Inter-Regular": require("../assets/fonts/Inter-Regular.ttf"),
+    "Inter-SemiBold": require("../assets/fonts/Inter-SemiBold.ttf"),
+    "Inter-Thin": require("../assets/fonts/Inter-Thin.ttf"),
   });
   useEffect(() => {
     if (error) throw error;

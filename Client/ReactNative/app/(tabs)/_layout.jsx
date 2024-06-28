@@ -10,7 +10,7 @@ import TabIcon from "../../components/TabIcon";
 const ScanTabIcon = ({ focused }) => {
   return (
     <View className="items-center justify-end">
-      <View className="w-[75px] h-[75px] items-center bg-white overflow-hidden rounded-full">
+      <View className="w-20 h-20 items-center bg-white overflow-hidden rounded-full">
         <LottieView
           style={{ flex: 1, width: 60, height: 60 }}
           source={require("../../assets/animation/qr_scan.json")}
@@ -38,6 +38,7 @@ const TabLayout = () => {
   const page = segment[segment.length - 1];
   const pagesToHideBar = [
     "transfer",
+    "confirm-send",
     "scan-qr",
     "receive-money",
     "qr-payment",
