@@ -2,5 +2,7 @@ module.exports = {
     ADMIN: "admin",
     MARKETING: "marketing",
     FINANCE: "finance",
-    SUPPORT:"support"
+    SUPPORT:"support",
+    PARTNER:"partner",
+    USER:"user",
 };

@@ -1,5 +1,7 @@
 const tokenAuth = require('../services/token.services')
 const { User } = require('../models/user.model');
+const {Partner} = require('../models/partner.model')
+const ROLE = require('../utils/role')
 exports.verifyRole = (role)=>{
     return async  (req, res, next) => {
         const token = req.headers.authorization?.slice(7);
@@ -22,19 +24,29 @@ exports.verifyRole = (role)=>{
         }
     };
 }
-exports.VerifyUser = (req,res,next)=>{
+exports.Authenciation =(role)=>{
+    return async (req,res,next)=>{
 
-    const token = req.headers.authorization?.slice(7);
-    if(token){
-        tokenAuth.verifyToken(token).then(result =>{
+        const token = req.headers.authorization?.split(' ')[1];
+        if(token){
+            const result = await tokenAuth.verifyToken(token);
             req.user = result.id
-            next()
-        }).catch(err =>{
-            return res.status(400).json({error:err})
-        })
-
-    }
-    else{
-        return res.status(404).json({message:"Page not found"})
+            if(role == ROLE.USER){
+                const user = await User.findById(result.id);
+                if(user){
+                    req.security_code = user.security_code
+                    next()
+                }
+            }
+            if(role == ROLE.PARTNER){
+                const partner = await Partner.findById(result.id);
+                if(partner){
+                    next()
+                }
+            }
+        }
+        else{
+            return res.status(404).json({message:"Page not found"})
+        }
     }
 }

@@ -1,35 +1,37 @@
-const respone = require("../utils/respone");    
+const {Response} = require("../utils/response");    
 const {User} = require('../models/user.model'); 
 const OTPservices = require('../services/OTP.services')
-const otpGenerator = require('otp-generator')
 const {OTP} = require('../models/otp.model')
 const bcrypt = require('../utils/bcrypt');
 const nodemailer = require('../utils/nodemailer')
 const jwt = require('../services/token.services')
 const generateWallet = require('../services/wallet.services')
+const wallet = require('../services/wallet.services')
 module.exports  = {
     Register:async (req,res)=>{
-        const {email,password} = req.body
-        const user =await User.findOne({email:email})
-        const passwordHash = bcrypt.bcryptHash(password)
-        if(!user){
-            const OTP_Generator = otpGenerator.generate(6, {digits:true, upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
-            try {
-                //create OTP
-                await OTPservices.createOTP(email,passwordHash,OTP_Generator)
-                //send nodemailer
-                nodemailer.sendMail(email,"Mã OTP của bạn "+OTP_Generator +" Nhập mã pay acc!","Chúng tôi đến từ pressPay!")
-                console.log(OTP_Generator)
-                res.status(200).json({message:"Check your email",email:email})
-
-            } catch (error) {
-                res.status(400).json(error)
+        try {
+            const {email,password} = req.body
+            const user =await User.findOne({email:email})
+            if(!user){
+                try {
+                    const passwordHash = bcrypt.bcryptHash(password)
+                    //create OTP
+                    const OTP = await OTPservices.createOTP(email,passwordHash)
+                    console.log(OTP)
+                    //send nodemailer
+                    await nodemailer.sendMail(email,"Mã OTP của bạn "+ OTP +" Nhập mã pay acc!","Chúng tôi đến từ pressPay!")
+                    res.status(200).json({message:"Vui lòng kiểm tra email của bạn",email:email})
+    
+                } catch (error) {
+                    res.status(400).json(error)
+                }
             }
+            else{
+                return res.status(400).json({message:"Tài khoản đã tồn tại"})
+            }
+        } catch (error) {
+            return Response(res,error,null,400)
         }
-        else{
-            return res.status(400).json({message:"Tài khoản đã tồn tại"})
-        }
-        
     },
     VerifyAccount:async(req,res)=>{
        try {
@@ -39,15 +41,14 @@ module.exports  = {
             if(otpSchema){
                 if(OTPservices.verifyOTP(otp,otpSchema.otp)){
                     //create new user
-                    const data = await User.create({email:email,password:otpSchema.password})
+                    const user = await User.create({email:email,password:otpSchema.password})
                     //delete all OTP
                     await OTP.deleteMany({email:email})
                     //authorization 
-                    const token =await jwt.createToken(data._id)
-                    //generate wallet
-                    generateWallet.generateWalletVND(data._id)
-                    generateWallet.generateWalletUSD(data._id)
-                    return res.status(200).json({message:"Sucess",token:token,message:"Xác thực OTP thành công"})
+                    const token =await jwt.createToken(user._id)
+                    //create wallet
+                    await wallet.createWallet(user._id)
+                    return res.status(200).json({token:token,message:"Xác thực OTP thành công"})
                 }
                 else{
                     return res.status(400).json({message:"Không thể xác thực OTP vui lòng thử lại"})

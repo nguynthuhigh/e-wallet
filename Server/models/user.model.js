@@ -11,6 +11,9 @@ const userSchema = new Schema({
     password:{
         type:String,
     },
+    security_code:{
+        type:String,
+    },
     role:{
       type:String,
       required:true,

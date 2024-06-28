@@ -9,6 +9,8 @@ const routeCredit = require('./routes/creditcard.routes')
 const routeUser = require('./routes/user.routes')
 const routeWallet = require('./routes/wallet.routes')
 const routeTransaction = require('./routes/transaction.routes')
+const routeAuthPartner = require('./routes/auth.partner.routes')
+
 
 //bodyParser
 const bodyParser = require('body-parser');
@@ -21,6 +23,8 @@ app.use('/api/v1/card',routeCredit)
 app.use('/api/v1/admin',routeUser)
 app.use('/api/v1/wallet',routeWallet)
 app.use('/api/v1/transaction',routeTransaction)
+app.use('/api/v1/partner',routeAuthPartner)
+
 
 
 
