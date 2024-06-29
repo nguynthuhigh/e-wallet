@@ -16,7 +16,26 @@ import test from "../assets/svg/test.svg";
 import arrow_back from "../assets/svg/arrow_back.svg";
 import receiveMoney from "../assets/svg/receive-money.svg";
 import scanQR from "../assets/svg/scan-qr.svg";
+import transferIcon from "../assets/svg/transfer.svg";
+import bankIcon from "../assets/svg/bank.svg";
+import luckyMoneyIcon from "../assets/svg/lucky_money.svg";
+import bgBlue from "../assets/svg/bg_blue.svg";
+import mic from "../assets/svg/mic.svg";
+import grFund from "../assets/svg/gr-fund.svg";
+import paymentLink from "../assets/svg/payment-link.svg";
+import paymentReminder from "../assets/svg/payment-reminder.svg";
+import reqMoney from "../assets/svg/request-money.svg";
+import bill from "../assets/svg/bill.svg";
 export default {
+  bill,
+  grFund,
+  paymentLink,
+  paymentReminder,
+  reqMoney,
+  mic,
+  bankIcon,
+  luckyMoneyIcon,
+  bgBlue,
   more_arrow,
   bg_back,
   card,
@@ -35,4 +54,5 @@ export default {
   arrow_back,
   receiveMoney,
   scanQR,
+  transferIcon,
 };
