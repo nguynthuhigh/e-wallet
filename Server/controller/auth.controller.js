@@ -83,9 +83,8 @@ module.exports  = {
             if(userFind){
                 const passwordHash = userFind.password;
                 if(bcrypt.bcryptCompare(password,passwordHash)){
-                    const OTP_Generator = otpGenerator.generate(6, {digits:true, upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
-                    await OTPservices.createOTP(email,passwordHash,OTP_Generator)
-                    nodemailer.sendMail(email,"Mã OTP đăng nhập của bạn là "+OTP_Generator +"\n Vui lòng không gửi cho bất kỳ ai.","Chúng tôi đến từ pressPay!")
+                    const OTP = await OTPservices.createOTP(email,passwordHash)
+                    nodemailer.sendMail(email,"Mã OTP đăng nhập của bạn là "+OTP +"\n Vui lòng không gửi cho bất kỳ ai.","Chúng tôi đến từ pressPay!")
                     res.status(200).json({message:"Kiểm tra email để xác nhận"})
                 }
                 else{

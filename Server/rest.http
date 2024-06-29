@@ -117,7 +117,7 @@ POST http://localhost:8888/api/v1/user/signup
 Content-Type: application/json
 
 {
-    "email":"nguyn1@presspay.com",
+    "email":"nguyn10@presspay.com",
     "password":"nguyn123"
 }
 ###
@@ -125,10 +125,17 @@ POST http://localhost:8888/api/v1/user/signup/verify
 Content-Type: application/json
 
 {
-    "email":"nguyn1@presspay.com",
-    "otp":"530632"
+    "email":"nguyn10@presspay.com",
+    "otp":"507493"
 }
+###
+POST http://localhost:8888/api/v1/user/signin
+Content-Type: application/json
 
+{
+    "email":"nguyn10@presspay.com",
+    "password":"nguyn123"
+}
 ###
 POST http://localhost:8888/api/v1/wallet/send-money
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU

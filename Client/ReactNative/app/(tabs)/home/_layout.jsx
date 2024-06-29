@@ -2,8 +2,9 @@ import { Stack } from "expo-router";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
+
 const StackLayout = () => {
-  const navigation = useNavigation();
+const navigation = useNavigation();
 
   return (
     <>
