@@ -3,6 +3,10 @@ const {Currency,Wallet} = require('../models/wallet.model')
 const {startSession} = require('mongoose')
 const wallet = require('../services/wallet.services')
 const {Response} = require('../utils/response')
+const bcrypt = require('../utils/bcrypt')
+const stripe = require('../services/stripe.services')
+const {CreditCard} = require('../models/creditcard.model')
+const { compare } = require('bcryptjs')
 module.exports  = {
     //admin
     getCurrency:async(req,res)=>{
@@ -34,9 +38,11 @@ module.exports  = {
         try {
             const {receiver,amount,message,currency} = req.body
             const userID = req.user
-            const user_wallet =await Wallet.findOne({userID:userID,'currencies.currency':currency})
-            const currencyBalance = user_wallet.currencies.find(item => item.currency === currency).balance
-            if(currencyBalance >= amount){
+            const getCurrency = await Currency.findOne({symbol:currency});
+
+            const user_wallet =await Wallet.findOne({userID:userID})
+            const currencyBalance = user_wallet.currencies.find(item => item.currency.equals(getCurrency._id))
+            if(currencyBalance.balance >= amount){
                 Transaction.create({
                     type:'transfer',
                     amount:amount,
@@ -54,6 +60,7 @@ module.exports  = {
                 return Response(res,"Số dư không đủ",null,400)
             }
         } catch (error) {
+            console.log(error)
             return Response(res,error,null,400)
         }
     },
@@ -61,20 +68,20 @@ module.exports  = {
         const {security_code,sender,receiver,transactionID,currency,amount }= req.body;
         const session = await startSession();
         try {
-            
+            const getCurrency = await Currency.findOne({symbol:currency});
             await session.withTransaction(async () => {
-                if(req.security_code !== security_code){
+                if(bcrypt.bcryptCompare(security_code,req.security_code)){
                     await session.abortTransaction();
                     return Response(res,"Mã bảo mật không đúng vui lòng nhập lại",null,200)
                 }
                 //update balance's sender
                 await Wallet.findOneAndUpdate(
-                    {userID:sender,'currencies.currency':currency},
+                    {userID:sender,'currencies.currency':getCurrency._id},
                     {$inc : {'currencies.$.balance':-amount}},
                     {session})
                 //update balance's receiver
                 await Wallet.findOneAndUpdate(
-                    {userID:receiver,'currencies.currency':currency},
+                    {userID:receiver,'currencies.currency':getCurrency._id},
                     {$inc : {'currencies.$.balance':+amount}},
                     {session})
                 //update status's transaction
@@ -93,22 +100,75 @@ module.exports  = {
             session.endSession();
         }
     },
-    getAddressETH:async(req,res)=>{
+    depositMoney:async(req,res)=>{
         try {
-            const id = req.user
-            const type = await WalletType.findOne({code:"ETH"})
-            const wallet_eth =await Wallet.findOne({userID:id,walletTypeID:type._id}).populate('walletTypeID').exec()
-            if(!wallet_eth){
-                return res.status(400).json({message:"Người dùng chưa tạo ví ETH"})
+            const userID = req.user
+            const {currency,amount,cardID} = req.body
+            //find user's card
+            const card = await CreditCard.findById(cardID)
+            if(!card){
+                return Response(res,{message:"Vui lòng thêm thẻ",card:"null"},null,400)
             }
-            const wallet={
-                address:wallet_eth.address,
-                balance:wallet_eth.balance,
-                walletType:wallet_eth.walletTypeID
-            }
-            return res.status(200).json({message:"Success",data:wallet})
+            const number = card.number.substring(card.number.length-4,card.number.length-1)
+            //create history transaction
+            await Transaction.create({
+                type:'deposit',
+                amount:amount,
+                message:"Nạp tiền từ thẻ "+"***"+number,
+                currency:currency,
+                sender:userID,
+                creditcard:card._id,
+            }).then(data=>{
+                Response(res,"Nhập mã bảo mật để tiếp tục",data,200)
+            }).catch(error=>{
+                Response(res,error,null,400)
+            })
         } catch (error) {
-            return res.status(400).json({error:error})
+            Response(res,error,null,400)
         }
+   
+    },
+    verifyDepositMoney:async(req,res)=>{
+        const userID = req.user
+        const {currency,amount,transactionID,security_code} = req.body
+        const session = await startSession()
+        try{
+            await session.withTransaction(async () => {
+                
+                if(!bcrypt.bcryptCompare(security_code,req.security_code)){
+                    return Response(res,"Mã bảo mật sai vui lòng nhập lại",null,400)
+                }
+                const paymentIntent =await stripe.depositStripe(amount,currency)
+                if(paymentIntent.status !== 'succeeded'){
+                    return Response(res,"Nạp tiền thất bại",null,400)
+                }else{
+                    const getCurrency = await Currency.findOne({symbol:currency})
+                    //update user's wallet
+                    await Wallet.findOneAndUpdate(
+                        {userID:userID,'currencies.currency':getCurrency._id},
+                        {$inc : {'currencies.$.balance':+amount}})
+                    //update user's transaction
+                    const data = await Transaction.findByIdAndUpdate(transactionID,
+                        {status:"completed"},
+                        {new: true},{session})
+                    return Response(res,"Nạp tiền thành công",data,200)
+                }
+            })
+        }catch (error){
+            console.log(error)
+            Response(res,error,null,400);
+        }
+        finally {
+            session.endSession();
+        }
+    },
+    getWallet:async(req,res)=>{
+        const id =req.user
+        console.log(req.user)
+        Wallet.findOne({userID:req.user}).populate('currencies.currency').then(data=>{
+            Response(res,"Success",data,200);
+        }).catch(err=>{
+            Response(res,err,null,400);
+        })
     }
 }

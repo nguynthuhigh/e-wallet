@@ -6,11 +6,21 @@ const controller = require('../controller/wallet.controller')
 
 // router.get('/getusers',roleAuth.verifyRole(ROLE.ADMIN),controller.getUsers)
 // router.put('/ban/user',roleAuth.verifyRole(ROLE.ADMIN),controller.banUser)
+
+//user
 router.post('/send-money',roleAuth.Authenciation(ROLE.USER),controller.sendMoney)
 router.put('/send-money/verify',roleAuth.Authenciation(ROLE.USER),controller.verifyTransaction)
-router.post('/get/address-eth',roleAuth.Authenciation(ROLE.USER),controller.getAddressETH)
-router.post('/post/currency',roleAuth.verifyRole(ROLE.ADMIN),controller.addCurrency)
+router.get('/get-wallet',roleAuth.Authenciation(ROLE.USER),controller.getWallet)
+router.post('/deposit-money',roleAuth.Authenciation(ROLE.USER),controller.depositMoney)
+router.post('/deposit-money/verify',roleAuth.Authenciation(ROLE.USER),controller.verifyDepositMoney)
+
+
+
+//admin
+router.post('/post/currency',controller.addCurrency)
 router.get('/get/currency',controller.getCurrency)
+router.get('/get/currency',controller.getCurrency)
+
 
 
 

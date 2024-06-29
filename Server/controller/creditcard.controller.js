@@ -3,7 +3,8 @@ const cryptoJS = require('../utils/crypto-js')
 module.exports = {
     addcard: async (req,res,next)=>{
        try {
-        const {userID,number} = req.body
+        const userID = req.user
+        const {number} = req.body
         const card = await CreditCard.find({userID:userID,number:number})
         if (card.length === 0){
             CreditCard.create(req.body).then(data =>{

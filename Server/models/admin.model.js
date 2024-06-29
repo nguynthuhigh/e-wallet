@@ -6,22 +6,16 @@ const userSchema = new Schema({
     },
     avatar:{
         type:String,
-        default:""
+        default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwzw_Ti47ovNmMbRwz3HaY7hDhHFeAmER6kw&s"
     },
     email:{
         type:String,
         required:true,
     },
-    phone:{
-        type:String,
-    },
     password:{
         type:String,
     },
-    security_code:{
-        type:String,
-    }
-    ,inactive:{
+    inactive:{
         type:Boolean,
         required:true,
         default:false
