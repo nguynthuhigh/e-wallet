@@ -27,5 +27,19 @@ module.exports = {
         })
     },
     //user
-    
+    updateProfile: async(req,res)=>{
+        try {
+            const id = req.user
+            await User.findByIdAndUpdate(id,req.body,{new:true}).then(result =>{
+                res.status(200).json({message:"Cập nhật thông tin thành công",data:result})
+            })
+        } catch (error) {
+            res.status(400).json({error:error,message:"Cập nhật thông tin thất bại"})
+        }
+    },
+    Profile: async (req,res)=>{
+        const id = req.user
+        const userFind = await User.findById(id)
+        res.status(200).json(userFind)
+    }
 }

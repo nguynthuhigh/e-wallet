@@ -8,9 +8,8 @@ router.post('/signup/verify',AuthController.VerifyAccount)
 router.post('/signin',AuthController.Login)
 router.post('/signin/verify',AuthController.VerifyLogin)
 
-router.get('/account',roleMiddleware.Authenciation(ROLE.USER),AuthController.Account) 
-router.put('/update',roleMiddleware.Authenciation(ROLE.USER),AuthController.updateProfile)  
 
+router.put('/update-security-code',roleMiddleware.Authenciation(ROLE.USER),AuthController.update_SecurityCode)
 
 //partner
 

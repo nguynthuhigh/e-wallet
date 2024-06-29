@@ -24,7 +24,7 @@ const partnerSchema = new Schema({
     },
     inactive:{
         type:Boolean,
-        defaukt:false
+        default:false
     }
 },{
     timestamps: true 

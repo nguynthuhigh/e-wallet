@@ -1,34 +1,32 @@
 const {startSession} = require('mongoose')
 const {TransactionType,Transaction} = require('../models/transaction.model')
 const {Wallet,WalletType} = require('../models/wallet.model')
-
+const {Response}=require('../utils/response')
 module.exports = {
     createTransactionType:async(req,res)=>{
-        TransactionType.create(req.body).then(result =>{
-            res.status(200).json({message:"Success",data:result})
-        }).catch(err=>{
-            respone.Error(res,"Fail",err)
-        })
+
     },
     //user
     getTransactions:async(req,res)=>{
         try {
             const id = req.user
-            const transactions=await Transaction.find({$or:[{receiver:id},{sender:id}]}).populate('transactionTypeID').exec()
-            res.status(200).json({message:"Success",data:transactions})
+            const transactions=await Transaction.find({$or:[{receiver:id},{sender:id}]}).sort({createAt:-1})
+            return Response(res,"Success",transactions,200)
         } catch (error) {
-            res.status(400).json({error:error})
-            
+            return Response(res,error,null,400)
         }
     },
-    getTransactions_send:async(req,res)=>{
+    getTransactionDetails:async(req,res)=>{
         try {
             const id = req.user
-            const transactions=await Transaction.find({sender:id}).populate('transactionTypeID').exec()
-            res.status(200).json({message:"Success",data:transactions})
+            const idTransaction = req.params.id
+            const transactions=await Transaction.findById(idTransaction)
+                .populate('creditcard sender receiver')
+                .exec()
+            console.log(transactions.sender)
+            Response(res,"Success",transactions,200)
         } catch (error) {
-            res.status(400).json({error:error})
-            
+            Response(res,error,null,400)
         }
     },
     getTransactions_receive:async(req,res)=>{

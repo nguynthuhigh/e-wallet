@@ -86,9 +86,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmRiMjdkM
 Content-Type: application/json
 
 {
-    "_id":"ETH",
     "symbol":"ETH",
-    "name":"Ethereum"
+    "name":"Ethereum",
+    "image":""
 }
 
 ###
@@ -96,7 +96,7 @@ POST http://localhost:8888/api/v1/partner/signup
 Content-Type: application/json
 
 {
-    "email":"nguynthuhigh1@gmail.com",
+    "email":"partner@gmail.com",
     "password":"123123123"
 }
 ####
@@ -117,7 +117,7 @@ POST http://localhost:8888/api/v1/user/signup
 Content-Type: application/json
 
 {
-    "email":"user_test02@presspay.com",
+    "email":"nguyn1@presspay.com",
     "password":"nguyn123"
 }
 ###
@@ -125,32 +125,110 @@ POST http://localhost:8888/api/v1/user/signup/verify
 Content-Type: application/json
 
 {
-    "email":"user_test02@presspay.com",
-    "otp":"154159"
+    "email":"nguyn1@presspay.com",
+    "otp":"530632"
 }
 
 ###
 POST http://localhost:8888/api/v1/wallet/send-money
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VjM2ZjYzk0YTRhMDdkNTFlYTMwMSIsImlhdCI6MTcxOTU4Mzc0MH0.oy8SXcQA03KpwBHdyqnofz0bPU9XmruVrMqM4zL5vnM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU
 Content-Type: application/json
 
 {
     "receiver":"667ec4cd43fb999edadf1691",
     "amount":"12.1",
-    "currency":"USD",
+    "currency":"VND",
     "message":"Em dep lam, lam ny a nha"
 }
 
 ###
 PUT http://localhost:8888/api/v1/wallet/send-money/verify
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VjM2ZjYzk0YTRhMDdkNTFlYTMwMSIsImlhdCI6MTcxOTU4Mzc0MH0.oy8SXcQA03KpwBHdyqnofz0bPU9XmruVrMqM4zL5vnM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU
 Content-Type: application/json
 
 {
     "security_code":"123123",
-    "transactionID":"667edb77b74fa293c2842ae5",
-    "currency":"USD",
+    "transactionID":"667ef0446f8ed5c93fc28a7d",
+    "currency":"VND",
     "amount":"12.1",
-    "sender":"667ec3fcc94a4a07d51ea301",
+    "sender":"667eec814a9447549addf0d6",
     "receiver":"667ec4cd43fb999edadf1691"
 }
+###
+GET http://localhost:8888/api/v1/wallet/get-wallet
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU
+Content-Type: application/json
+###
+PUT http://localhost:8888/api/v1/user/update/update-profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU
+Content-Type: application/json
+
+{
+    "full_name":"Tony Lee"
+}
+###
+PUT http://localhost:8888/api/v1/user/update-security-code
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU
+Content-Type: application/json
+
+{
+    "security_code":"456456"
+}
+
+###
+POST http://localhost:8888/api/v1/wallet/deposit-money
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU
+Content-Type: application/json
+
+{
+    "currency":"USD",
+    "amount":"1000",
+    "cardID":"667ff65937882ad34117224e"
+}
+
+
+###
+POST http://localhost:8888/api/v1/wallet/deposit-money/verify
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU
+Content-Type: application/json
+
+{
+    "security_code":"456456",
+    "amount":"1000",
+    "currency":"USD",
+    "transactionID":"66800737b3e2d7800a88ed85"
+}
+
+###
+POST http://localhost:8888/api/v1/card/addcard
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU
+Content-Type: application/json
+
+{
+    "name":"NGUYEN VAN A",
+    "number":"4242424242442",
+    "cvv":"123",
+    "expiryMonth":"12",
+    "expiryYear":"2024"
+}
+
+###
+GET	http://localhost:8888/api/v1/card/getcards
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU
+Content-Type: application/json
+
+###
+GET	http://localhost:8888/api/v1/user/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU
+Content-Type: application/json
+
+
+### 
+GET http://localhost:8888/api/v1/transaction/get/transaction/details/667eefc0afb73ef557582259
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU
+Content-Type: application/json
+
+### 
+GET http://localhost:8888/api/v1/transaction/get/transactions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU
+Content-Type: application/json

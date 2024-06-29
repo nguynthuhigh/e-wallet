@@ -59,17 +59,21 @@ module.exports  = {
             }
 
        } catch (error) {
+            console.log(error)
             return res.status(400).json({erorr:error,message:"Mã OTP đã hết hạn vui lòng thử lại"})
        }
     },
-    updateProfile: async(req,res)=>{
+
+    update_SecurityCode:async(req,res)=>{
         try {
-            const id = req.user
-            await User.findByIdAndUpdate(id,req.body).then(result =>{
-                res.status(200).json({message:"Sucess",data:result})
+            const code = bcrypt.bcryptHash(req.body.security_code)
+            User.findByIdAndUpdate(req.user,{security_code:code}).then(data=>{
+                Response(res,"Cập nhật mã bảo mật thành công",data,200)
+            }).catch(error=>{
+                Response(res,error,null,400)
             })
         } catch (error) {
-            res.status(400).json({error:error,message:"Cập nhật thông tin thất bại"})
+            Response(res,error,null,400)
         }
     },
     Login: async(req,res)=>{
@@ -114,9 +118,5 @@ module.exports  = {
             return res.status(400).json({message:"Mã OTP đã hết hạn vui lòng thử lại"})
         }
     },
-    Account: async (req,res)=>{
-        const id = req.user
-        const userFind = await User.findById(id)
-        res.status(200).json(userFind)
-    }
+
 }

@@ -27,12 +27,12 @@ const transactionSchema = new Schema({
     },
     sender:{
         type:Schema.Types.ObjectId,
-        ref:'Wallet',
+        ref:'User',
         required:true, 
     },
     receiver:{
         type:Schema.Types.ObjectId,
-        ref:'Wallet',
+        ref:'User',
         required:false,
     },
     branchID:{
