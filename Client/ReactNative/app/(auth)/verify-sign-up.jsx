@@ -8,11 +8,20 @@ import OTPIcon from '../../assets/svg/ic_OTP.svg'
 
 import { Link } from "expo-router";
 import axios from "axios"
-const VerifySignIn = () => {
+const VerifySignUp = () => {
   const [text, setText] = useState('');
   const [password, setPassword] = useState('');
  
-  
+  const login = async ()=>{
+    await axios.post('https://1.54.154.87:8888/api/v1/user/signin',{
+      email:text,
+      password:password
+    }).then((res)=>{
+      console.log(res)
+    }).catch((error) => {
+      console.error( error); 
+    });
+  }
   return (
     <SafeAreaView style={styles.backgroundColor}>
       <View className="h-[255px] flex flex-wrap justify-center ml-[110px]">
@@ -31,7 +40,7 @@ const VerifySignIn = () => {
         <View className='absolute top-[-50px] ml-[105px]' style={styles.rotatedUSDTIcon}>
           <BG_USDTIcon/>
         </View>
-        <Text className="font-bold text-[24px] text-center mt-10 mb-5">Xác Thực Đăng Nhập</Text>
+        <Text className="font-bold text-[24px] text-center mt-10 mb-5">Xác Thực Đăng Ký</Text>
         <View className='items-center mb-5'>
         <Text className='text-[18px]'>Mã OTP đã gửi đến</Text>
         <Text className='text-[#0094ff] font-bold text-[18px] mb-2'>example@presspay.com</Text>
@@ -48,11 +57,14 @@ const VerifySignIn = () => {
           </View>
         </View>
         <TouchableOpacity className='items-end'><Text className="my-4 text-[#0094ff] font-bold">Gửi lại mã</Text></TouchableOpacity>
-        <Link href='/home/index' className='w-[643px] mt-4'>
+        <Link href="/verify-account" className='w-[643px] mt-4'>
           <View className="w-full bg-[#0094FF] h-[60px] flex-row items-center justify-center rounded-full mt-6">
             <Text className="text-white text-[20px] text-center font-bold">Xác Nhận</Text>
           </View>
         </Link>
+        <View className="items-center">
+          <Text>Bạn đã có tài khoản? <Link href="/sign-in" className='text-[#0094FF]'>Đăng Nhập</Link></Text>
+        </View>
       </View>
     </SafeAreaView>
   )
@@ -75,4 +87,4 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '-10deg' }],
   },
 })
-export default VerifySignIn
+export default VerifySignUp
