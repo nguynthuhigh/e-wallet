@@ -4,52 +4,32 @@ const {Schema, model} = require('mongoose')
 const partnerSchema = new Schema({
     brandName:{
         type:String,
-        required:true
     },
     description:{
         type:String,
-        required:true 
+    },
+    image:{
+        type:String,
+        default:'../assets/img.png'
     },
     phone:{
         type:String,
-        required:true
     },
     address:{
         type:String,
-        required:true
     },
     email:{
         type:String,
         required:true
     },
-    branchID:[{
-        type:Schema.Types.ObjectId,
-        ref:'PartnerBranch',
-    }]
-},{
-    timestamps: true 
-})
-
-const partnerBranchSchema = new Schema({
-    branchName:{
-        type:String,
-        required:true
-    },
-    address:{
-        type:String,
-        required:true
-    },
-    phone:{
-        type:String,
-        required:true
-    },
-    partnerID:{
-        type:Schema.Types.ObjectId,
-        ref:'Partner',
-        required:true
+    inactive:{
+        type:Boolean,
+        default:false
     }
-
 },{
     timestamps: true 
 })
+
+const Partner = model('Partner',partnerSchema)
+module.exports = {Partner}
 

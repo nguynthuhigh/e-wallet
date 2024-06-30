@@ -10,6 +10,7 @@ import EyeClosedIcon from "../../../assets/svg/eyeClosed.svg";
 import SearchIcon from "../../../assets/svg/search.svg";
 import NotificationIcon from "../../../assets/svg/notification.svg";
 import CashInIcon from "../../../assets/svg/cashin.svg";
+import { StatusBar } from "expo-status-bar";
 const { images } = constants;
 
 const HomePage = () => {
@@ -70,10 +71,12 @@ const HomePage = () => {
                   </Text>
                 </LinearGradient>
               </View>
-              <View className="flex-col items-center ml-auto mt-auto">
-                <CashInIcon width={30} height={30} />
-                <Text className="font-medium">Nạp/Rút</Text>
-              </View>
+              <Link href="home/deposit-withdraw">
+                <View className="flex-col items-center ml-auto mt-auto">
+                  <CashInIcon width={30} height={30} />
+                  <Text className="font-medium">Nạp/Rút</Text>
+                </View>
+              </Link>
             </View>
 
             <View className="flex-row items-start justify-between mt-3 gap-x-1">
@@ -127,6 +130,7 @@ const HomePage = () => {
           </View>
         </LinearGradient>
       </ScrollView>
+      <StatusBar backgroundColor="#F2F2F2"/>
     </SafeAreaView>
   );
 };

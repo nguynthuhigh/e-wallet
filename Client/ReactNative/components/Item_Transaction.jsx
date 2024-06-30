@@ -10,7 +10,7 @@ import Sim from "../../../assets/svg/sim.svg"
 import Elipse from "../../../assets/svg/elipse.svg"
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 const Item_Transaction = () => {
-    return(
+    return( 
         <View>
           <View className="bg-[#DFF7FE] h-[52px] ">
              <Text className="text-[20px] font-bold flex mt-[14px] ml-[18px] items-center">Tháng 6/2024</Text>
