@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { View, Text,TextInput,SafeAreaView,TouchableOpacity,StyleSheet } from 'react-native'
+import { View, Text,TextInput,SafeAreaView,StyleSheet } from 'react-native'
 import BG_BCIcon from '../../assets/svg/bg_BCic.svg'
 import BG_PPIcon from '../../assets/svg/bg_PPic.svg'
 import BG_ETHIcon from '../../assets/svg/bg_ETHic.svg'
@@ -8,7 +8,7 @@ import OTPIcon from '../../assets/svg/ic_OTP.svg'
 
 import { Link } from "expo-router";
 import axios from "axios"
-const VerifySignIn = () => {
+const InstallSecurity = () => {
   const [text, setText] = useState('');
   const [password, setPassword] = useState('');
  
@@ -31,24 +31,30 @@ const VerifySignIn = () => {
         <View className='absolute top-[-50px] ml-[105px]' style={styles.rotatedUSDTIcon}>
           <BG_USDTIcon/>
         </View>
-        <Text className="font-bold text-[24px] text-center mt-10 mb-5">Xác Thực Đăng Nhập</Text>
-        <View className='items-center mb-5'>
-        <Text className='text-[18px]'>Mã OTP đã gửi đến</Text>
-        <Text className='text-[#0094ff] font-bold text-[18px] mb-2'>example@presspay.com</Text>
-        </View>
-        <View className="border-[1.5px] border-[#0094FF] rounded-[30px]  h-[75px]">
+        <Text className="font-bold text-[24px] text-center mt-10 mb-5">Cài Đặt Mã Bảo Mật</Text>
+        <View className="border-[1.5px] border-[#0094FF] rounded-[30px]  h-[75px] mt-2">
           <View className="h-[100%] flex-row items-center ml-4">
               <OTPIcon/>
               <TextInput  style={styles.input} 
                 className="font-semibold ml-4" 
-                placeholder='Nhập mã OTP'
+                placeholder='Nhập mã bảo mật'
                 onChangeText={newText => setText(newText)}
                 defaultValue={text}>
                 </TextInput>
           </View>
         </View>
-        <TouchableOpacity className='items-end'><Text className="my-4 text-[#0094ff] font-bold">Gửi lại mã</Text></TouchableOpacity>
-        <Link href='/home/index' className='w-[643px] mt-4'>
+        <View className="border-[1.5px] border-[#0094FF] rounded-[30px]  h-[75px] mt-4">
+          <View className="h-[100%] flex-row items-center ml-4">
+              <OTPIcon/>
+              <TextInput  style={styles.input} 
+                className="font-semibold ml-4" 
+                placeholder='Nhập lại mã bảo mật'
+                onChangeText={newText => setText(newText)}
+                defaultValue={text}>
+                </TextInput>
+          </View>
+        </View>
+        <Link href='/update-information' className='w-[643px] mt-10'>
           <View className="w-full bg-[#0094FF] h-[60px] flex-row items-center justify-center rounded-full mt-6">
             <Text className="text-white text-[20px] text-center font-bold">Xác Nhận</Text>
           </View>
@@ -75,4 +81,4 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '-10deg' }],
   },
 })
-export default VerifySignIn
+export default InstallSecurity
