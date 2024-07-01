@@ -11,7 +11,15 @@ import nicky from "../assets/images/nicki.png";
 import taylor from "../assets/images/taylor.png";
 import kenye from "../assets/images/kenya.png";
 import cardiB from "../assets/images/cardiB.png";
+import saleOff from "../assets/images/sale-50.png";
+import airlines from "../assets/images/airlines.png";
+import plane from "../assets/images/plane.png";
+import airlinesLarge from "../assets/images/airlines-large.png";
 export default {
+  airlinesLarge,
+  plane,
+  airlines,
+  saleOff,
   nicky,
   taylor,
   kenye,
