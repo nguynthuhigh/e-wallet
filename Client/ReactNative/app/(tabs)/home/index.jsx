@@ -130,7 +130,7 @@ const HomePage = () => {
           </View>
         </LinearGradient>
       </ScrollView>
-      <StatusBar backgroundColor="#F2F2F2"/>
+      <StatusBar backgroundColor="#000" style="inverted"/>
     </SafeAreaView>
   );
 };
