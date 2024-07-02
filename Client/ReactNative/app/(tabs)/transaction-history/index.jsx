@@ -7,7 +7,6 @@ import Search from "../../../assets/svg/Search_transaction.svg"
 import Filter from "../../../assets/svg/filter.svg"
 import Hide from "../../../assets/svg/hide.svg"
 import Sim from "../../../assets/svg/sim.svg"
-import Elipse from "../../../assets/svg/elipse.svg"
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 const TransactionHistory = () => {
   const [text, setText] =React.useState("");

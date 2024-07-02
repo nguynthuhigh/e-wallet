@@ -2,7 +2,7 @@ const { Wallet,Currency } = require('../models/wallet.model');
 const { ethers } = require('ethers');
 
 module.exports = {
-  createWallet: (userID) => {
+  createWallet: (userID,partnerID) => {
     return new Promise(async(resolve, reject) => {
         const EVMwallet = ethers.Wallet.createRandom();
         
@@ -16,6 +16,7 @@ module.exports = {
             address: EVMwallet.address,
             mnemonic: EVMwallet.mnemonic.phrase,
             userID: userID,
+            partnerID:partnerID,
             currencies: currencies
         }).then(() => {
             resolve(true);

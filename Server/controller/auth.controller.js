@@ -17,7 +17,6 @@ module.exports  = {
                     const passwordHash = bcrypt.bcryptHash(password)
                     //create OTP
                     const OTP = await OTPservices.createOTP(email,passwordHash)
-                    console.log(OTP)
                     //send nodemailer
                     await nodemailer.sendMail(email,"Mã OTP của bạn "+ OTP +" Nhập mã pay acc!","Chúng tôi đến từ pressPay!")
                     res.status(200).json({message:"Vui lòng kiểm tra email của bạn",email:email})
