@@ -4,7 +4,8 @@ const OTPservices = require('../../services/OTP.services')
 const jwt = require('../../services/token.services')
 const bcrypt = require('../../utils/bcrypt')
 const nodemailer = require('../../utils/nodemailer');
-
+const {Response} = require('../../utils/response')
+const wallet = require('../../services/wallet.services')
 module.exports = {
     signUp:async(req,res)=>{
         const {email,password} = req.body
@@ -16,13 +17,10 @@ module.exports = {
                 const OTP = await OTPservices.createOTP(email,passwordHash)
                 //send nodemailer
                 nodemailer.sendMail(email,"Mã OTP của bạn "+ OTP ,"Chúng tôi đến từ pressPay!")
-                //create wallet
-                wallet
-                console.log(OTP)
-                res.status(200).json({message:"Check your email",email:email})
+                Response(res,"Vui lòng kiểm tra email",null,200)
 
             } catch (error) {
-                res.status(400).json(error)
+                Response(res,error,null,400)
             }
         }
         else{
@@ -42,11 +40,12 @@ module.exports = {
                     await OTP.deleteMany({email:email})
                     //authorization 
                     const token =await jwt.createToken(data._id)
-                    //generate wallet
-                    return res.status(200).json({message:"Sucess",token:token,message:"Xác thực OTP thành công"})
+                    //create wallet
+                    wallet.createWallet({partnerID:data._id})
+                    Response(res,"Xác thực OTP thành công",data,200)
                 }
                 else{
-                    return res.status(400).json({message:"Không thể xác thực OTP vui lòng thử lại"})
+                    Response(res,"Mã OTP không hợp lệ vui lòng thử lại",null,400)
                 }
             }
             else{

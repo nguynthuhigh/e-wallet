@@ -28,7 +28,7 @@ app.use("/api/v1/transaction", routeTransaction);
 app.use("/api/v1/partner", routeAuthPartner);
 
 mongoose
-  .connect(string(process.env.MONGODB_URI))
+  .connect(process.env.MONGODB_URI)
   .then((result) => {
     return app.listen({ port: process.env.PORT }, () => {
       console.log("Connected MongoDB");
