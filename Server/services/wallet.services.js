@@ -24,5 +24,14 @@ module.exports = {
             reject(err);
         });
     });
+  },
+  checkBalance:(userID,currency,amount)=>{
+
+  },
+  getBalance:(userID,currency)=>{
+
+  },
+  updateBalance:(userID,currency,amount)=>{
+    
   }
 };

@@ -26,7 +26,9 @@ app.use("/api/v1/user", routeUser);
 app.use("/api/v1/wallet", routeWallet);
 app.use("/api/v1/transaction", routeTransaction);
 app.use("/api/v1/partner", routeAuthPartner);
-
+app.get('/test',(req,res)=>{
+  res.send("<h1>Hello World</h1>")
+})
 mongoose
   .connect(process.env.MONGODB_URI)
   .then((result) => {
