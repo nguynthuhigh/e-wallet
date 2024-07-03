@@ -13,6 +13,8 @@ const routeUser = require("./routes/user.routes");
 const routeWallet = require("./routes/wallet.routes");
 const routeTransaction = require("./routes/transaction.routes");
 const routeAuthPartner = require("./routes/auth.partner.routes");
+const routePartner = require("./routes/partner.routes");
+
 
 //bodyParser
 const bodyParser = require("body-parser");
@@ -26,6 +28,8 @@ app.use("/api/v1/user", routeUser);
 app.use("/api/v1/wallet", routeWallet);
 app.use("/api/v1/transaction", routeTransaction);
 app.use("/api/v1/partner", routeAuthPartner);
+app.use("/api/v1/partner", routePartner);
+
 app.get('/test',(req,res)=>{
   res.send("<h1>Hello World</h1>")
 })

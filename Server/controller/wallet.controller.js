@@ -1,12 +1,12 @@
 const {Transaction} = require('../models/transaction.model')
-const {Currency,Wallet} = require('../models/wallet.model')
+const {Currency} = require('../models/wallet.model')
 const {startSession} = require('mongoose')
 const wallet = require('../services/wallet.services')
+const transaction = require('../services/transaction.services')
 const {Response} = require('../utils/response')
 const bcrypt = require('../utils/bcrypt')
 const stripe = require('../services/stripe.services')
 const {CreditCard} = require('../models/creditcard.model')
-const { compare } = require('bcryptjs')
 module.exports  = {
     //admin
     getCurrency:async(req,res)=>{
@@ -38,16 +38,16 @@ module.exports  = {
         try {
             const {receiver,amount,message,currency} = req.body
             const userID = req.user
-            const getCurrency = await Currency.findOne({symbol:currency});
-
-            const user_wallet =await Wallet.findOne({userID:userID})
-            const currencyBalance = user_wallet.currencies.find(item => item.currency.equals(getCurrency._id))
-            if(currencyBalance.balance >= amount){
+            const getCurrency = await wallet.getCurrency(currency)
+            if(!getCurrency){
+                Response(res,"currency is invalid",{recommend:"VND,USD,ETH"},400)
+            }
+            if(wallet.checkBalance(userID,getCurrency._id,amount)){
                 Transaction.create({
                     type:'transfer',
                     amount:amount,
                     message:message,
-                    currency:currency,
+                    currency:getCurrency._id,
                     sender:userID,
                     receiver:receiver
                 }).then(data=>{
@@ -65,31 +65,24 @@ module.exports  = {
         }
     },
     verifyTransaction:async (req,res)=>{
-        const {security_code,sender,receiver,transactionID,currency,amount }= req.body;
         const session = await startSession();
         try {
-            const getCurrency = await Currency.findOne({symbol:currency});
+            const {security_code,transactionID}= req.body;
+
+            const getTransaction = await transaction.getTransaction(transactionID)
+            const {sender,receiver,amount,currency,status} = getTransaction
+            if(status !== 'pending'){
+                return Response(res,"Transaction is invalid",null,400)
+            }
             await session.withTransaction(async () => {
-                if(bcrypt.bcryptCompare(security_code,req.security_code)){
+                if(bcrypt.bcryptCompare(security_code,req.security_code) && req.user === sender){
                     await session.abortTransaction();
                     return Response(res,"Mã bảo mật không đúng vui lòng nhập lại",null,200)
                 }
-                //update balance's sender
-                await Wallet.findOneAndUpdate(
-                    {userID:sender,'currencies.currency':getCurrency._id},
-                    {$inc : {'currencies.$.balance':-amount}},
-                    {session})
-                //update balance's receiver
-                await Wallet.findOneAndUpdate(
-                    {userID:receiver,'currencies.currency':getCurrency._id},
-                    {$inc : {'currencies.$.balance':+amount}},
-                    {session})
-                //update status's transaction
-                const data = await Transaction.findByIdAndUpdate({_id:transactionID},
-                    {status:"completed"},
-                    {new: true},
-                    {session})
-                return Response(res,"Success",data,200)
+                await wallet.updateBalance(sender,currency,amount,session)
+                await wallet.updateBalance(receiver,currency,amount,session)
+                const dataTransaction = await transaction.updateStatusTransaction(getTransaction._id,"completed",session)
+                return Response(res,"Chuyển tiền thành công",dataTransaction,200)
 
             });
         } catch (error) {
@@ -109,13 +102,15 @@ module.exports  = {
             if(!card){
                 return Response(res,{message:"Vui lòng thêm thẻ",card:"null"},null,400)
             }
+            const getCurrency = await wallet.getCurrency(currency)
             const number = card.number.substring(card.number.length-4,card.number.length-1)
             //create history transaction
             await Transaction.create({
                 type:'deposit',
                 amount:amount,
-                message:"Nạp tiền từ thẻ "+"***"+number,
-                currency:currency,
+                title:"Nạp tiền từ thẻ ***"+number,
+                message:"Nạp tiền",
+                currency:getCurrency._id,
                 sender:userID,
                 creditcard:card._id,
             }).then(data=>{
@@ -130,29 +125,27 @@ module.exports  = {
     },
     verifyDepositMoney:async(req,res)=>{
         const userID = req.user
-        const {currency,amount,transactionID,security_code} = req.body
+        const {transactionID,security_code} = req.body
+        const getTransaction = await transaction.getTransaction(transactionID)
+        const {sender,amount,currency,status,creditcard} = getTransaction
         const session = await startSession()
         try{
             await session.withTransaction(async () => {
-                
+                if(status !== 'pending'){
+                    return Response(res,"Transaction is invalid",null,400)
+                }
                 if(!bcrypt.bcryptCompare(security_code,req.security_code)){
                     return Response(res,"Mã bảo mật sai vui lòng nhập lại",null,400)
                 }
-                const paymentIntent =await stripe.depositStripe(amount,currency)
+                const paymentIntent =await stripe.depositStripe(amount,currency.symbol)
                 if(paymentIntent.status !== 'succeeded'){
                     return Response(res,"Nạp tiền thất bại",null,400)
-                }else{
-                    const getCurrency = await Currency.findOne({symbol:currency})
-                    //update user's wallet
-                    await Wallet.findOneAndUpdate(
-                        {userID:userID,'currencies.currency':getCurrency._id},
-                        {$inc : {'currencies.$.balance':+amount}})
-                    //update user's transaction
-                    const data = await Transaction.findByIdAndUpdate(transactionID,
-                        {status:"completed"},
-                        {new: true},{session})
-                    return Response(res,"Nạp tiền thành công",data,200)
                 }
+                //update user's wallet
+                await wallet.updateBalance(sender,currency._id,amount,session)
+                const dataTransaction = await transaction.updateStatusTransaction(getTransaction._id,"completed",session)
+                return Response(res,"Nạp tiền thành công",dataTransaction,200)
+                
             })
         }catch (error){
             console.log(error)
@@ -163,12 +156,6 @@ module.exports  = {
         }
     },
     getWallet:async(req,res)=>{
-        const id =req.user
-        console.log(req.user)
-        Wallet.findOne({userID:req.user}).populate('currencies.currency').then(data=>{
-            Response(res,"Success",data,200);
-        }).catch(err=>{
-            Response(res,err,null,400);
-        })
+        
     }
 }
