@@ -10,6 +10,10 @@ const transactionSchema = new Schema({
         type:Number,
         required:true,
     },
+    title:{
+        type:String,
+        required:true,
+    },
     message:{
         type:String,
         required:true,
@@ -21,7 +25,7 @@ const transactionSchema = new Schema({
         default:"pending"
     },
     currency:{
-        type:String,
+        type:Schema.Types.ObjectId,
         ref:'Currency',
         required:true, 
     },

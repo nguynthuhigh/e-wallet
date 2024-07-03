@@ -96,7 +96,7 @@ POST http://localhost:8888/api/v1/partner/signup
 Content-Type: application/json
 
 {
-    "email":"partner@gmail.com",
+    "email":"partner1@gmail.com",
     "password":"123123123"
 }
 ####
@@ -105,8 +105,8 @@ POST http://localhost:8888/api/v1/partner/verify
 Content-Type: application/json
 
 {
-    "email":"partner@gmail.com",
-    "otp":"577735"
+    "email":"partner1@gmail.com",
+    "otp":"256308"
 }
 ###
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2E2ZTlkN2Y4Y2Q3MjhjNjYxYTQyMSIsImlhdCI6MTcxOTI5OTc0MX0.9VjD_O6b4HWlvC34sC80DTzqRLDeZYAOFk_tXa96Zuw
@@ -157,17 +157,13 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8888/api/v1/wallet/send-money/verify
+POST http://localhost:8888/api/v1/wallet/send-money/verify
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2VlYzgxNGE5NDQ3NTQ5YWRkZjBkNiIsImlhdCI6MTcxOTU5NDExM30.xBtP_vvMTB5_l9WoNcKG1wKhFA7LnNTgjcIwIAJ7XmU
 Content-Type: application/json
 
 {
-    "security_code":"123123",
-    "transactionID":"667ef0446f8ed5c93fc28a7d",
-    "currency":"VND",
-    "amount":"12.1",
-    "sender":"667eec814a9447549addf0d6",
-    "receiver":"667ec4cd43fb999edadf1691"
+    "security_code":"456456",
+    "transactionID":"6684fd078688382ab2ea3683"
 }
 ###
 GET http://localhost:8888/api/v1/wallet/get-wallet
@@ -209,9 +205,7 @@ Content-Type: application/json
 
 {
     "security_code":"456456",
-    "amount":"1000",
-    "currency":"USD",
-    "transactionID":"66800737b3e2d7800a88ed85"
+    "transactionID":"6684fde5c71ca917b466a6bc"
 }
 
 ###
@@ -251,6 +245,7 @@ Content-Type: application/json
 
 
 ###Partner
-PUT http://localhost:8888/api/v1/transaction/get/transactions
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODM4MWRiMGNmYzJkZWI2Mzc5ZmVkYSIsImlhdCI6MTcxOTg5NDQ5Mn0.jQlG3E0vNvF25NaIQjZXkEbHibbSUEm29OMBtE-r1Ws
+GET http://localhost:8888/api/v1/partner/get-info
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODUwMzZhZGE3MDZhNDkzNGIyOTE3NyIsImlhdCI6MTcxOTk5MzE5NH0.QQ3n0PQCBwiPk_VAHKnLRuWZ-HDWwPA7vpSqMKyS2QQ
 Content-Type: application/json
+

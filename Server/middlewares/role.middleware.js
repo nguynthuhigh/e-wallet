@@ -30,10 +30,10 @@ exports.Authenciation =(role)=>{
         const token = req.headers.authorization?.split(' ')[1];
         if(token){
             const result = await tokenAuth.verifyToken(token);
-            req.user = result.id
             if(role == ROLE.USER){
                 const user = await User.findById(result.id);
                 if(user){
+                    req.user = result.id
                     req.security_code = user.security_code
                     next()
                 }
@@ -41,6 +41,7 @@ exports.Authenciation =(role)=>{
             if(role == ROLE.PARTNER){
                 const partner = await Partner.findById(result.id);
                 if(partner){
+                    req.partner = result.id
                     next()
                 }
             }
