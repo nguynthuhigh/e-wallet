@@ -20,8 +20,8 @@ const VerifySignIn = () => {
 
   const handleOTP =async (newOTP)=>{
     try {
-
-      const response = await fetch(process.env.API_URL+'/api/v1/user/signin/verify', {
+      console.log(process.env.API_URL+'/api/v1/user/signin')
+      const response = await fetch('https://presspay-api.azurewebsites.net/api/v1/user/signin/verify', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
