@@ -1,12 +1,13 @@
+import Home from './components/home/home'
+import SignIn from './components/auth/sign-in'
+import { Routes,Route } from 'react-router-dom';
 function App() {
   return (
-    <div className="">
-      <header className="flex">
-        <p >
-          Test Tailwindcss in <code className="font-bold">src/App.js</code> 
-        </p>
-      </header>
-    </div>
+    <Routes>
+      <Route path='/' element={<Home></Home>}/>
+      <Route path='/sign-in' element={<SignIn/>}/>
+
+    </Routes>
   );
 }
 
