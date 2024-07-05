@@ -20,7 +20,7 @@ export default function VerifyForm(){
         e.preventDefault()
         try {
             console.log(verifyInfo)
-            const response =await axios.post('https://presspay-api.azurewebsites.net/api/v1/partner/verify',verifyInfo,{
+            const response =await axios.post(process.env.REACT_APP_LOCAL_HOST + '/api/v1/partner/verify',verifyInfo,{
                 headers:{
                     'Content-Type': 'application/json',
                 }
