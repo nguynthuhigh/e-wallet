@@ -2,10 +2,14 @@ import React, { useState } from "react"
 import { useLocation } from "react-router-dom"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import Cookies from "universal-cookie"
 export default function VerifyForm(){
     const location = useLocation()
+
     const {infoUser} = location.state || {}
     const navigate = useNavigate()
+    
+    const cookies = new Cookies()
     const [verifyInfo,setVerifyInfo] = useState({otp:'',email:infoUser.email})
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,10 +30,9 @@ export default function VerifyForm(){
                 }
             })
             if(response.status === 200){
+                cookies.set('token_auth',response.data.data)
+                navigate('/dashboard')
                 
-                console.log(response)
-                navigate('/')
-                //store token here
             }
         } catch (error) {
             console.log(error)

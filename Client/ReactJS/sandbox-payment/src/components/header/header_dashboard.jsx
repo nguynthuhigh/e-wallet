@@ -1,4 +1,4 @@
-import logo_white from '../../assets/svg/logo_white.svg'
+import logo_white from '../../assets/svg/logo_blue.svg'
 import arrow_right from '../../assets/svg/arrow_right.svg'
 import { Link } from "react-router-dom"
 import { useEffect,useState } from 'react'
@@ -29,16 +29,12 @@ export default function Home(){
           fetchData(); 
     },[])
     return(
-        <div className='w-full fixed z-10 my-4'>
+        <div className='w-full fixed z-10 my-4 top-0'>
             <div className='flex items-center px-4 max-w-[1250px] mx-auto'>
-                <img alt='logo_presspay' src={logo_white}></img>
-                <div className='max-md:hidden flex ml-10 w-[40%] justify-between text-[20px] font-semibold text-white'>
-                    <h1 className=''>Developer</h1>
-                    <h1 >Hỗ trợ</h1>
-                    <h1>Developer</h1>
-                    <h1>Developer</h1>
-                </div>
-                   <Button name={dashboard.name} link={dashboard.link}></Button>
+                <Link to="/">
+                    <img alt='logo_presspay' src={logo_white}></img>
+                </Link>
+               
             </div>
         </div>
     )
