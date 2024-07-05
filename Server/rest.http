@@ -129,7 +129,7 @@ Content-Type: application/json
     "otp":"507493"
 }
 ###
-POST http://localhost:8888/api/v1/user/signin
+POST https://presspay-api.azurewebsites.net/api/v1/user/signin
 Content-Type: application/json
 
 {
