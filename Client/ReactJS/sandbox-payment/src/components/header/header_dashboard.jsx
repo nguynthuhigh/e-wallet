@@ -5,16 +5,6 @@ import { useEffect,useState } from 'react'
 import partnerAPI from '../../api/partner.api'
 import Cookies from "universal-cookie"
 
-const Button = ({...props})=>{
-    return ( 
-        <Link className='ml-auto' to={props.link}><div className='w-[100px] border-[1px] border-white  h-[30px] justify-center text-[12px]  rounded-full items-center flex   bg-white text-color-default font-semibold'>
-            <h1>{props.name}</h1>
-            <img alt='' className='w-[4px] h-[7px] ml-2' src={arrow_right}></img>
-            </div>
-        </Link>
-    )
-}
-
 export default function Home(){
     const cookie = new Cookies()
     const navigate = useNavigate()
