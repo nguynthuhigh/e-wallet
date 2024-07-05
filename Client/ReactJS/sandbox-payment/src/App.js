@@ -2,7 +2,10 @@ import Home from './components/home/home'
 import SignIn from './components/auth/sign-in'
 import SignUp from './components/auth/sign-up'
 import VerifyForm from './components/auth/verify-form';
+import Dashboard from './components/dashboard/dashboard';
+import UpdateProfile from './components/auth/update-profile'
 import { Routes,Route } from 'react-router-dom';
+import PageNotFound from './components/pages/page-not-found';
 function App() {
   return (
     <Routes>
@@ -10,7 +13,10 @@ function App() {
       <Route path='/sign-in' element={<SignIn/>}/>
       <Route path='/sign-up' element={<SignUp/>}/>
       <Route path='/verify' element={<VerifyForm/>}/>
-
+      <Route path='/dashboard' element={<Dashboard/>}/>
+      <Route path='/update-profile' element={<UpdateProfile/>}/>
+      <Route path='*' element={<PageNotFound/>}/>
+      
     </Routes>
   );
 }

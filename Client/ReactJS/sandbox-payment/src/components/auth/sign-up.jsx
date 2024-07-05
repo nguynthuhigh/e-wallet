@@ -6,19 +6,25 @@ import { useNavigate } from 'react-router-dom'
 export default function SignIn(){
     const navigate = useNavigate()
     const [infoUser,setInfoUser] = useState({ email: '', password: '',confirm_password:'' });
-    const [errorResponse, setErrorResponse] = useState({sign_up:null,password:null})
+    const [errorResponse, setErrorResponse] = useState({email:null,password:null})
     const handleChange = (e) => {
         setInfoUser({
           ...infoUser,
           [e.target.name]: e.target.value,
         });
-        setErrorResponse({password:null})
+        setErrorResponse({password:null,email:null})
       };
     const handleSignUp =async (e)=>{
         e.preventDefault()
         console.log(infoUser.confirm_password)
         if(infoUser.password !== infoUser.confirm_password){
             return setErrorResponse({password:"Mật khẩu không khớp"})
+        }
+        if((!infoUser.password && !infoUser.confirm_password) || (!infoUser.password || !infoUser.confirm_password)){
+            return setErrorResponse({password:"Vui lòng nhập mật khẩu"})
+        }
+        if(!infoUser.email){
+            return setErrorResponse({email:"Vui lòng điền email"})
         }
         try {
             const response = await axios.post(process.env.REACT_APP_LOCAL_HOST +'/api/v1/partner/signup',infoUser
@@ -33,7 +39,7 @@ export default function SignIn(){
             }
         } catch (error) {
             console.log(error)
-            setErrorResponse({sign_up:error.response.data.message})
+            setErrorResponse({email:error.response.data.message})
         }
     }
     return(<div>
@@ -49,10 +55,10 @@ export default function SignIn(){
                             <div>
                                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                                 <input value={infoUser.email}
-                                     onChange={handleChange} type="email" name="email" id="email" className={!errorResponse ? 'bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ':
+                                     onChange={handleChange} type="email" name="email" id="email" className={!errorResponse.email ? 'bg-gray-50 border border-black text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ':
                                         'bg-gray-50 border border-red-500 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 '
                                      } placeholder="name@company.com" required=""/>
-                                <p className='text-[12px] text-red-500'>{errorResponse.sign_up}</p>
+                                <p className='text-[12px] text-red-500'>{errorResponse.email}</p>
 
                             </div>
                             <div>

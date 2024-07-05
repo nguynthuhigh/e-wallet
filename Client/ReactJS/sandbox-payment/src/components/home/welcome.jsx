@@ -15,7 +15,7 @@ export default function Home(){
                                 Thanh toán nhanh hơn với pressPay
                             </p>
                             <p className='my-4 lg:text-[20px] font-medium'>Trở thành đối tác của chúng tôi</p>
-                            <Link className='ml-auto' to='/sign-in'>
+                            <Link className='ml-auto' to='/sign-up'>
                                 <div className='w-[100px] border-[1px] border-white  h-[30px] justify-center text-[12px]  rounded-full items-center flex   bg-white text-color-default font-semibold'>
                                     <h1>Bắt đầu</h1>
                                     <img alt='' className='w-[4px] h-[7px] ml-2' src={arrow_right}></img>
