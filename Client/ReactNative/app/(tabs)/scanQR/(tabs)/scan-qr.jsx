@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,19 +6,24 @@ import {
   Button,
   TouchableOpacity,
   Animated,
-  Image,
 } from "react-native";
-import { CameraView, useCameraPermissions } from "expo-camera";
+import * as Linking from "expo-linking";
+import { CameraView, Camera } from "expo-camera";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
 import BackArrow from "../../../../assets/svg/arrow_back.svg";
-import constants from "../../../../constants";
-const { images } = constants;
-const ScanQR = () => {
-  const [permission, requestPermission] = useCameraPermissions();
-
+export default function ScanQR() {
+  const [hasPermission, setHasPermission] = useState(null);
+  const [scanned, setScanned] = useState(false);
   const borderAnimation = useRef(new Animated.Value(0)).current;
 
+  useEffect(() => {
+    const getCameraPermissions = async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
+    };
+    getCameraPermissions();
+  }, []);
   useEffect(() => {
     Animated.loop(
       Animated.timing(borderAnimation, {
@@ -28,33 +33,32 @@ const ScanQR = () => {
       })
     ).start();
   }, [borderAnimation]);
-
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    console.log(
+      `Bar code with type ${type} and data ${Linking.openURL(
+        `${data}`
+      )}  has been scanned!`
+    );
+  };
   const borderColor = borderAnimation.interpolate({
     inputRange: [0, 0.5, 1],
     outputRange: ["#0094FF", "#00FF94", "#0094FF"],
   });
-
-  if (!permission) {
-    return <View />;
+  if (hasPermission === null) {
+    return <Text>Requesting for camera permission</Text>;
   }
-
-  if (!permission.granted) {
-    return (
-      <SafeAreaView className="flex-1 justify-center">
-        <Text className="text-center">
-          We need your permission to show the camera
-        </Text>
-        <Button title="Grant permission" onPress={requestPermission} />
-      </SafeAreaView>
-    );
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
   }
 
   return (
     <SafeAreaView className="flex-1">
       <CameraView
         className="flex-1"
+        onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
         barcodeScannerSettings={{
-          barcodeTypes: ["qr"],
+          barcodeTypes: ["qr", "pdf417"],
         }}
       >
         <View className="flex-row justify-between px-5 py-4 mb-5 bg-[#161622]/5">
@@ -77,11 +81,18 @@ const ScanQR = () => {
             <Text className="font-semibold text-lg text-white">Quét mã QR</Text>
           </Animated.View>
         </View>
+        {scanned && (
+          <Button
+            title={"Tap to Scan Again"}
+            onPress={() => setScanned(false)}
+          />
+        )}
         <View className="flex-1 flex-col px-5 justify-center items-center">
           <View className="flex-row justify-between items-center w-full mb-60">
             <View className=" w-10 h-10 border-[#fff] border-[5px]  border-b-0 border-r-0"></View>
             <View className=" w-10 h-10 border-[#fff] border-[5px] border-b-0 border-l-0"></View>
           </View>
+
           <View className="flex-row justify-between items-center w-full">
             <View className=" w-10 h-10 border-[#fff] border-[5px]  border-t-0 border-r-0"></View>
             <View className=" w-10 h-10 border-[#fff] border-[5px] border-t-0 border-l-0"></View>
@@ -92,6 +103,4 @@ const ScanQR = () => {
       <StatusBar style="dark" />
     </SafeAreaView>
   );
-};
-
-export default ScanQR;
+}
