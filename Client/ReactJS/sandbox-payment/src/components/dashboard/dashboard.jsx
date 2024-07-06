@@ -9,6 +9,7 @@ export default function Dashboard(){
     const [partner, setPartner] = useState('')
     const navigate = useNavigate()
     useEffect(() => {
+
         const fetchData = async () => {
           try {
             const partnerProfile = await partnerAPI.getProfilePartner();
@@ -35,10 +36,9 @@ export default function Dashboard(){
     };
     return(
       <div>
-          <Header></Header>
-          <div className="max-w-[1250px] mt-20 mx-auto p-4 flex h-full">
+          <div className="w-full mx-auto px-4 flex h-full">
             <MenuBar></MenuBar>
-            <div className="w-full">
+            <div className="w-full p-8 border-[1px] border-r-2 border-y-0">
               <div className="flex w-full">
                 <div className="w-[49%]">
                     <Chart/>
