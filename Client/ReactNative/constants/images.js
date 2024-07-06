@@ -18,7 +18,11 @@ import airlinesLarge from "../assets/images/airlines-large.png";
 import qrCode from "../assets/images/qrcode-scan.png";
 import lineScan from "../assets/images/line-scan.png";
 import camera from "../assets/images/camera.png";
+import logo_pressPay from "../assets/images/logo-pressPay.png";
+import voucher from "../assets/images/voucher.png"
 export default {
+  voucher,
+  logo_pressPay,
   camera,
   qrCode,
   lineScan,
