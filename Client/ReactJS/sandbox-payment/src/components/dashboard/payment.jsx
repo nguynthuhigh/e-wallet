@@ -20,10 +20,9 @@ const Item = ()=>{
 
 export default function Payment(){
     return(<>
-      <Header></Header>
-      <div class="flex  max-w-[1250px] mx-auto mt-20">
+      <div class="flex   mx-auto px-4">
           <MenuBar></MenuBar>
-          <div class=" overflow-x-auto max-w-[1000px] w-full">
+          <div class=" overflow-x-auto p-8 border-[1px] border-r-2 border-y-0  w-full">
             <div class="p-1.5 min-w-full inline-block align-middle">
               <div class="border rounded-lg divide-y divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
                 <div class="py-3 px-4">
