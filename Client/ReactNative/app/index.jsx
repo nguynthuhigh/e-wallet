@@ -14,7 +14,7 @@ const getToken = async () => {
 };
 
 const Welcome = () => {
-  return <Redirect href="/sign-in" />;
+  return <Redirect href="/home" />;
 };
 
 export default Welcome;

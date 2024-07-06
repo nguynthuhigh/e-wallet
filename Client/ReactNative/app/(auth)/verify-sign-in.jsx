@@ -48,7 +48,7 @@ const VerifySignIn = () => {
           </View>
         </View>
         <TouchableOpacity className='items-end'><Text className="my-4 text-[#0094ff] font-bold">Gửi lại mã</Text></TouchableOpacity>
-        <Link href='/home/index' className='w-[643px] mt-4'>
+        <Link href='/home' className='w-[643px] mt-4'>
           <View className="w-full bg-[#0094FF] h-[60px] flex-row items-center justify-center rounded-full mt-6">
             <Text className="text-white text-[20px] text-center font-bold">Xác Nhận</Text>
           </View>
