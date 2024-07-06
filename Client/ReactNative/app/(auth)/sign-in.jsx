@@ -76,12 +76,11 @@ const SignIn = () => {
           </View>
         </View>
         <TouchableOpacity className='items-end'><Text className="my-4 font-bold">Quên mật khẩu?</Text></TouchableOpacity>
-        <Link href='/verify-sign-in' className='w-[628px] mt-5'>
+        <TouchableOpacity onPress={login} className='w-[628px] mt-5'>
           <View className="w-full bg-[#0094FF] h-[60px] flex-row items-center justify-center rounded-full mt-6">
             <Text className="text-white text-[20px] text-center font-bold">Đăng Nhập</Text>
           </View>
-        </Link>
-        <TouchableOpacity onPress={login} className='items-end'><Text className="my-4 font-bold">ĐN</Text></TouchableOpacity>
+        </TouchableOpacity>
         <View className="items-center">
           <Text className=''>Bạn là người dùng mới? <Link href="/sign-up" className='text-[#0094FF]'>Đăng Ký</Link></Text>
         </View>

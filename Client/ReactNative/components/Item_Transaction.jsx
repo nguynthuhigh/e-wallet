@@ -10,8 +10,12 @@ const Change_Icon = (type) => {
     return <Bank_Transfer/>
   }
 } 
+const Content = (type)=>{
+  if(type==="transfer"){
+    return "Nhận tiền"
+  }
+}
 const Item_Transaction = ({index,item}) => {
-  console.log(index)
     return( 
         <View>
         <View className={index%2 === 0 ? "bg-white h-[85px]" :"bg-[#DFDFDF] h-[85px]"}>
@@ -25,7 +29,7 @@ const Item_Transaction = ({index,item}) => {
             </View>
         
             <View className="ml-[25px]">
-                <Text className="font-medium text-[16px] ">{item.message}</Text>
+                <Text className="font-medium text-[16px] ">{Content(item.type)}</Text>
                 <Text className="text-[12px] font-light ml-[-3] mt-2"> {item.createdAt} </Text>
                 <Text className="text-[12px] font-light ml-[-3] mt-1"> Số dư ví: </Text>
             </View>

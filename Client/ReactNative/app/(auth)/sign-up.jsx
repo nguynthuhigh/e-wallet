@@ -14,15 +14,8 @@ const SignUp = () => {
   const [text, setText] = useState('');
   const [password, setPassword] = useState('');
  
-  const login = async ()=>{
-    await axios.post('https://1.54.154.87:8888/api/v1/user/signin',{
-      email:text,
-      password:password
-    }).then((res)=>{
-      console.log(res)
-    }).catch((error) => {
-      console.error( error); 
-    });
+  const handleSignUp = ()=>{
+
   }
   return (
     <SafeAreaView style={styles.backgroundColor}>

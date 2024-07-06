@@ -11,12 +11,12 @@ const ScanTabIcon = React.memo(({ focused }) => {
   return (
     <View className="items-center justify-end">
       <View className="w-20 h-20 items-center bg-white overflow-hidden rounded-full">
-        <LottieView
+        {/* <LottieView
           style={{ flex: 1, width: 60, height: 60 }}
           source={require("../../assets/animation/qr_scan.json")}
           autoPlay
           loop
-        />
+        /> */}
       </View>
       <Text
         className={`${
@@ -89,6 +89,7 @@ const TabLayout = () => {
           options={{
             title: "home",
             headerShown: false,
+            unmountOnBlur: true,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.home}
@@ -109,6 +110,7 @@ const TabLayout = () => {
           options={{
             title: "promotion",
             headerShown: false,
+            unmountOnBlur: true,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.promotion}
@@ -129,6 +131,7 @@ const TabLayout = () => {
           options={{
             title: "scan-qr",
             headerShown: false,
+            unmountOnBlur: true,
             tabBarIcon: ({ focused }) => <ScanTabIcon focused={focused} />,
           }}
           listeners={{
@@ -142,6 +145,8 @@ const TabLayout = () => {
           options={{
             title: "transaction-history",
             headerShown: false,
+            unmountOnBlur: true,
+
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.history}
@@ -162,6 +167,7 @@ const TabLayout = () => {
           options={{
             title: "wallet",
             headerShown: false,
+            unmountOnBlur: true,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.account}

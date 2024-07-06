@@ -5,8 +5,8 @@ import BG_PPIcon from '../../assets/svg/bg_PPic.svg'
 import BG_ETHIcon from '../../assets/svg/bg_ETHic.svg'
 import BG_USDTIcon from '../../assets/svg/bg_USDTic.svg'
 import OTPIcon from '../../assets/svg/ic_OTP.svg'
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLocalSearchParams,router } from 'expo-router'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const VerifySignIn = () => {
   const item = useLocalSearchParams();
   const [OTP, setOTP] = useState('')
@@ -37,8 +37,9 @@ const VerifySignIn = () => {
         console.log('Login response:', data);
       }
       if(response.status === 200){
-        await AsyncStorage.setItem('AccessToken', data.token);
-        router.push('/home')
+        console.log(data.token)
+        await AsyncStorage.setItem('AccessToken',data.token)
+        router.replace('/home')
       }
     } catch (error) {
       console.error(error);
@@ -81,14 +82,6 @@ const VerifySignIn = () => {
           </View>
         </View>
         <TouchableOpacity className='items-end'><Text className="my-4 text-[#0094ff] font-bold">Gửi lại mã</Text></TouchableOpacity>
-<<<<<<< HEAD
-        <Link href='/home' className='w-[643px] mt-4'>
-          <View className="w-full bg-[#0094FF] h-[60px] flex-row items-center justify-center rounded-full mt-6">
-            <Text className="text-white text-[20px] text-center font-bold">Xác Nhận</Text>
-          </View>
-        </Link>
-=======
->>>>>>> 7771834d3451dc254f218b946661ea79cf487944
       </View>
     </SafeAreaView>
   )
