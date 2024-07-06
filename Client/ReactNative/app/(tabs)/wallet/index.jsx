@@ -7,7 +7,14 @@ import QrCode from "../../../assets/svg/qr_code_acc.svg";
 import Card from "../../../assets/svg/card.svg";
 import Arrow_More from "../../../assets/svg/arrow_more.svg";
 import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from 'expo-router'
+
 const Wallet = () => {
+  const hanldeLogout =()=>{
+    AsyncStorage.removeItem('AccessToken')
+    router.replace('/sign-in')
+  }
   return (
     <SafeAreaView>
       <LinearGradient
@@ -120,7 +127,9 @@ const Wallet = () => {
                   <Item></Item>
                   <Item></Item>
                   <Item></Item>
-                  <Item></Item>
+                  <TouchableOpacity onPress={hanldeLogout}>
+                    <Text>Logout</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>

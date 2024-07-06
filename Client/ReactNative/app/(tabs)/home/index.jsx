@@ -11,11 +11,29 @@ import SearchIcon from "../../../assets/svg/search.svg";
 import NotificationIcon from "../../../assets/svg/notification.svg";
 import CashInIcon from "../../../assets/svg/cashin.svg";
 import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
 const { images } = constants;
-
+import authAPI from '../../api/auth.api'
 const HomePage = () => {
   const [isHide, setIsHide] = useState(false);
-
+  const [userData,setUserData] = useState('')
+  const [isLoading,setIsLoading] = useState(true)
+  useEffect(()=>{
+    
+      const fetchUser = async()=>{
+        try {
+          const user = await authAPI.getProfile()
+          setUserData(user)
+          console.log(user)
+        } catch (error) {
+          console.log(error)
+        }finally{
+          setIsLoading(false)
+        }
+    }
+    
+    fetchUser()
+  },[])
   return (
     <SafeAreaView>
       <ScrollView className="bg-white">
@@ -34,7 +52,7 @@ const HomePage = () => {
               <View className="ml-2">
                 <Text className="text-[12px]">Chào buổi tối</Text>
                 <Text className="text-[14px] font-bold">
-                  Nguyễn Minh Nguyên
+                  {isLoading ? "Loading..." : userData.email}
                 </Text>
               </View>
               <View className="flex-row ml-auto justify-between">
@@ -91,38 +109,11 @@ const HomePage = () => {
                   <Text className="font-medium">Chuyển tiền</Text>
                 </View>
               </Link>
-              <Link href="home/receive-money">
-                <View className="flex-col items-center gap-y-2">
-                  <LottieView
-                    style={{ flex: 1, width: 30, height: 30 }}
-                    source={require("../../../assets/animation/transfer.json")}
-                    autoPlay
-                    loop
-                  />
-                  <Text className="font-medium">Nhận tiền</Text>
-                </View>
-              </Link>
-              <Link href="home/qr-payment">
-                <View className="flex-col items-center gap-y-2">
-                  <LottieView
-                    style={{ flex: 1, width: 30, height: 30 }}
-                    source={require("../../../assets/animation/transfer.json")}
-                    autoPlay
-                    loop
-                  />
-                  <Text className="font-medium w-20 text-center">
-                    QR Thanh Toán
-                  </Text>
-                </View>
-              </Link>
+           
+            
               <Link href="home/scan-qr">
                 <View className="flex-col items-center gap-y-2">
-                  <LottieView
-                    style={{ flex: 1, width: 30, height: 30 }}
-                    source={require("../../../assets/animation/transfer.json")}
-                    autoPlay
-                    loop
-                  />
+                  
                   <Text className="font-medium">Quét mã QR</Text>
                 </View>
               </Link>

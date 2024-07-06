@@ -11,12 +11,12 @@ const ScanTabIcon = React.memo(({ focused }) => {
   return (
     <View className="items-center justify-end">
       <View className="w-20 h-20 items-center bg-white overflow-hidden rounded-full">
-        <LottieView
+        {/* <LottieView
           style={{ flex: 1, width: 60, height: 60 }}
           source={require("../../assets/animation/qr_scan.json")}
           autoPlay
           loop
-        />
+        /> */}
       </View>
       <Text
         className={`${

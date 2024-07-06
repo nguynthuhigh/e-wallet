@@ -5,8 +5,8 @@ import BG_PPIcon from '../../assets/svg/bg_PPic.svg'
 import BG_ETHIcon from '../../assets/svg/bg_ETHic.svg'
 import BG_USDTIcon from '../../assets/svg/bg_USDTic.svg'
 import OTPIcon from '../../assets/svg/ic_OTP.svg'
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLocalSearchParams,router } from 'expo-router'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const VerifySignIn = () => {
   const item = useLocalSearchParams();
   const [OTP, setOTP] = useState('')
@@ -37,8 +37,9 @@ const VerifySignIn = () => {
         console.log('Login response:', data);
       }
       if(response.status === 200){
-        await AsyncStorage.setItem('AccessToken', data.token);
-        router.push('/home')
+        console.log(data.token)
+        await AsyncStorage.setItem('AccessToken',data.token)
+        router.replace('/home')
       }
     } catch (error) {
       console.error(error);
