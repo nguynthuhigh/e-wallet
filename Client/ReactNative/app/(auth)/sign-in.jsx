@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState}  from 'react'
 import { View, Text,TextInput,SafeAreaView,TouchableOpacity,StyleSheet } from 'react-native'
 import AccountIcon from '../../assets/svg/account_ic.svg'
 import PasswordIcon from '../../assets/svg/password_ic.svg'
@@ -6,24 +6,36 @@ import BG_BCIcon from '../../assets/svg/bg_BCic.svg'
 import BG_PPIcon from '../../assets/svg/bg_PPic.svg'
 import BG_ETHIcon from '../../assets/svg/bg_ETHic.svg'
 import BG_USDTIcon from '../../assets/svg/bg_USDTic.svg'
-
+import { router } from 'expo-router'
 
 import { Link } from "expo-router";
 import axios from "axios"
 const SignIn = () => {
   const [text, setText] = useState('');
   const [password, setPassword] = useState('');
- 
-  const login = async ()=>{
-    await axios.post('https://1.54.154.87:8888/api/v1/user/signin',{
-      email:text,
-      password:password
-    }).then((res)=>{
-      console.log(res)
-    }).catch((error) => {
-      console.error( error); 
-    });
-  }
+  const login = async () => {
+    try {
+      console.log(process.env.API_URL+'/api/v1/user/signin')
+      const response = await fetch('https://presspay-api.azurewebsites.net/api/v1/user/signin', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: text,
+          password: password,
+        }),
+      });
+      const data = await response.json();
+      console.log('Login response:', data);
+      if(response.status === 200){
+        router.push({ pathname: '/verify-sign-in', params: { text } });
+      }
+    } catch (error) {
+      console.error(error);
+    } 
+  };
   return (
     <SafeAreaView style={styles.backgroundColor}>
       <View className="h-[255px] flex flex-wrap justify-center ml-[110px]">
@@ -69,6 +81,7 @@ const SignIn = () => {
             <Text className="text-white text-[20px] text-center font-bold">Đăng Nhập</Text>
           </View>
         </Link>
+        <TouchableOpacity onPress={login} className='items-end'><Text className="my-4 font-bold">ĐN</Text></TouchableOpacity>
         <View className="items-center">
           <Text className=''>Bạn là người dùng mới? <Link href="/sign-up" className='text-[#0094FF]'>Đăng Ký</Link></Text>
         </View>

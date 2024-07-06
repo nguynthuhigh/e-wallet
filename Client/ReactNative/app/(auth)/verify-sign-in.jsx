@@ -5,14 +5,45 @@ import BG_PPIcon from '../../assets/svg/bg_PPic.svg'
 import BG_ETHIcon from '../../assets/svg/bg_ETHic.svg'
 import BG_USDTIcon from '../../assets/svg/bg_USDTic.svg'
 import OTPIcon from '../../assets/svg/ic_OTP.svg'
-
-import { Link } from "expo-router";
-import axios from "axios"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useLocalSearchParams,router } from 'expo-router'
 const VerifySignIn = () => {
-  const [text, setText] = useState('');
-  const [password, setPassword] = useState('');
- 
-  
+  const item = useLocalSearchParams();
+  const [OTP, setOTP] = useState('')
+
+  const handleOTPChange = (newOTP) => {
+    setOTP(newOTP);
+    if (newOTP.length === 6) {
+      handleOTP(newOTP);
+    }
+  };
+
+  const handleOTP =async (newOTP)=>{
+    try {
+      console.log(process.env.API_URL+'/api/v1/user/signin')
+      const response = await fetch('https://presspay-api.azurewebsites.net/api/v1/user/signin/verify', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: item.text,
+          otp: newOTP,
+        }),
+      });
+      const data = await response.json();
+      if(response.status === 400){
+        console.log('Login response:', data);
+      }
+      if(response.status === 200){
+        await AsyncStorage.setItem('AccessToken', data.token);
+        router.push('/home')
+      }
+    } catch (error) {
+      console.error(error);
+    } 
+  }
   return (
     <SafeAreaView style={styles.backgroundColor}>
       <View className="h-[255px] flex flex-wrap justify-center ml-[110px]">
@@ -34,7 +65,7 @@ const VerifySignIn = () => {
         <Text className="font-bold text-[24px] text-center mt-10 mb-5">Xác Thực Đăng Nhập</Text>
         <View className='items-center mb-5'>
         <Text className='text-[18px]'>Mã OTP đã gửi đến</Text>
-        <Text className='text-[#0094ff] font-bold text-[18px] mb-2'>example@presspay.com</Text>
+        <Text className='text-[#0094ff] font-bold text-[18px] mb-2'>{item.text}</Text>
         </View>
         <View className="border-[1.5px] border-[#0094FF] rounded-[30px]  h-[75px]">
           <View className="h-[100%] flex-row items-center ml-4">
@@ -42,17 +73,22 @@ const VerifySignIn = () => {
               <TextInput  style={styles.input} 
                 className="font-semibold ml-4" 
                 placeholder='Nhập mã OTP'
-                onChangeText={newText => setText(newText)}
-                defaultValue={text}>
+                maxLength = {6}
+                onChangeText={handleOTPChange}
+                defaultValue={OTP}
+                keyboardType='numeric'>
                 </TextInput>
           </View>
         </View>
         <TouchableOpacity className='items-end'><Text className="my-4 text-[#0094ff] font-bold">Gửi lại mã</Text></TouchableOpacity>
+<<<<<<< HEAD
         <Link href='/home' className='w-[643px] mt-4'>
           <View className="w-full bg-[#0094FF] h-[60px] flex-row items-center justify-center rounded-full mt-6">
             <Text className="text-white text-[20px] text-center font-bold">Xác Nhận</Text>
           </View>
         </Link>
+=======
+>>>>>>> 7771834d3451dc254f218b946661ea79cf487944
       </View>
     </SafeAreaView>
   )

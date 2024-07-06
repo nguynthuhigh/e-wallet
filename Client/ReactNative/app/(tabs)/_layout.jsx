@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback, useMemo } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Tabs, useSegments } from "expo-router";
 import LottieView from "lottie-react-native";
@@ -7,7 +7,7 @@ import constants from "../../constants";
 const { icons } = constants;
 import TabIcon from "../../components/TabIcon";
 
-const ScanTabIcon = ({ focused }) => {
+const ScanTabIcon = React.memo(({ focused }) => {
   return (
     <View className="items-center justify-end">
       <View className="w-20 h-20 items-center bg-white overflow-hidden rounded-full">
@@ -29,50 +29,48 @@ const ScanTabIcon = ({ focused }) => {
       </Text>
     </View>
   );
-};
+});
 
 const TabLayout = () => {
   const tabOffsetValue = useRef(new Animated.Value(0)).current;
-  const tabBarOpacity = useRef(new Animated.Value(1)).current;
   const segment = useSegments();
   const page = segment[segment.length - 1];
-  const pagesToHideBar = [
-    "transfer",
-    "confirm-send",
-    "scan-qr",
-    "receive-money",
-    "qr-payment",
-    "notification",
-  ];
+  const pagesToHideBar = useMemo(
+    () => [
+      "transfer",
+      "confirm-send",
+      "scan-qr",
+      "receive-money",
+      "qr-payment",
+      "notification",
+      "my-qr",
+      "categorized-promotions",
+      "promotional-details",
+    ],
+    []
+  );
 
-  const handleTabPress = (toValue) => {
-    const isScanQrTab = toValue === getWidth() * 2;
-    Animated.spring(tabOffsetValue, {
-      toValue,
-      useNativeDriver: true,
-    }).start();
-    handleTabBarOpacity(isScanQrTab ? 0 : 1);
-  };
+  const handleTabPress = useCallback(
+    (toValue) => {
+      Animated.spring(tabOffsetValue, {
+        toValue,
+        useNativeDriver: true,
+      }).start();
+    },
+    [tabOffsetValue]
+  );
 
-  const handleTabBarOpacity = (toValue) => {
-    Animated.timing(tabBarOpacity, {
-      toValue,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
+  const defaultTabBarStyle = useMemo(
+    () => ({
+      backgroundColor: "#fff",
+      borderTopWidth: 2,
+      height: 84,
+      borderTopColor: "rgba(140, 140, 140, 0.2)",
+    }),
+    []
+  );
 
-  useEffect(() => {
-    const isPageToHideBar = pagesToHideBar.includes(page) || page === "scanQR";
-    handleTabBarOpacity(isPageToHideBar ? 0 : 1);
-  }, [page]);
-
-  const defaultTabBarStyle = {
-    backgroundColor: "#fff",
-    borderTopWidth: 2,
-    height: 84,
-    borderTopColor: "rgba(140, 140, 140, 0.2)",
-  };
+  const shouldHideTabBar = pagesToHideBar.includes(page) || page === "scanQR";
 
   return (
     <>
@@ -81,7 +79,7 @@ const TabLayout = () => {
           tabBarActiveTintColor: "#0D99FF",
           tabBarInactiveTintColor: "#8C8C8C",
           tabBarShowLabel: false,
-          tabBarStyle: pagesToHideBar.includes(page)
+          tabBarStyle: shouldHideTabBar
             ? { ...defaultTabBarStyle, display: "none" }
             : defaultTabBarStyle,
         }}
@@ -91,9 +89,6 @@ const TabLayout = () => {
           options={{
             title: "home",
             headerShown: false,
-            tabBarStyle: pagesToHideBar.includes(page)
-              ? { ...defaultTabBarStyle, display: "none" }
-              : defaultTabBarStyle,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.home}
@@ -114,9 +109,6 @@ const TabLayout = () => {
           options={{
             title: "promotion",
             headerShown: false,
-            tabBarStyle: pagesToHideBar.includes(page)
-              ? { ...defaultTabBarStyle, display: "none" }
-              : defaultTabBarStyle,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.promotion}
@@ -137,9 +129,6 @@ const TabLayout = () => {
           options={{
             title: "scan-qr",
             headerShown: false,
-            tabBarStyle: pagesToHideBar.includes(page)
-              ? { ...defaultTabBarStyle, display: "none" }
-              : defaultTabBarStyle,
             tabBarIcon: ({ focused }) => <ScanTabIcon focused={focused} />,
           }}
           listeners={{
@@ -153,9 +142,6 @@ const TabLayout = () => {
           options={{
             title: "transaction-history",
             headerShown: false,
-            tabBarStyle: pagesToHideBar.includes(page)
-              ? { ...defaultTabBarStyle, display: "none" }
-              : defaultTabBarStyle,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.history}
@@ -176,9 +162,6 @@ const TabLayout = () => {
           options={{
             title: "wallet",
             headerShown: false,
-            tabBarStyle: pagesToHideBar.includes(page)
-              ? { ...defaultTabBarStyle, display: "none" }
-              : defaultTabBarStyle,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.account}
@@ -195,19 +178,20 @@ const TabLayout = () => {
           }}
         />
       </Tabs>
-      <Animated.View
-        style={{
-          width: getWidth(),
-          height: 2,
-          backgroundColor: "#0D99FF",
-          position: "absolute",
-          bottom: 83,
-          left: 0,
-          borderRadius: 20,
-          transform: [{ translateX: tabOffsetValue }],
-          opacity: tabBarOpacity,
-        }}
-      ></Animated.View>
+      {!shouldHideTabBar && (
+        <Animated.View
+          style={{
+            width: getWidth(),
+            height: 2,
+            backgroundColor: "#0D99FF",
+            position: "absolute",
+            bottom: 83,
+            left: 0,
+            borderRadius: 20,
+            transform: [{ translateX: tabOffsetValue }],
+          }}
+        ></Animated.View>
+      )}
       <StatusBar backgroundColor="#fff" style="inverted" />
     </>
   );

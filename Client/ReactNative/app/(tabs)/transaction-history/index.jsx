@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Text, View, TextInput, useWindowDimensions, FlatList } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import Search from "../../../assets/svg/Search_transaction.svg"
+import Filter from "../../../assets/svg/filter.svg"
+import Hide from "../../../assets/svg/hide.svg"
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import Search from "../../../assets/svg/Search_transaction.svg";
 import Filter from "../../../assets/svg/filter.svg";
