@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  SafeAreaView
 } from "react-native";
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -14,11 +15,19 @@ import BackArrow from "../../../assets/svg/arrow_back.svg";
 import BlueBg from "../../../assets/svg/bg_blue.svg";
 import { Link, router } from "expo-router";
 
+const Wallet = ()=>{
+  return(
+    <View>
+          
+    </View>
+  )
+}
+
 const ConfirmSend = () => {
   const [price, setPrice] = useState(0);
   const [content, setContent] = useState("");
   return (
-    <View>
+    <SafeAreaView>
       <BlueBg />
       <SafeAreaView className="absolute top-7">
         <View className="flex-row items-center px-5 gap-x-2 mb-4">
@@ -38,7 +47,9 @@ const ConfirmSend = () => {
           </View>
         </View>
         <ScrollView className="px-5">
+
           <View className="flex-1 mx-auto bg-white rounded-xl shadow-2xl">
+            <Wallet></Wallet>
             <View className="mx-auto my-5">
               <TextInput
                 onChangeText={(newText) => setPrice(newText)}
@@ -106,7 +117,7 @@ const ConfirmSend = () => {
         <StatusBar backgroundColor="#fff" style="inverted" />
    
       </SafeAreaView>
-    </View>
+    </SafeAreaView>
   );
 };
 

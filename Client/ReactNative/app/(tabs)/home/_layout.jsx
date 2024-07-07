@@ -31,6 +31,8 @@ const navigation = useNavigation();
         <Stack.Screen name="qr-payment" options={{ headerShown: false }} />
         <Stack.Screen name="scan-qr" options={{ headerShown: false }} />
         <Stack.Screen name="transfer" options={{ headerShown: false }} />
+        <Stack.Screen name="search-result" options={{ headerShown: false }} />
+
         <Stack.Screen
           name="deposit-withdraw"
           options={{
