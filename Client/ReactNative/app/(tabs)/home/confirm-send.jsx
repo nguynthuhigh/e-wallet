@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Message } from "../../../dummy-data/data.js";
 import BackArrow from "../../../assets/svg/arrow_back.svg";
 import BlueBg from "../../../assets/svg/bg_blue.svg";
