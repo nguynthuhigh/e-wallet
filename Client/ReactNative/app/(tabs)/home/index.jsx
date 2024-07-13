@@ -24,7 +24,6 @@ const HomePage = () => {
         try {
           const user = await authAPI.getProfile()
           setUserData(user)
-          console.log(user)
         } catch (error) {
           console.log(error)
         }finally{
