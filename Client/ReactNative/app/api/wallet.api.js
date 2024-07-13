@@ -8,7 +8,7 @@ export const sendMoney =async(body)=>{
               Authorization: `Bearer ${token}`
             }
           });
-        return response.data
+        return response
     } catch (error) {
         console.log(error)
     }
@@ -21,7 +21,8 @@ export const confirmSendMoney =async(body)=>{
               Authorization: `Bearer ${token}`
             }
           });
-        return response.data
+          console.log(response)
+        return response
     } catch (error) {
         console.log(error)
     }
