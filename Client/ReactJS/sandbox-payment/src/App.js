@@ -2,11 +2,11 @@ import Home from './components/home/home'
 import SignIn from './components/auth/sign-in'
 import SignUp from './components/auth/sign-up'
 import VerifyForm from './components/auth/verify-form';
-import Dashboard from './components/dashboard/dashboard';
+import Dashboard from './components/dashboard/pages/dashboard';
 import UpdateProfile from './components/auth/update-profile'
 import { Routes,Route } from 'react-router-dom';
 import PageNotFound from './components/pages/page-not-found';
-import Payment from './components/dashboard/payment';
+import Payment from './components/dashboard/pages/payment';
 function App() {
   return (
     <Routes>
