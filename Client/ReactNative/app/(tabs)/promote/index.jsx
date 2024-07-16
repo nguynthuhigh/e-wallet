@@ -32,7 +32,7 @@ const PromotionPage = () => {
         index++;
         if (index == text.length) {
           forward = false;
-          setTimeout(updatePlaceholder, 1000);
+          setTimeout(updatePlaceholder, 500);
           return;
         }
       } else {
@@ -41,11 +41,11 @@ const PromotionPage = () => {
         if (index == 0) {
           forward = true;
           text = text === text1 ? text2 : text1;
-          setTimeout(updatePlaceholder, 1000);
+          setTimeout(updatePlaceholder, 500);
           return;
         }
       }
-      setTimeout(updatePlaceholder, 150);
+      setTimeout(updatePlaceholder, 50);
     };
     const timeoutId = setTimeout(updatePlaceholder, 150);
     return () => clearTimeout(timeoutId);

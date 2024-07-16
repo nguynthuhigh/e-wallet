@@ -4,7 +4,7 @@ import { useNavigation } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 
 const StackLayout = () => {
-const navigation = useNavigation();
+  const navigation = useNavigation();
 
   return (
     <>
@@ -13,13 +13,7 @@ const navigation = useNavigation();
         <Stack.Screen
           name="confirm-send"
           options={{
-            headerShown:false,
-
-            headerLeft: () => (
-              <>
-
-              </>
-            ),
+            headerShown: false,
           }}
         />
         <Stack.Screen

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native'
-import CheckMark from "../../assets/svg/ic_CheckMark.svg";
+// import CheckMark from "../../assets/svg/ic_CheckMark.svg";
 
 
 const TransactionResults = () => {

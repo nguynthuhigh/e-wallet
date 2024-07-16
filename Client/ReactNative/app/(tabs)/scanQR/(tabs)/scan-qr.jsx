@@ -35,6 +35,7 @@ export default function ScanQR() {
   }, [borderAnimation]);
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
+
     console.log(
       `Bar code with type ${type} and data ${Linking.openURL(
         `${data}`
