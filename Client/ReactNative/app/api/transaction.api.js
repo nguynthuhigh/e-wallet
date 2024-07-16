@@ -13,9 +13,22 @@ export const getTransaction =async()=>{
         console.log(error)
     }
 }
-
+export const getTransactionDetails =async(id)=>{
+    try {
+        const token = await AsyncStorage.getItem('AccessToken')
+        const response = await axios.get(`${process.env.API_URL}/api/v1/transaction/get/transaction/details/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 const api = {
-    getTransaction
+    getTransaction,
+    getTransactionDetails
 }
 export default api
