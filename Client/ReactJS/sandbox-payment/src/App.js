@@ -7,6 +7,7 @@ import UpdateProfile from './components/auth/update-profile'
 import { Routes,Route } from 'react-router-dom';
 import PageNotFound from './components/pages/page-not-found';
 import Payment from './components/dashboard/pages/payment';
+import Developer from './components/developer/developer';
 function App() {
   return (
     <Routes>
@@ -18,6 +19,8 @@ function App() {
       <Route path='/dashboard/payment' element={<Payment/>}/>
 
       <Route path='/update-profile' element={<UpdateProfile/>}/>
+      <Route path='/dev' element={<Developer/>}/>
+
       
       <Route path='*' element={<PageNotFound/>}/>
       

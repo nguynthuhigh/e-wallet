@@ -33,7 +33,7 @@ export default function Home(){
             <div className='flex items-center px-4 max-w-[1250px] mx-auto'>
                 <img alt='logo_presspay' src={logo_white}></img>
                 <div className='max-md:hidden flex ml-10 w-[50%] justify-between text-[20px] font-semibold text-white'>
-                    <Link>Developer</Link>
+                    <Link to='/dev'>Developer</Link>
                     <Link >Community</Link>
                     <Link>Download App</Link>
                     <Link>Payment Gateway</Link>
