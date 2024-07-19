@@ -32,7 +32,7 @@ const Welcome = () => {
     return <LoadingComponent />;
   }
   if (accessToken) {
-    return <Redirect href="/invoice" />;
+    return <Redirect href="/home" />;
   } else {
     return <Redirect href="/sign-in" />;
   }
