@@ -7,13 +7,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-import { router } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import QRCode from "react-native-qrcode-svg";
 import ArrowMore from "../../../../assets/svg/arrow_more.svg";
 import NavigationHeader from "../../../../components/NavigationHeader";
 import constants from "../../../../constants";
-const { images, logo } = constants;
+const { images } = constants;
 import EyeOpen from "../../../../assets/svg/eye.svg";
 import EyeClosed from "../../../../assets/svg/eyeClosed.svg";
 import { wallet } from "../../../../dummy-data/data.js";
@@ -21,6 +20,8 @@ import Wallet from "../../../../components/Wallet";
 
 const MyQR = () => {
   const [isHide, setIsHide] = useState(false);
+  const [selectedWalletIndex, setSelectedWalletIndex] = useState(0);
+
   return (
     <SafeAreaView>
       <LinearGradient
@@ -86,12 +87,18 @@ const MyQR = () => {
                 showsHorizontalScrollIndicator={false}
               >
                 {wallet.map((value, index) => (
-                  <Wallet
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => setSelectedWalletIndex(index)}
                     key={index}
-                    logo={value.img}
-                    currency={value.currency}
-                    value={value.value}
-                  />
+                  >
+                    <Wallet
+                      logo={value.img}
+                      currency={value.currency}
+                      value={value.value}
+                      isSelected={selectedWalletIndex === index}
+                    />
+                  </TouchableOpacity>
                 ))}
               </ScrollView>
             </View>
