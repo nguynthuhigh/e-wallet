@@ -3,9 +3,11 @@ import { useLocation } from "react-router-dom"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import Cookies from "universal-cookie"
+import { Loading } from "./loading"
 export default function VerifyForm(){
+    const [isLoading,setIsLoading] = useState(false)
     const location = useLocation()
-
+    const [errorShow,setErrorShow] = useState(null)
     const {infoUser} = location.state || {}
     const navigate = useNavigate()
     
@@ -21,9 +23,9 @@ export default function VerifyForm(){
         }
     };
     const handleVerify =async (e)=>{
+        setIsLoading(true)
         e.preventDefault()
         try {
-            console.log(verifyInfo)
             const response =await axios.post(process.env.REACT_APP_LOCAL_HOST + '/api/v1/partner/verify',verifyInfo,{
                 headers:{
                     'Content-Type': 'application/json',
@@ -35,7 +37,8 @@ export default function VerifyForm(){
                 
             }
         } catch (error) {
-            console.log(error)
+            setIsLoading(false)
+            setErrorShow(error.response.data.message)
         }
     }
     return(
@@ -45,9 +48,10 @@ export default function VerifyForm(){
 
                 <div class="max-w-md mx-auto text-center bg-white px-4 sm:px-8 py-10 rounded-xl shadow">
                     <header class="mb-8">
-                        <h1 class="text-2xl font-bold mb-1">Chúng tôi đã gửi email đến</h1><h1 className="text-color-default font-semibold">{infoUser.email}</h1>
-                        <p class="text-[15px] font-semibold text-gray">Nhập 6 chữ số bạn nhận được từ email</p>
+                        <h1 class="text-2xl font-bold mb-1">We have sent OTP to </h1><h1 className="text-color-default font-semibold">{infoUser.email}</h1>
+                        <p class="text-[15px] font-semibold text-gray">Enter the 6 digits you received from the email</p>
                     </header>
+                    <p className="text-red-500 mb-2">{errorShow}</p>
                     <form id="otp-form" onSubmit={handleVerify}>
                         <div class="flex items-center justify-center gap-3">
                             <input
@@ -60,12 +64,14 @@ export default function VerifyForm(){
                                 onChange={handleChange}/>
                         </div>
                         <div class="max-w-[260px] mx-auto mt-4">
-                            <button type="submit"
+                            {isLoading ? <button disabled type="submit"
+                                class="w-full inline-flex justify-center whitespace-nowrap rounded-lg bg-gray-200 px-3.5 py-2.5 text-sm font-medium text-white shadow-sm shadow-indigo-950/10 hover:bg-blue-bold focus:outline-none focus:ring focus:ring-black focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150">
+                                <Loading/></button> :   <button type="submit"
                                 class="w-full inline-flex justify-center whitespace-nowrap rounded-lg bg-color-default px-3.5 py-2.5 text-sm font-medium text-white shadow-sm shadow-indigo-950/10 hover:bg-blue-bold focus:outline-none focus:ring focus:ring-black focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 transition-colors duration-150">
-                                Xác nhận</button>
+                                Confirm</button>}
                         </div>
                     </form>
-                    <div class="text-sm text-slate-500 mt-4">Không nhận được mã? <a class="font-medium text-color-default hover:text-indigo-600" href="#0">Gửi lại</a></div>
+                    <div class="text-sm text-slate-500 mt-4">Didn't receive OTP? <a class="font-medium text-color-default hover:text-indigo-600" href="#0">resend</a></div>
                 </div>
 
             </div>

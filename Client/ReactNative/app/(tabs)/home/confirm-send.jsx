@@ -31,8 +31,8 @@ const Wallet = ()=>{
   )
 }
 const ConfirmSend = () => {
-  const params = useLocalSearchParams();
-  const recevier = params.receiver
+  const {item} = useLocalSearchParams();
+  const userData = JSON.parse(item)
   const [amount, setAmount] = useState(0);
   const [content, setContent] = useState(" ");
   const [isLoading,setIsLoading] = useState(false)
@@ -42,20 +42,14 @@ const ConfirmSend = () => {
       if(amount === 0){
         return setError("Số tiền chuyển tối thiểu 100")
       }
-      setIsLoading(true)
       const data = {
-        receiver: recevier,
-        amount: amount,
-        message: content,
-        currency: "VND"
-      }
-      const response = await walletAPI.sendMoney(data)
-      if (response && response.status === 200) {
-        const transactionID = response.data.data._id;
-        router.push({ pathname: "home/confirm-bill", params: { transactionID }});
-      } else {
-        setError('Failed to process the transfer.');
-      }
+        receiver:userData._id,
+        amount:amount,
+        currency:"VND",
+        message:content,
+        email:userData.email
+    }
+      router.push({ pathname: "home/confirm-bill", params: { item: JSON.stringify(data) }});
     } catch (error) {
       console.log(error)
       setIsLoading(false)
@@ -77,9 +71,9 @@ const ConfirmSend = () => {
           />
           <View>
             <Text className=" font-bold text-sm text-white">
-              Nguyễn Minh Nguyên
+            {userData?.name}
             </Text>
-            <Text className="text-xs text-white"> 036988962x</Text>
+            <Text className="text-xs text-white">{userData?.email} </Text>
           </View>
         </View>
         <ScrollView className="px-5">

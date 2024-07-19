@@ -1,5 +1,5 @@
-import MenuBar from "./menu-bar"
-import Header from "../header/header_dashboard"
+import MenuBar from "../components/menu-bar"
+import Header from "../../header/header_dashboard"
 const Item = ()=>{
   return(
     <tr>
@@ -22,7 +22,7 @@ export default function Payment(){
     return(<>
       <div class="flex   mx-auto px-4">
           <MenuBar></MenuBar>
-          <div class=" overflow-x-auto p-8 border-[1px] border-r-2 border-y-0  w-full">
+          <div class=" overflow-x-auto p-8 border-[1px] border-r-2 border-y-0  w-[99%]">
             <div class="p-1.5 min-w-full inline-block align-middle">
               <div class="border rounded-lg divide-y divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
                 <div class="py-3 px-4">
