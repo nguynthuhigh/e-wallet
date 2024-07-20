@@ -9,6 +9,7 @@ import AddCardIC from "../../../assets/svg/ic_addCard.svg"
 import VisaMiniIC from "../../../assets/svg/ic_Visamini.svg"
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
+
 const CustomRadioButton = ({ options, onSelect }) => {
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -39,7 +40,20 @@ const CustomRadioButton = ({ options, onSelect }) => {
 
 
 const RechargeWithdraw = () => {
+  const [selectedItem, setSelectedItem] = useState('VND');
 
+  const renderContent = () => {
+    switch (selectedItem) {
+      case 'VND':
+        return <Text>Số dư trên ví pressPay của bạn là 5.000.000đ</Text>;
+      case 'USD':
+        return <Text>Số dư trên ví USD của bạn là 888.888$</Text>;
+      case 'ETH':
+        return <Text>Số dư trên ví Ether của bạn là 77.777ETH</Text>;
+      default:
+        return <Text>Chọn một mục</Text>;
+    }
+  };
   const options = [
       { label: '', value: 'option1' },
 
@@ -55,8 +69,17 @@ const RechargeWithdraw = () => {
     { key: 'second', title2: 'Rút tiền' },
 
   ]);
+  const [value, setValue] = useState('');
 
+  const handleChangeText = (text) => {
+    const numericText = text.replace(/[^0-9]/g, ''); // Loại bỏ các ký tự không phải số
+    const formattedText = formatNumber(numericText); // Định dạng số
+    setValue(formattedText);
+  };
 
+  const formatNumber = (num) => {
+    return num.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Thêm dấu chấm vào số
+  };
 
   const FirstRoute = () => (
     <View className='h-full'>
@@ -66,7 +89,7 @@ const RechargeWithdraw = () => {
                 Nạp tiền
             </Text>
             <View className='flex-row justify-between'>
-            <View className='flex-row bg-[#fcf4f4] w-[110px] h-[55px] p-2 justify-between rounded-[10px]'>
+                <View className='flex-row bg-[#fcf4f4] w-[110px] h-[55px] p-2 justify-between rounded-[10px]'>
                     <View className='justify-center'>
                         <LogoAppIC/>
                     </View>
@@ -90,7 +113,7 @@ const RechargeWithdraw = () => {
                     </View>
                     <View className=' justify-center'>
                         <Text>Ether</Text>
-                        <Text className='text-[12px]'>77 .777 ETH</Text>
+                        <Text className='text-[12px]'>77.777 ETH</Text>
                     </View>
                 </View>
                 
@@ -98,13 +121,17 @@ const RechargeWithdraw = () => {
             <View className='mt-2'>
                 <Text className='p-2'>Số tiền cần nạp</Text>
             </View>
-            <View className='h-[50px] border-[1px] border-[rgb(194,194,194)] rounded-[10px] justify-center'>
+            <View className='h-[50px] border-[1px] border-[rgb(194,194,194)] rounded-[10px] justify-center relative'>
+              
                 <TextInput
+                
                     className='pl-7 text-[20px]'
-                    placeholder="Nhập số tiền cần nạp"
-                    value={text}
-                    onChangeText={setText}
-                  >
+                    placeholder="0Đ"
+                    value={value}
+                    onChangeText={handleChangeText}
+                    keyboardType="numeric" // Đảm bảo hiển thị bàn phím số
+                >
+                {value !== '' && <Text style={styles.currency}>Đ</Text>}
 
                 </TextInput>
             </View>
@@ -164,54 +191,74 @@ const RechargeWithdraw = () => {
 
   const SecondRoute = () => (
     <View className='h-full'>
-      <View className='p-4 bg-gray-200 h-[63%] '>
+      <View className='p-4 bg-gray-200 h-[65%] '>
         <View className='bg-white w-full h-[195px] p-3 rounded-[10px]'>
             <Text className='font-semibold text-[15px] mb-2'>
                 Rút tiền
             </Text>
             <View className='flex-row justify-between'>
-                <View className='flex-row bg-[#fcf4f4] w-[110px] h-[55px] p-2 justify-between rounded-[10px]'>
-                    <View className='justify-center'>
+
+            <View>
+              <View className='flex-row justify-between w-full'>
+                
+                <TouchableOpacity
+                  style={[
+                    styles.touchable,
+                    selectedItem === 'VND' && styles.selectedItem,
+                  ]}
+                  onPress={() => setSelectedItem('VND')}
+                >
+                  <View className='justify-center'>
                         <LogoAppIC/>
                     </View>
                     <View className=' justify-center'>
                         <Text>VNĐ</Text>
                         <Text className='text-[12px]'>5.000.000Đ</Text>
                     </View>
-                </View>
-                <View className='flex-row bg-[#fcf4f4] w-[110px] h-[55px] p-2 justify-between rounded-[10px]'>
-                    <View className='justify-center'>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    styles.touchable,
+                    selectedItem === 'USD' && styles.selectedItem,
+                  ]}
+                  onPress={() => setSelectedItem('USD')}
+                >
+                  <View className='justify-center'>
                         <UsdPPIC/>
                     </View>
                     <View className=' justify-center'>
                         <Text>USD</Text>
                         <Text className='text-[12px]'>888.888$</Text>
                     </View>
-                </View>
-                <View className='flex-row bg-[#fcf4f4] w-[110px] h-[55px] p-2 justify-between rounded-[10px]'>
-                    <View className='justify-center'>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    styles.touchable,
+                    selectedItem === 'ETH' && styles.selectedItem,
+                  ]}
+                  onPress={() => setSelectedItem('ETH')}
+                >
+                  <View className='justify-center'>
                         <ETHMiniIC/>
                     </View>
                     <View className=' justify-center'>
                         <Text>Ether</Text>
-                        <Text className='text-[12px]'>77 .777 ETH</Text>
+                        <Text className='text-[12px]'>77.777 ETH</Text>
                     </View>
-                </View>
+                </TouchableOpacity>
                 
-            </View>
-            <View className='mt-2'>
+              </View>
+              <View className='mt-2'>
                 <Text className='p-2'>Nhập địa chỉ ví</Text>
             </View>
-            <View className='h-[50px] border-[1px] border-[rgb(194,194,194)] rounded-[10px] justify-center'>
-                <TextInput
-                    className='pl-7 text-[20px]'
-                    placeholder="Nhập địa chỉ ví"
-                    value={text}
-                    onChangeText={setText}
-                  >
-
-                </TextInput>
+              <View style={styles.contentContainer}>{renderContent()}</View>
             </View>
+  
+                
+            </View>
+            
         </View>
       </View>
       <View className='bg-white flex flex-row justify-between py-4 px-4'>
@@ -274,7 +321,8 @@ const RechargeWithdraw = () => {
       </View>
     </LinearGradient>
   );
-};
+}; 
+
 const styles = StyleSheet.create({
   radioContainer: {
     flexDirection: 'row',
@@ -294,6 +342,40 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: '#0094ff',
   },
+  item: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginHorizontal: 5,
+  },
+  selectedItem: {
+    borderColor: '#0094ff',
+  },
+  contentContainer: {
+    paddingVertical: 15,
+    borderWidth: 1,
+    borderColor: '#0094ff',
+    width: '100%',
+    alignItems: 'center',
+    borderRadius: '10'
+  },
+  currency: {
+    fontSize: 20,
+    color: '#8d8d8d',
+    
+  },
 
+  touchable: {
+    flexDirection: 'row',
+    backgroundColor: '#fcf4f4',
+    borderColor: '#fff5f5',
+    borderWidth: 1,
+    width: 110,
+    height: 55,
+    padding: 8,
+    justifyContent: 'space-between',
+    borderRadius: 10,
+  },
 })
+
 export default RechargeWithdraw;
