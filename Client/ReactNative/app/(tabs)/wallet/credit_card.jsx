@@ -1,30 +1,24 @@
-import {Text, View, TouchableOpacity} from 'react-native'
+import {Text, View, TouchableOpacity,SafeAreaView} from 'react-native'
 import React from 'react'
 import { LinearGradient } from "expo-linear-gradient";
 import Back from "../../../assets/svg/back.svg"
-import Menu from "../../../assets/svg/menu.svg"
 import Eye  from "../../../assets/svg/eye.svg"
 import EyeClosed  from "../../../assets/svg/eyeClosed.svg"
-import Stripe  from "../../../assets/svg/stripe.svg"
-import Goldenpocket  from "../../../assets/svg/goldenpocket.svg"
-import Sacombank  from "../../../assets/svg/sacombank.svg"
-import Paylater  from "../../../assets/svg/paylater.svg"
-import Tranfer  from "../../../assets/svg/transfer.svg"
-import Credit  from "../../../assets/svg/credit.svg"
 import { useState } from 'react';
 import { router } from 'expo-router'
 
 const CreaditCard = () => {
     const [isHide, setIsHide] = useState(false);
     return(
-        <LinearGradient
+        <SafeAreaView>
+  <LinearGradient
         style={{ height: '100%', width: '100%' }}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
         colors={["#0094FF", "#F2F2F2"]}
         locations={[0, 0.3]}>
         <View>
-            <View className="mx-[19px] mt-[63px]">
+            <View className="mx-[19px] mt-5">
                 <View className="flex-row items-center">
                     <TouchableOpacity onPress={() => router.back()}>
                         <Back></Back>
@@ -41,7 +35,6 @@ const CreaditCard = () => {
                     </Text>
                     <View className='flex-row mx-[22px]'>
                         <View className="mx-[22px]">
-                            <Menu></Menu>
                         </View>
                         <TouchableOpacity 
                              onPress={() => {
@@ -76,7 +69,6 @@ const CreaditCard = () => {
                     <TouchableOpacity onPress={() => router.push("/wallet/credit_details")}>
                     <View className="bg-[#0D99FF] rounded-[10px] mb-[10px] h-[72px] items-center flex-row">
                         <View className=" rounded-full bg-white w-[42px] h-[42px] ml-[18px] items-center justify-center ">
-                            <Stripe ></Stripe>
                         </View>
                         <View className=" ml-[10px]">
                             <Text className="font-bold text-[16px] text-white">
@@ -91,45 +83,27 @@ const CreaditCard = () => {
                     <View className="flex-cols justify-between ">
                         <View className="bg-[#FF0606] rounded-[10px] mb-[10px] h-[72px] items-center flex-row">
                             <View className=" rounded-full bg-white w-[42px] h-[42px] ml-[18px] items-center  justify-center ">
-                                <Goldenpocket></Goldenpocket>
+                                <Text>Icon</Text>
                             </View>
                         <Item_Title title={"Túi thần tài"} content={"Số dư: 1.000.000"}> </Item_Title>
                     </View>
                     <View className="bg-[#0057FF] rounded-[10px] mb-[10px] h-[72px] items-center flex-row">
                         <View className=" rounded-full bg-white w-[42px] h-[42px] ml-[18px] items-center  justify-center ">
-                            <Sacombank></Sacombank>
                         </View>
                         <Item_Title title={"Sacombank"} content={"Thanh toán trực tiếp"}> </Item_Title>
                     </View>
-                    <View className="bg-[#FF00A8] opacity-26 rounded-[10px] mb-[10px] h-[72px] items-center flex-row">
-                        <View className=" rounded-full bg-white w-[42px] h-[42px] ml-[18px] items-center  justify-center ">
-                            <Paylater></Paylater>
-                        </View>
-                        <Item_Title title={"Ví trả sau"} content={"Mua trước trả sau"}> </Item_Title>
-                    </View>
-                       
-                    <View className="bg-[#0094FF] opacity-35 rounded-[10px] mb-[10px] h-[72px] items-center flex-row">
-                        <View className=" rounded-full bg-white w-[42px] h-[42px] ml-[18px] items-center  justify-center ">
-                           <Tranfer></Tranfer>
-                        </View>
-                        <Item_Title title={"Mở tài khoản ngân hàng"} content={"Trong 5 phút, bảo mật"}> </Item_Title>
-                    </View>
-                        
-                    <View className="bg-[#FF6D1D] opacity-56 rounded-[10px] mb-[10px] h-[72px] items-center flex-row">
-                        <View className=" rounded-full bg-white w-[42px] h-[42px] ml-[18px] items-center  justify-center ">
-                            <Credit></Credit>
-                        </View>
-                        <Item_Title title={"Mở thẻ tín dụng"} content={"Đăng ký nhanh chóng, miễn phí thanh toán"}> </Item_Title>
-                    </View>
+                    
                     <View className="bg-[#FFBDE9] opacity-26 h-[90px] border-dashed border-[1px] justify-between py-[5px] flex-col items-center rounded-[10px] border-[#FF00A8]">
                         <View className="bg-[#FF00A8] rounded-[10px] h-[36px]  flex-row items-center   mt-[10px]">
+                           <TouchableOpacity onPress={()=>{router.push('wallet/credit_details')}}>
                             <Text className="font-bold  text-[16px] text-white mx-[10px] ">
-                                + Thêm ngân hàng
-                            </Text>
+                                    + Thêm thẻ Visa
+                                </Text>
+                           </TouchableOpacity>
                             
                         </View>
                         <Text>
-                           Liên kết với ngân hàng có sẵn hoặc tạo tài khoản mới
+                           Liên kết thẻ có sẵn
                         </Text>
 
                     </View>    
@@ -141,6 +115,8 @@ const CreaditCard = () => {
 
         </View> 
         </LinearGradient>
+        </SafeAreaView>
+      
     )
 }
 const Item_Title = ({...props})=>{

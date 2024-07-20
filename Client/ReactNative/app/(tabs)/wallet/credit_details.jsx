@@ -1,80 +1,85 @@
-import {Text, View, TouchableOpacity} from 'react-native'
+import {Text, View, TouchableOpacity,SafeAreaView,TextInput} from 'react-native'
 import React from 'react'
 import { LinearGradient } from "expo-linear-gradient";
-import Credit_blue  from "../../../assets/svg/credit_blue.svg"
+import Credit_blue  from "../../../assets/svg/credit-card.svg"
 import Visa  from "../../../assets/svg/visa.svg"
+import VisaWhite from '../../../assets/svg/visa_white.svg'
 import Back from "../../../assets/svg/arrow_back"
 import { useState } from 'react';
 import { router } from 'expo-router'
+import CreditBgOne from '../../../assets/svg/credit_bg_1.svg'
 const CreditCardDetails = () => {
+    const [text, onChangeText] = useState('');
     return(
-        <LinearGradient
-        style={{ height: '100%', width: '100%' }}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
-        colors={["#0094FF", "#F2F2F2"]}
-        locations={[0, 0.3]}>
-            <View >
+        <SafeAreaView>
+            <View className="bg-white">
             <View className="mx-[19px] mt-[63px]">
                 <View className="flex-row items-center">
                     <TouchableOpacity onPress={() => router.back()}>
                         <Back></Back>
                     </TouchableOpacity>
-                    <Text className="text-white text-lg font-bold m-auto">
+                    <Text className="text-black text-lg font-bold m-auto">
                         Thêm thẻ
                     </Text>
                 </View>
             </View>
-            <View className="mx-[35px] mt-[10px]">
-                <View className="w-[360px] h-[185px] rounded-[20px]">
-                <Credit_blue></Credit_blue>
-                 
-                </View>
+            <View className="p-4">
+                <LinearGradient
+                    style={{  width: '100%', height:'185' }}
+                    start={{ x: 1, y: 1 }}
+                    end={{ x: 0, y: 0 }}
+                    colors={["#52B6FE", "#6154FE"]}
+                    className="rounded-[20px]">
+                    <View className="w-full h-[185px] rounded-lg p-6 flex-row">
+                        <View className="h-full">
+                            <Text>Credit</Text>
+                            <View className="mt-auto">
+                                <Text>Name On Card</Text>
+                                <Text>•••• •••• •••• ••••</Text>
+                            </View>
+                        </View>
+                        <View className="ml-auto">
+                            <VisaWhite ></VisaWhite>
+                        </View>
+                    </View>
+                </LinearGradient>
                 <View className='mt-[15px]'>
                     <Text className="font-semibold text-[16px]">
                         Số thẻ
                     </Text>
                     <View className="border-[1px] border-[#0094FF] px-[15px] rounded-[15px] flex-row mt-[5px] items-center ">
-                        <Text className="font-semibold text-[20px] ">
-                            1234 5678 9101 1221
-                        </Text>
+                        <TextInput className="h-[40px] w-[250px]" 
+                        onChangeText={onChangeText}
+                        value={text}>
+
+                        </TextInput>
                         <View className="ml-auto" >
                             <Visa></Visa>
                         </View>
                     </View>
                     <View className="mt-[20px]">
-                        <View>
-                            <View className="flex-row items-center ">
-                                <Text className="font-semibold text-[16px]">
-                                    Ngày hết hạn
-                                </Text>
-                                <Text className="font-semibold ml-[100px] text-[16px]">
-                                    CVV
-                                </Text>
-                            </View>
-                            <View className="flex-row items-center ">
-                                <View className="border-[1px] border-[#0094FF] rounded-[15px] px-[15px] items-center  flex-row  w-[170px] h-[50px]">
-                                    <Text className="font-semibold   text-[20px]">
-                                        15/07
+                        <View className="gap-3">
+                            <View className="flex-row justify-between">
+                                <View className="flex-col w-[48%]">
+                                    <Text className="font-semibold text-[16px]">
+                                        Ngày hết hạn
                                     </Text>
-                                </View>   
-                                <View className="border-[1px] border-[#0094FF] ml-[10px] rounded-[15px] px-[15px] items-center  flex-row  w-[170px] h-[50px]">
-                                    <Text className="font-semibold  text-[20px]">
-                                        15/07
+                                    <TextInput className="h-[50px] w-full border-[1px]" 
+                                        onChangeText={onChangeText}
+                                        value={text}>
+                                    </TextInput>
+                                </View>
+                                <View className="flex-col w-[48%]">
+                                    <Text className="font-semibold text-[16px]">
+                                        Ngày hết hạn
                                     </Text>
-                                </View>  
+                                    <TextInput className="h-[50px] w-full border-[1px]" 
+                                        onChangeText={onChangeText}
+                                        value={text}>
+                                    </TextInput>
+                                </View>
                             </View>
-                            <View className="">
-                                <Text className="font-semibold text-[16px]">
-                                    Tên chủ thẻ
-                                </Text>
-                                <View className="border-[1px] border-[#0094FF] rounded-[15px] flex-row items-center w-[170px] h-[50px]">
-                                    <Text className="font-semibold text-[20px]">
-                                        NGUYỄN MINH NGUYÊN
-                                    </Text>
-                                </View>   
-                            </View>
-                            <View className="bg-[#0D99FF] rounded-[10px] h-[36px] w-[360px] flex-row items-center   mt-[10px]">
+                            <View className="bg-[#0D99FF] rounded-[10px] h-[36px] w-[360px] flex-row items-center">
                                 <Text className="font-bold  text-[16px] text-white mx-[10px] ">
                                 Thêm thẻ
                                 </Text>
@@ -85,7 +90,7 @@ const CreditCardDetails = () => {
                 </View>
             </View>
             </View>          
-        </LinearGradient>
+        </SafeAreaView>
     )
 }
 export default CreditCardDetails;

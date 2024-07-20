@@ -50,7 +50,9 @@ const TabLayout = () => {
       "list-currencies",
       "search-result",
       "confirm-bill",
-      "deposit-withdrawl"
+      "deposit-withdrawl",
+      "credit_card",
+      "credit_details"
     ],
     []
   );

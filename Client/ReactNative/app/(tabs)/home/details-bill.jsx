@@ -17,8 +17,8 @@ const TransactionResults = () => {
             const response = await transactionAPI.getTransactionDetails(transactionID)
             if(response.status === 200){
                 setTransactionData(response.data.data)
-                setIsLoading(false)
                 setCurrency(transactionData?.currency?.symbol)
+                setIsLoading(false)
             }
             } catch (error) {
                 setIsLoading(false)
