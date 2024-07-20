@@ -92,7 +92,7 @@ const HomePage = () => {
                   </Text>
                 </LinearGradient>
               </View>
-              <Link href="home/deposit-withdraw">
+              <Link href="home/deposit-withdrawl">
                 <View className="flex-col items-center ml-auto mt-auto">
                   <CashInIcon width={30} height={30} />
                   <Text className="font-medium">Nạp/Rút</Text>

@@ -49,7 +49,8 @@ const TabLayout = () => {
       "details-bill",
       "list-currencies",
       "search-result",
-      "confirm-bill"
+      "confirm-bill",
+      "deposit-withdrawl"
     ],
     []
   );

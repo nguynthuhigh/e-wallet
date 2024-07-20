@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Text, View, TextInput, useWindowDimensions, StyleSheet, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import RechargeIC from "../../assets/svg/ic_recharge.svg"
-import LogoAppIC from "../../assets/svg/ic_logoApp.svg"
-import UsdPPIC from "../../assets/svg/ic_USDpp.svg"
-import ETHMiniIC from "../../assets/svg/ic_ETHmini.svg"
-import AddCardIC from "../../assets/svg/ic_addCard.svg"
-import VisaMiniIC from "../../assets/svg/ic_Visamini.svg"
+import RechargeIC from "../../../assets/svg/ic_recharge.svg"
+import LogoAppIC from "../../../assets/svg/ic_logoApp.svg"
+import UsdPPIC from "../../../assets/svg/ic_USDpp.svg"
+import ETHMiniIC from "../../../assets/svg/ic_ETHmini.svg"
+import AddCardIC from "../../../assets/svg/ic_addCard.svg"
+import VisaMiniIC from "../../../assets/svg/ic_Visamini.svg"
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
 const CustomRadioButton = ({ options, onSelect }) => {
