@@ -1,13 +1,15 @@
+import Header from '../../header/header_dashboard'
+import LogoVND from '../../../assets/svg/logo_vnd.svg'
+import LogoETH from '../../../assets/svg/logo_eth.svg'
+import {ItemInfo,ItemInfoLoading} from '../components/item_info';
 import { useEffect, useState } from "react"
-import partnerAPI from '../../../api/partner.api'
 import { Link, useNavigate } from "react-router-dom"
-import MenuBar from "../components/menu-bar"
-import {WalletItem,WalletItemLoading} from "../components/walet_item"
-import Chart from "../components/chart"
+import partnerAPI from '../../../api/partner.api'
+import { ItemBalance,ItemBalanceLoading } from '../components/item_balance';
 export default function Dashboard(){
     const [privateKey,setPrivatekey] = useState('')
     const [partner, setPartner] = useState('')
-    const [partnerCurrency, setPartnerCurrency] = useState([])
+    const [partnerWallet, setPartnerWallet] = useState([])
     const [isLoading,setIsLoading] = useState(true)
     const navigate = useNavigate()
     useEffect(() => {
@@ -15,9 +17,9 @@ export default function Dashboard(){
         const fetchData = async () => {
           try {
             const partnerProfile = await partnerAPI.getProfilePartner();
-            setPartner(partnerProfile.data.data);
+            setPartner(partnerProfile.data.data.partner);
             setPrivatekey(partnerProfile.data.data.partner.privateKey);
-            setPartnerCurrency(partnerProfile.data.data.wallet.currencies)
+            setPartnerWallet(partnerProfile.data.data.wallet)
 
             if(partnerProfile.data.data.partner?.name === undefined){
                 navigate('/update-profile')
@@ -32,57 +34,50 @@ export default function Dashboard(){
         };
         fetchData(); 
       },[]);
-
-    const partnerData = Object.assign({}, partner.partner);
-      console.log(partnerCurrency)
-    const handleCopy = () => {
-      navigator.clipboard.writeText(privateKey).then(() => {
-      }).catch(err => {
-        console.error('Failed to copy text: ', err);
-      });
-    };
     return(
-      <div>
-          <div className="w-full mx-auto px-4 flex h-full">
-            <MenuBar></MenuBar>
-            <div className="w-[90%] p-8 border-[1px] border-r-2 border-y-0">
-              <div className="flex w-full">
-                <div className="w-[90%]">
-                  <Chart/>
-                </div>
-                <div className="w-[35%] ml-auto border-[1px] p-4">
-                  {isLoading?<WalletItemLoading/> :   <div className="">
-                  {partnerCurrency.map((item, index) => (
-                    <WalletItem key={index} item={item}></WalletItem>
-                  ))}
-                    </div>}
-               
-                    <div className="mt-5">
-                      <Link>
-                        <div className="w-full bg-color-default font-bold text-white p-2 text-center rounded-lg hover:text-color-default hover:bg-white border-[1px] hover:border-color-default">
-                          Withdrawl
-                        </div>
-                      </Link>
-                    </div>
-                </div>
-              </div>
-              <div>
-                <ForDeveloper handleCopy={handleCopy} privateKey={privateKey}></ForDeveloper>
-              </div>
-            </div>
-          </div>
-      </div>
-      
-    )
-}
+        <div>
+            <Header index={"dashboard"}>
 
-const ForDeveloper =({handleCopy,...props})=>{
-  return(<div className="border-[1px] p-4 w-[30%]">
-      <div className="font-medium">For developer</div>
-          <div className="flex">
-            <div className=" font-medium text-[13px]">Private key</div>
-            <button  onClick={handleCopy} className="overflow-hidden text-ellipsis w-[70%]  mx-2 text-[12px] hover:text-blue-400 font-semibold"> {props.privateKey}</button>
-          </div>
-        <Link className="font-medium">Read documents </Link>
-    </div>)
+            </Header>
+            <div className='max-w-[1200px] mx-auto p-4'>
+                <div className='flex items-center'>
+                    <img alt="" className='w-[120px] h-[120px] rounded-full' src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"></img>
+                    {!isLoading ? <div className='p-4'>
+                        <div>
+                            <h1 className=' text-[#8E8E8E]'>Name</h1>
+                            <h1 className='text-3xl font-bold'>{partner.name}</h1>
+                        </div>
+                        <div className='grid mt-4 gap-5 lg:grid-cols-3 md:grid-cols-2 grid-cols-1'>
+                            <ItemInfo title="Wallet Address" info={partnerWallet?.address}/>
+                            <ItemInfo title="Email" info={partner?.email}/>
+                            <ItemInfo title="Private Key" info={privateKey}/>
+                        </div>
+                    </div> :
+                    <div className='p-4 animate-pulse'>
+                        <div>
+                            <ItemInfoLoading></ItemInfoLoading>
+                        </div>
+                        <div className='grid mt-4 gap-5 lg:grid-cols-3 md:grid-cols-2 grid-cols-1'>
+                            <ItemInfoLoading></ItemInfoLoading>
+                            <ItemInfoLoading></ItemInfoLoading>
+                            <ItemInfoLoading></ItemInfoLoading>
+                        </div> 
+                    </div>}
+                   
+                </div>
+                <div className='mt-5 font-bold text-3xl'>Balance</div>
+                {!isLoading ? <div className='grid  gap-5 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-5'>
+                    <ItemBalance logo={LogoVND} from="#FC5C7D" to="#6A82FB" end={partnerWallet?.currencies[0]?.balance} prefix="₫" separator="," decimal="" decimals="" currency="Vietnamese Dong"/>
+                    <ItemBalance logo={LogoETH} from="#12FFF7" to="#B3FFAB" end={partnerWallet?.currencies[1]?.balance} prefix="$" separator="," decimal="." decimals="2"  currency="US Dollar"/>
+                    <ItemBalance logo={LogoETH} from="#EF32D9" to="#89FFFD" end={partnerWallet?.currencies[2]?.balance} suffix=" ETH" separator="," decimal="." decimals="2"  currency="Ethereum"/>
+                </div>:
+                <div className='grid  gap-5 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-5'>
+                    <ItemBalanceLoading></ItemBalanceLoading>
+                    <ItemBalanceLoading></ItemBalanceLoading>
+                    <ItemBalanceLoading></ItemBalanceLoading>
+                </div>}
+                
+            </div>
+        </div>
+    )
 }
