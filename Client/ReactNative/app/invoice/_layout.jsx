@@ -28,10 +28,6 @@ const StackLayout = () => {
           ),
         }}
       />
-      <Stack.Screen
-        name="bottom-sheet-promotion"
-        options={{ headerShown: false }}
-      />
     </Stack>
   );
 };

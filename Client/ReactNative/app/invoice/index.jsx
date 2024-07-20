@@ -8,13 +8,13 @@ import {
   StyleSheet,
 } from "react-native";
 import React, { useState, useRef } from "react";
-import BottomSheetPromotion from "./bottom-sheet-promotion";
+import BottomSheetPromotion from "./bs-promotion";
 import EyeOpen from "../../assets/svg/eye.svg";
 import EyeClosed from "../../assets/svg/eyeClosed.svg";
 import Wallet from "../../components/Wallet";
 import { wallet } from "../../dummy-data/data";
 import constants from "../../constants";
-import BottomSheetSecurityCode from "./bottom-sheet-sc";
+import BottomSheetSecurityCode from "./bs-security-code";
 const { images } = constants;
 
 const Invoice = () => {
