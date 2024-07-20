@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, TextInput, SafeAreaView, ScrollView, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  TextInput,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { Link } from "expo-router";
 import TransferIcon from "../../../assets/svg/transfer.svg";
 import BankIcon from "../../../assets/svg/bank.svg";
@@ -58,21 +65,26 @@ const Transfer = () => {
 
     return () => clearTimeout(intervalId);
   }, []);
-  const HandleSearch = ()=>{
-    console.log("123")
-  }
+  const HandleSearch = () => {
+    console.log("123");
+  };
   return (
     <View>
       <BlueBg />
       <SafeAreaView className="absolute top-7">
         <Header title="Chuyển tiền" img={images.nicky} />
         <ScrollView className="px-5">
-            <TouchableOpacity onPress={()=>{router.push('home/search-result')}} className="w-full h-9 bg-white mr-3 flex-row items-center rounded-3xl px-2">
-                <Search width={30} height={30} />
-                <View
-                  className="flex-1 h-full justify-center"
-                ><Text>Tìm kiếm</Text></View>
-            </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              router.push("home/search-result");
+            }}
+            className="w-full h-9 bg-white mr-3 flex-row items-center rounded-3xl px-2"
+          >
+            <Search width={30} height={30} />
+            <View className="flex-1 h-full justify-center">
+              <Text>Tìm kiếm</Text>
+            </View>
+          </TouchableOpacity>
           <View className="flex-row items-start justify-evenly px-2 mt-4 py-4 bg-white rounded-xl">
             <Icon icon={TransferIcon} label="Đến ví khác" />
             <Icon icon={BankIcon} label="Đến ngân hàng" />

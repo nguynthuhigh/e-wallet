@@ -21,7 +21,9 @@ import camera from "../assets/images/camera.png";
 import logo_pressPay from "../assets/images/logo-pressPay.png";
 import voucher from "../assets/images/voucher.png";
 import plus from "../assets/images/plus.png";
+import alter from "../assets/images/alter.png";
 export default {
+  alter,
   voucher,
   logo_pressPay,
   camera,
