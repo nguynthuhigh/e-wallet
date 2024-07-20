@@ -6,13 +6,13 @@ export  function WalletItem({item}){
           });
         return formatter.format(money)
     }
-    return<div className="p-3 border-[1px] border-t-0 border-x-0 flex items-center">
+    return<div className="p-3 border-[1px] border-t-0 border-x-0 flex items-center ">
         <img className="w-[30px] h-[30px]" alt="" src="https://cryptologos.cc/logos/ethereum-eth-logo.png"></img>
         <div>
-            <div className="font-semibold">
+            <div className="text-[15px]">
                 {item.currency.symbol} Balance
             </div>
-            <div>
+            <div className="font-semibold text-[17px]">
                 {format(item.balance,item.currency.symbol)}
             </div>
         </div>
