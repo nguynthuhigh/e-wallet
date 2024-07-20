@@ -11,13 +11,13 @@ export default function Home(){
                 <div className="max-w-[1250px] mx-auto p-4">
                     <div className="flex">
                         <div >
-                            <p className="lg:text-[80px] lg:w-[500px] leading-[80px] text-white font-semibold">
-                                Thanh toán nhanh hơn với pressPay
+                            <p className="lg:text-[60px] lg:w-[600px] leading-[60px] text-white font-semibold">
+                            Making Every Transaction Smooth, Safe, and Simply Pressable
                             </p>
-                            <p className='my-4 lg:text-[20px] font-medium'>Trở thành đối tác của chúng tôi</p>
+                            <p className='my-4 lg:text-[17px] lg:w-[350px] font-medium'>Join us as a valued partner and let's create something extraordinary together</p>
                             <Link className='ml-auto' to='/sign-up'>
                                 <div className='w-[100px] border-[1px] border-white  h-[30px] justify-center text-[12px]  rounded-full items-center flex   bg-white text-color-default font-semibold'>
-                                    <h1>Bắt đầu</h1>
+                                    <h1>Start now</h1>
                                     <img alt='' className='w-[4px] h-[7px] ml-2' src={arrow_right}></img>
                                 </div>
                             </Link>

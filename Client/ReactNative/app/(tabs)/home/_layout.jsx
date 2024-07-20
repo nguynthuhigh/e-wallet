@@ -32,7 +32,10 @@ const navigation = useNavigation();
         <Stack.Screen name="scan-qr" options={{ headerShown: false }} />
         <Stack.Screen name="transfer" options={{ headerShown: false }} />
         <Stack.Screen name="search-result" options={{ headerShown: false }} />
-
+        <Stack.Screen name="confirm-bill" options={{ headerShown: false }} />
+        <Stack.Screen name="details-bill" options={{ headerShown: false }} />
+        <Stack.Screen name="details-currency" options={{ headerShown: false }} />
+        <Stack.Screen name="list-currencies" options={{ headerShown: false }} />
         <Stack.Screen
           name="deposit-withdraw"
           options={{
