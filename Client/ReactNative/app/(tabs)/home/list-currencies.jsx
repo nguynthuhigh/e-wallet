@@ -26,7 +26,6 @@ const Currency = ({item,name,symbol})=>{
     const data = {
       item,name,symbol
     }
-    console.log(data)
     return(
       <TouchableOpacity onPress={()=>{router.push({pathname: 'home/search-result', params:{item:JSON.stringify(data)}})}}>
         <View className="py-2 flex-row">

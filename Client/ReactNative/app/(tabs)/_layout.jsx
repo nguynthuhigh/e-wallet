@@ -46,6 +46,10 @@ const TabLayout = () => {
       "my-qr",
       "categorized-promotions",
       "promotional-details",
+      "details-bill",
+      "list-currencies",
+      "search-result",
+      "confirm-bill"
     ],
     []
   );
