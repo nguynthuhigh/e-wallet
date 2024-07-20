@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import LottieView from "lottie-react-native";
@@ -17,13 +17,16 @@ import authAPI from '../../api/auth.api'
 const HomePage = () => {
   const [isHide, setIsHide] = useState(false);
   const [userData,setUserData] = useState('')
+  const [walletData,setWalletData] = useState('')
+
   const [isLoading,setIsLoading] = useState(true)
   useEffect(()=>{
     
       const fetchUser = async()=>{
         try {
           const user = await authAPI.getProfile()
-          setUserData(user)
+          setUserData(user.data.userData)
+          setWalletData(user.data.walletData)
         } catch (error) {
           console.log(error)
         }finally{
@@ -33,6 +36,7 @@ const HomePage = () => {
     
     fetchUser()
   },[])
+ 
   return (
     <SafeAreaView>
       <ScrollView className="bg-white">
@@ -51,7 +55,7 @@ const HomePage = () => {
               <View className="ml-2">
                 <Text className="text-[12px]">Chào buổi tối</Text>
                 <Text className="text-[14px] font-bold">
-                  {isLoading ? "Loading..." : userData.email}
+                  {isLoading ? "Loading..." : userData?.email}
                 </Text>
               </View>
               <View className="flex-row ml-auto justify-between">
@@ -84,11 +88,11 @@ const HomePage = () => {
                   colors={["#0094FF", "#FFFFFF"]}
                 >
                   <Text className="text-[24px] ml-3 font-semibold text-white">
-                    {isHide ? "*******" : "125.000.000VNĐ"}
+                    {isLoading ? '...Loading' : `${isHide ? '*******' : formatCurrency(walletData?.currencies[0]?.balance,"VND")}`}
                   </Text>
                 </LinearGradient>
               </View>
-              <Link href="home/deposit-withdraw">
+              <Link href="home/deposit-withdrawl">
                 <View className="flex-col items-center ml-auto mt-auto">
                   <CashInIcon width={30} height={30} />
                   <Text className="font-medium">Nạp/Rút</Text>
@@ -97,7 +101,7 @@ const HomePage = () => {
             </View>
 
             <View className="flex-row items-start justify-between mt-3 gap-x-1">
-              <Link href="home/transfer">
+              <TouchableOpacity onPress={()=>{router.push({pathname:'home/list-currencies',params:{item:JSON.stringify(walletData)}})}}>
                 <View className="flex-col items-center gap-y-2">
                   <LottieView
                     style={{ flex: 1, width: 30, height: 30 }}
@@ -107,7 +111,7 @@ const HomePage = () => {
                   />
                   <Text className="font-medium">Chuyển tiền</Text>
                 </View>
-              </Link>
+              </TouchableOpacity>
            
             
               <Link href="home/scan-qr">
@@ -117,12 +121,47 @@ const HomePage = () => {
                 </View>
               </Link>
             </View>
+          
           </View>
         </LinearGradient>
+          <View className="p-6">
+                <Text className="text-black font-iBold text-[20px]">Tài sản</Text>
+                {isLoading ? <Text>...Loading</Text> : <View>
+                  <ListCurrencies item={walletData?.currencies[0]} name="Vietnamese Dong" symbol="VND"></ListCurrencies> 
+                  <ListCurrencies item={walletData?.currencies[1]} name="US DOllar" symbol="USD"></ListCurrencies>
+                  <ListCurrencies item={walletData?.currencies[2]} name="Ethereum" symbol="ETH"></ListCurrencies>
+                  </View>}
+          </View>
       </ScrollView>
       <StatusBar backgroundColor="#000"/>
     </SafeAreaView>
   );
 };
-
+const formatCurrency = (balance,currency)=>{
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency,
+  });
+  return formatter.format(balance)
+}
+const ListCurrencies = ({item,name,symbol})=>{
+  
+  const data = {
+    item,name,symbol
+  }
+  return(
+    <TouchableOpacity onPress={()=>{router.push({pathname: 'home/details-currency', params:{item:JSON.stringify(data)}})}}>
+      <View className="py-2 flex-row">
+        <View>
+            <Image className="w-[41px] h-[41px] mx-2" source={images.si} />
+          </View>
+          <View>
+            <Text className="text-[#868686] font-iRegular text-[15px]">{name}</Text>
+            <Text className="text-black font-iBold text-[18px]">{formatCurrency(item?.balance,symbol)}</Text>
+          </View>
+      </View>
+    </TouchableOpacity>
+  )
+   
+}
 export default HomePage;

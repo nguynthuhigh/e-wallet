@@ -20,8 +20,20 @@ export const updateProfilePartner =async (body)=>{
     }
     
 }
+export const getTransactions = async(page,pagesize)=>{
+    try{
+        return await axios.get(process.env.REACT_APP_LOCAL_HOST+'/api/v1/partner/get-transactions?page='+page+'&pagesize='+pagesize,{
+            headers:{
+                Authorization: 'Bearer '+cookie.get('token_auth')
+            }
+        })
+    }catch(error){
+        console.log(error)
+    }
+}
 const exportObject = {
     getProfilePartner,
-    updateProfilePartner
+    updateProfilePartner,
+    getTransactions
 }
 export default exportObject;

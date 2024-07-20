@@ -1,6 +1,9 @@
-import MenuBar from "./menu-bar"
-import Header from "../header/header_dashboard"
-const Item = ()=>{
+import MenuBar from "../components/menu-bar"
+import partnerAPI from '../../../api/partner.api'
+import { useEffect, useState } from "react"
+import formatUtils from "../../../utils/format"
+const Item = ({item})=>{
+  console.log(item)
   return(
     <tr>
     <td class="py-3 ps-4">
@@ -9,20 +12,32 @@ const Item = ()=>{
         <label for="hs-table-pagination-checkbox-3" class="sr-only">Checkbox</label>
       </div>
     </td>
-    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200 flex text-[20px]">10,000 VND <div className="mx-2 bg-green-300 text-green-700 p-1 rounded-lg text-[12px]">Succeeded</div></td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200 flex text-[20px]">{formatUtils.formatCurrency(item.amount,"VND")} <div className="mx-2 bg-green-300 text-green-700 p-1 rounded-lg text-[12px]">Succeeded</div></td>
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">31</td>
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">66864a916bb586f64e86e9e4</td>
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">Nguyn</td>
-    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">2024-07-04</td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{formatUtils.formatTime(item.createdAt)}</td>
   </tr>
   )
 }
 
 export default function Payment(){
+    const [isLoading,setIsLoading] = useState(true)
+    const [transactionData,setTransactionData] = useState(null)
+    useEffect(()=>{
+      const fetchData =async ()=>{
+        const response = await partnerAPI.getTransactions(1,10)
+        if(response.status === 200){
+          setIsLoading(false)
+          setTransactionData(response.data.data)
+        }
+      }
+      fetchData()
+    },[])
     return(<>
       <div class="flex   mx-auto px-4">
           <MenuBar></MenuBar>
-          <div class=" overflow-x-auto p-8 border-[1px] border-r-2 border-y-0  w-full">
+          <div class=" overflow-x-auto p-8 border-[1px] border-r-2 border-y-0  w-[99%]">
             <div class="p-1.5 min-w-full inline-block align-middle">
               <div class="border rounded-lg divide-y divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
                 <div class="py-3 px-4">
@@ -58,16 +73,9 @@ export default function Payment(){
                     </thead>
                     <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
                   
-                    <Item></Item>
-                    <Item></Item>
-                    <Item></Item>
-                    <Item></Item>
-
-                    
-
-                     
-
-                    
+                    {isLoading ? '...loading' : transactionData.map((item)=>(
+                      <Item item={item}></Item>
+                    ))}
                     </tbody>
                   </table>
                 </div>

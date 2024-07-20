@@ -23,7 +23,7 @@ export default function Home(){
                 setDashboard({name:'Dashboard',link:'/dashboard'})
               }
             } catch (error) {
-                setDashboard({name:'Đăng nhập',link:'/sign-in'})
+                setDashboard({name:'SignIn',link:'/sign-in'})
             }
           };
           fetchData(); 
@@ -32,11 +32,11 @@ export default function Home(){
         <div className='w-full fixed z-10 my-4'>
             <div className='flex items-center px-4 max-w-[1250px] mx-auto'>
                 <img alt='logo_presspay' src={logo_white}></img>
-                <div className='max-md:hidden flex ml-10 w-[40%] justify-between text-[20px] font-semibold text-white'>
-                    <h1 className=''>Developer</h1>
-                    <h1 >Hỗ trợ</h1>
-                    <h1>Developer</h1>
-                    <h1>Developer</h1>
+                <div className='max-md:hidden flex ml-10 w-[50%] justify-between text-[20px] font-semibold text-white'>
+                    <Link to='/dev'>Developer</Link>
+                    <Link >Community</Link>
+                    <Link>Download App</Link>
+                    <Link>Payment Gateway</Link>
                 </div>
                    <Button name={dashboard.name} link={dashboard.link}></Button>
             </div>

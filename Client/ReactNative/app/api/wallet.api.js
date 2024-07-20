@@ -1,7 +1,6 @@
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 export const sendMoney =async(body)=>{
-    try {
         const token = await AsyncStorage.getItem('AccessToken')
         const response = await axios.post(`${process.env.API_URL}/api/v1/wallet/send-money`,body,{
             headers: {
@@ -9,9 +8,7 @@ export const sendMoney =async(body)=>{
             }
           });
         return response
-    } catch (error) {
-        console.log(error)
-    }
+  
 }
 export const confirmSendMoney =async(body)=>{
     try {
@@ -35,7 +32,7 @@ export const getWallet =async()=>{
               Authorization: `Bearer ${token}`
             }
           });
-        return response.data
+        return response
     } catch (error) {
         console.log(error)
     }

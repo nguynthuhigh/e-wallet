@@ -15,6 +15,7 @@ import BackArrow from "../../../assets/svg/arrow_back.svg";
 import BlueBg from "../../../assets/svg/bg_blue.svg";
 import { useLocalSearchParams,Link, router, } from "expo-router";
 import walletAPI from '../../api/wallet.api.js'
+import convert from "../../../utils/convert_currency.js";
 const Wallet = ()=>{
   return(
     <TouchableOpacity className="w-[30%] h-[55px] bg-[#FFF5F5] rounded-xl flex-row items-center">
@@ -31,36 +32,40 @@ const Wallet = ()=>{
   )
 }
 const ConfirmSend = () => {
-  const params = useLocalSearchParams();
-  const recevier = params.receiver
+  const {item} = useLocalSearchParams();
+  const userData = JSON.parse(item).item
+  const walletData = JSON.parse(item).wallet.item
+  const currency = JSON.parse(item).wallet.symbol
   const [amount, setAmount] = useState(0);
   const [content, setContent] = useState(" ");
   const [isLoading,setIsLoading] = useState(false)
   const [error,setError] = useState('')
   const handleTransfer =async()=>{
     try {
-      if(amount === 0){
+      if(convert.convertCurrency(amount,currency) < 100){
         return setError("Số tiền chuyển tối thiểu 100")
       }
-      setIsLoading(true)
+      if(convert.convertCurrency(walletData.balance,currency) < convert.convertCurrency(amount,currency)){
+        return setError("Số dư không đủ")
+      }
+      if(convert.convertCurrency(amount,currency) > 20000000){
+        return setError("Số tiền chuyển tối đa 20,000,000đ")
+      }
       const data = {
-        receiver: recevier,
-        amount: amount,
-        message: content,
-        currency: "VND"
-      }
-      const response = await walletAPI.sendMoney(data)
-      if (response && response.status === 200) {
-        const transactionID = response.data.data._id;
-        router.push({ pathname: "home/confirm-bill", params: { transactionID }});
-      } else {
-        setError('Failed to process the transfer.');
-      }
+        receiver:userData._id,
+        amount:amount,
+        currency:currency,
+        message:content,
+        email:userData.email
+    }
+      router.push({ pathname: "home/confirm-bill", params: { item: JSON.stringify(data) }});
     } catch (error) {
-      console.log(error)
       setIsLoading(false)
     }
-
+  }
+  const hanldeChange = (newText)=>{
+    setAmount(newText) 
+    setError(null)
   }
   return (
     <SafeAreaView>
@@ -77,9 +82,9 @@ const ConfirmSend = () => {
           />
           <View>
             <Text className=" font-bold text-sm text-white">
-              Nguyễn Minh Nguyên
+            {userData?.name}
             </Text>
-            <Text className="text-xs text-white"> 036988962x</Text>
+            <Text className="text-xs text-white">{userData?.email} </Text>
           </View>
         </View>
         <ScrollView className="px-5">
@@ -88,14 +93,15 @@ const ConfirmSend = () => {
           
             <View className="mx-auto my-5">
               <TextInput
-                onChangeText={(newText) => setAmount(newText)}
-                keyboardType={"number-pad"}
+                onChangeText={(newText)=>{hanldeChange(newText)}}
+                keyboardType={"decimal-pad"}
                 autoFocus={true}
                 value={amount}
                 className="w-fit h-[50px] text-[50px] font-bold"
                 placeholder="0đ"
               ></TextInput>
             </View>
+            {error ? <Text className="text-center mb-2 text-red-500">{error}</Text> : ''}
             <View className="flex-1 px-4">
               <TextInput
                 onChangeText={(newText) => setContent(newText)}
@@ -148,9 +154,7 @@ const ConfirmSend = () => {
             {!isLoading ? <Text className="mx-auto text-white font-semibold py-2 text-[20px] ">
               Chuyển tiền
             </Text>:<ActivityIndicator className="h-[40px]"></ActivityIndicator>}
-            
           </TouchableOpacity>
-
         </ScrollView>
         <StatusBar backgroundColor="#fff" style="inverted" />
    
