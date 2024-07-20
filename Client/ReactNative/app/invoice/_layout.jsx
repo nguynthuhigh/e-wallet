@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { Stack } from "expo-router";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
@@ -28,7 +28,6 @@ const StackLayout = () => {
           ),
         }}
       />
-      <Stack.Screen name="bs-promotion" options={{ headerShown: false }} />
     </Stack>
   );
 };
