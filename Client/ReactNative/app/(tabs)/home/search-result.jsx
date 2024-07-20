@@ -19,8 +19,12 @@ export default function SearchResult(){
     const [userData,setUserData] = useState(null)
     const {item} = useLocalSearchParams()
     const searchUser = async(email)=>{
-        const respone = await searchAPI.getUser(email)   
-        setUserData(respone.data)
+        try {
+            const respone = await searchAPI.getUser(email)   
+            setUserData(respone.data.data)
+        } catch (error) {
+            console.log(error)
+        }
     }
     const debouncedSearchUser = useCallback(useDebounce(searchUser, 1000), []);
     const hanldeTextChange = (text)=>{
@@ -38,7 +42,7 @@ export default function SearchResult(){
                     className="flex-1 h-full justify-center">
                     </TextInput>
             </View>
-            {userData ? <ItemUser item={userData}></ItemUser> : ''}
+            {userData ? <ItemUser item={userData} wallet={item}></ItemUser> : ''}
           
         </View>
     </SafeAreaView>)

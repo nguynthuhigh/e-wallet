@@ -26,23 +26,21 @@ const DetailTransaction = () => {
       const handleOTP = async (newOTP) => {
         try {
             const body = {
-                receiver:"668fdb28113ee012354fb3c0",
-                amount:100,
-                currency:VND,
-                message:"Em dep lam, lam ny a nha",
-                security_code:"1231231"
+                receiver:dataBill.receiver,
+                amount:dataBill.amount,
+                currency:dataBill.currency,
+                message:dataBill.message,
+                security_code:newOTP
             }
             const response = await walletAPI.sendMoney(body)
-            console.log(response)
-            if(response.status === 200){
+            if(response?.status === 200){
                 setModalVisible(false)
                 const transaction = response.data.data
-                router.push({ pathname: "home/details-bil", params: {item: JSON.stringify(transaction)} })
+                router.push({ pathname: "home/details-bill", params: {item: JSON.stringify(transaction)} })
             }
         } catch (error) {
-            console.log(error)
+            console.log(error.response.data.message)
             setErrorMessage(error.response.data.message)
-            console.log(errorMessage)
         }
       }
   return (
@@ -65,10 +63,10 @@ const DetailTransaction = () => {
                     <View className="w-[25px] h-[25px]"></View>
                     </View>
                 <View className="bg-[#EEEEEE] w-full  flex-col items-center py-10 rounded-b-lg">
-                    {errorMessage ? <Text className="text-red-500">{errorMessage}</Text>:<Text></Text>}
+                    {errorMessage ? <Text className="text-red-500 mb-2">{errorMessage}</Text>:<Text></Text>}
                     <TextInput  
                     style={styles.input} 
-                    className={`font-semibold w-[160px] text-[30px] h-[60px] bg-white rounded-full px-5 ${errorMessage ? 'border-red-500 border-[1px]': ''}`} 
+                    className={`font-semibold w-[160px] text-center text-[30px] h-[60px] bg-white rounded-full px-5 ${errorMessage ? 'border-red-500 border-[1px]': ''}`} 
                     placeholder='••••••'
                     maxLength = {6}
                     keyboardType='numeric'
@@ -94,7 +92,7 @@ const DetailTransaction = () => {
                 </View>
                 <View className='flex flex-row justify-between mb-4'>
                     <Text className='text-[#6b6b6b]'>Số tiền</Text>
-                    <Text className='font-bold'>{currency.formatCurrency(dataBill?.amount,"vnd")}</Text>
+                    <Text className='font-bold'>{currency.formatCurrency(dataBill?.amount, dataBill?.currency)}</Text>
                 </View>
                 <View className='flex flex-row justify-between mb-4'>
                     <Text className='text-[#6b6b6b]'>Lời Nhắn</Text>
@@ -109,9 +107,9 @@ const DetailTransaction = () => {
                     <Text className='font-bold text-[#0094ff] text-[18px]'>+ Chọn thẻ quà tặng</Text>
                 </View>
             </View>
-            <View className='flex flex-row justify-between mb-3 px-5'>
+            <View className='flex flex-row justify-between my-3 px-5'>
                 <Text className='font-semibold text-[16px]'>Tổng tiền</Text>
-                <Text className='font-bold text-[16px]'>{currency.formatCurrency(dataBill?.amount,"vnd")}</Text>
+                <Text className='font-bold text-[16px]'>{currency.formatCurrency(dataBill?.amount,dataBill?.currency ? dataBill?.currency : 'USD')}</Text>
             </View>
             <View className='flex flex-row justify-between mb-3 px-5'>
                 <TouchableOpacity onPress={()=>{setModalVisible(true)}} className='w-full mt-2'>

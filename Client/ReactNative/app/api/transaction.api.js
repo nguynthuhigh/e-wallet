@@ -21,7 +21,7 @@ export const getTransactionDetails =async(id)=>{
               Authorization: `Bearer ${token}`
             }
           });
-        return response.data
+        return response
     } catch (error) {
         console.log(error)
     }
