@@ -1,7 +1,26 @@
-import Header from '../../header/header_dashboard'
-import { ItemTransaction } from '../components/item_transaction'
+import MenuBar from "../components/menu-bar"
 import partnerAPI from '../../../api/partner.api'
 import { useEffect, useState } from "react"
+import formatUtils from "../../../utils/format"
+const Item = ({item})=>{
+  console.log(item)
+  return(
+    <tr>
+    <td class="py-3 ps-4">
+      <div class="flex items-center h-5">
+        <input id="hs-table-pagination-checkbox-3" type="checkbox" class="border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"/>
+        <label for="hs-table-pagination-checkbox-3" class="sr-only">Checkbox</label>
+      </div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200 flex text-[20px]">{formatUtils.formatCurrency(item.amount,"VND")} <div className="mx-2 bg-green-300 text-green-700 p-1 rounded-lg text-[12px]">Succeeded</div></td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">31</td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">66864a916bb586f64e86e9e4</td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">Nguyn</td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{formatUtils.formatTime(item.createdAt)}</td>
+  </tr>
+  )
+}
+
 export default function Payment(){
     const [isLoading,setIsLoading] = useState(true)
     const [transactionData,setTransactionData] = useState(null)
@@ -15,10 +34,10 @@ export default function Payment(){
       }
       fetchData()
     },[])
-    return(<div>
-        <Header></Header>
-        <div className='max-w-[1200px] mx-auto'>
-        <div class=" overflow-x-auto p-8 border-[1px] border-r-2 border-y-0  w-[99%]">
+    return(<>
+      <div class="flex   mx-auto px-4">
+          <MenuBar></MenuBar>
+          <div class=" overflow-x-auto p-8 border-[1px] border-r-2 border-y-0  w-[99%]">
             <div class="p-1.5 min-w-full inline-block align-middle">
               <div class="border rounded-lg divide-y divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
                 <div class="py-3 px-4">
@@ -55,15 +74,31 @@ export default function Payment(){
                     <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
                   
                     {isLoading ? '...loading' : transactionData.map((item)=>(
-                      <ItemTransaction item={item}></ItemTransaction>
+                      <Item item={item}></Item>
                     ))}
                     </tbody>
                   </table>
                 </div>
-           
+                <div class="py-1 px-4">
+                  <nav class="flex items-center space-x-1">
+                    <button type="button" class="p-2.5 min-w-[40px] inline-flex justify-center items-center gap-x-2 text-sm rounded-full text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10">
+                      <span aria-hidden="true">«</span>
+                      <span class="sr-only">Previous</span>
+                    </button>
+                    <button type="button" class="min-w-[40px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10" aria-current="page">1</button>
+                    <button type="button" class="min-w-[40px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10">2</button>
+                    <button type="button" class="min-w-[40px] flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2.5 text-sm rounded-full disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10">3</button>
+                    <button type="button" class="p-2.5 min-w-[40px] inline-flex justify-center items-center gap-x-2 text-sm rounded-full text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10">
+                      <span class="sr-only">Next</span>
+                      <span aria-hidden="true">»</span>
+                    </button>
+                  </nav>
+                </div>
               </div>
             </div>
           </div>
         </div>
-    </div>)
+    </>
+       
+    )
 }
