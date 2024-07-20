@@ -91,6 +91,7 @@ const Wallet = () => {
                     </View>
                   </Link>
 
+                  <Link href="/wallet/credit_card">
                   <View className="flex-row w-full my-3">
                     <Card className="ml-2"></Card>
                     <Text className="ml-5 font-bold text-[14px]">
@@ -99,7 +100,7 @@ const Wallet = () => {
                     <View className="ml-auto">
                       <Arrow_More></Arrow_More>
                     </View>
-                  </View>
+                  </View></Link>
                   <View className="flex-row w-full my-3">
                     <Card className="ml-2"></Card>
                     <Text className="ml-5 font-bold text-[14px]">

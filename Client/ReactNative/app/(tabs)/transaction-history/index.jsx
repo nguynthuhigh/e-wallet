@@ -113,8 +113,8 @@ const TransactionHistory = () => {
     >
       <View style={{ width: '100%' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', paddingTop: 66, paddingHorizontal: 6 }}>
-          <View style={{ backgroundColor: 'white', flexDirection: 'row', alignItems: 'center', height: 35, paddingHorizontal: 10, borderRadius: 20 }}>
-            <View style={{ marginTop: 2, marginRight: 2, paddingLeft: 2 }}>
+          <View style={{ backgroundColor: 'white', flexDirection: 'row', marginLeft:10, alignItems: 'center', height: 35, paddingHorizontal: 10, borderRadius: 20 }}>
+            <View style={{marginTop:0.5, marginRight: 5, paddingLeft: 5 }}>
               <Search style={{ marginTop: 5, backgroundColor: 'white' }} />
             </View>
             <TextInput

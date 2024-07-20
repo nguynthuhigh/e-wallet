@@ -1,7 +1,8 @@
-import { Text, View, TextInput, Image, useWindowDimensions} from "react-native";
+import { Text, View, TextInput, Image, TouchableOpacity} from "react-native";
 import React, {useState} from "react";
 import Sim from "../assets/svg/sim.svg"
 import Bank_Transfer from "../assets/svg/bank_transfer.svg";
+import { router } from "expo-router";
 const Change_Icon = (type) => {
   if (type === "transfer"){
     return <Sim/>
@@ -17,7 +18,7 @@ const Content = (type)=>{
 }
 const Item_Transaction = ({index,item}) => {
     return( 
-        <View>
+        <TouchableOpacity onPress={()=>{router.push('transaction-history/transaction-details')}}>
         <View className={index%2 === 0 ? "bg-white h-[85px]" :"bg-[#DFDFDF] h-[85px]"}>
          <View className="flex-row items-center  p-4">
             <View className="w-[10%]">
@@ -40,7 +41,7 @@ const Item_Transaction = ({index,item}) => {
             </View>
          </View>
       </View>
-        </View>
+        </TouchableOpacity>
          
     )
 }

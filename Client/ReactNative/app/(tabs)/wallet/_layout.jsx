@@ -5,6 +5,8 @@ const StackLayout = () => {
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="notification" options={{ headerShown: false }} />
+      <Stack.Screen name="credit_card" options={{headerShown: false}} />
+      <Stack.Screen name="credit_details" options={{headerShown: false}}/>
     </Stack>
   );
 };
