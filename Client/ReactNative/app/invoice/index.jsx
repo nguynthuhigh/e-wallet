@@ -5,21 +5,36 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  Button,
+  StyleSheet,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import BottomSheetPromotion from "./bs-promotion";
 import EyeOpen from "../../assets/svg/eye.svg";
 import EyeClosed from "../../assets/svg/eyeClosed.svg";
 import Wallet from "../../components/Wallet";
 import { wallet } from "../../dummy-data/data";
 import constants from "../../constants";
+import BottomSheetSecurityCode from "./bs-security-code";
 import { router } from "expo-router";
 const { images } = constants;
+
 const Invoice = () => {
   const [isHide, setIsHide] = useState(false);
   const [selectedWalletIndex, setSelectedWalletIndex] = useState(0);
+  const [openBottomSheet, setOpenBottomSheet] = useState(false);
+  const [openSecurityCode, setOpenSecurityCode] = useState(false);
+  const bottomSheetRef = useRef(null);
+
+  const handleBottomSheetClose = () => {
+    setOpenBottomSheet(false);
+  };
+
+  const handleSecurityCodeClose = () => {
+    setOpenSecurityCode(false);
+  };
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView className="p-4">
         <View className="mb-4">
           <View className="flex-row items-center space-x-2 mb-4">
@@ -120,6 +135,7 @@ const Invoice = () => {
                 <TouchableOpacity
                   className="py-3 px-2 border rounded-xl border-[#0D99FF] border-dashed mt-2"
                   activeOpacity={0.7}
+                  onPress={() => setOpenBottomSheet(!openBottomSheet)}
                 >
                   <View className="flex-row items-center space-x-4 justify-center">
                     <Image source={images.plus} />
@@ -127,6 +143,13 @@ const Invoice = () => {
                       Chọn thẻ quà tặng
                     </Text>
                   </View>
+                  {/* <View className="flex-row items-center justify-between">
+                    <View></View>
+                    <Text className="text-sm font-semibold text-[#0D99FF]">
+                      100k
+                    </Text>
+                    <Image source={images.alter} />
+                  </View> */}
                 </TouchableOpacity>
               </View>
               <View className="w-full h-[1px] border border-[#8686863f] mb-4"></View>
@@ -150,15 +173,30 @@ const Invoice = () => {
           <TouchableOpacity
             activeOpacity={0.7}
             className=" py-4 px-8 bg-[#0D99FF] rounded-xl"
+            onPress={() => setOpenSecurityCode(!openSecurityCode)}
           >
             <Text className="font-semibold text-[#fff]">Thanh toán</Text>
           </TouchableOpacity>
         </View>
-        <Button
-          title="Present Modal"
-          onPress={() => router.push("/invoice/bs-promotion")}
-        />
       </ScrollView>
+      {openBottomSheet && (
+        <View style={{ ...StyleSheet.absoluteFillObject, zIndex: 10 }}>
+          <BottomSheetPromotion
+            title="Danh sách các khuyến mãi"
+            ref={bottomSheetRef}
+            onClose={handleBottomSheetClose}
+          />
+        </View>
+      )}
+      {openSecurityCode && (
+        <View style={{ ...StyleSheet.absoluteFillObject, zIndex: 10 }}>
+          <BottomSheetSecurityCode
+            title="Nhập mã bảo mật"
+            ref={bottomSheetRef}
+            onClose={handleSecurityCodeClose}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 };

@@ -13,30 +13,29 @@ import CashInIcon from "../../../assets/svg/cashin.svg";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 const { images } = constants;
-import authAPI from '../../api/auth.api'
+import authAPI from "../../api/auth.api";
 const HomePage = () => {
   const [isHide, setIsHide] = useState(false);
-  const [userData,setUserData] = useState('')
-  const [walletData,setWalletData] = useState('')
+  const [userData, setUserData] = useState("");
+  const [walletData, setWalletData] = useState("");
 
-  const [isLoading,setIsLoading] = useState(true)
-  useEffect(()=>{
-    
-      const fetchUser = async()=>{
-        try {
-          const user = await authAPI.getProfile()
-          setUserData(user.data.userData)
-          setWalletData(user.data.walletData)
-        } catch (error) {
-          console.log(error)
-        }finally{
-          setIsLoading(false)
-        }
-    }
-    
-    fetchUser()
-  },[])
- 
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await authAPI.getProfile();
+        setUserData(user.data.userData);
+        setWalletData(user.data.walletData);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
   return (
     <SafeAreaView>
       <ScrollView className="bg-white">
@@ -88,7 +87,16 @@ const HomePage = () => {
                   colors={["#0094FF", "#FFFFFF"]}
                 >
                   <Text className="text-[24px] ml-3 font-semibold text-white">
-                    {isLoading ? '...Loading' : `${isHide ? '*******' : formatCurrency(walletData?.currencies[0]?.balance,"VND")}`}
+                    {isLoading
+                      ? "...Loading"
+                      : `${
+                          isHide
+                            ? "*******"
+                            : formatCurrency(
+                                walletData?.currencies[0]?.balance,
+                                "VND"
+                              )
+                        }`}
                   </Text>
                 </LinearGradient>
               </View>
@@ -101,7 +109,14 @@ const HomePage = () => {
             </View>
 
             <View className="flex-row items-start justify-between mt-3 gap-x-1">
-              <TouchableOpacity onPress={()=>{router.push({pathname:'home/list-currencies',params:{item:JSON.stringify(walletData)}})}}>
+              <TouchableOpacity
+                onPress={() => {
+                  router.push({
+                    pathname: "home/list-currencies",
+                    params: { item: JSON.stringify(walletData) },
+                  });
+                }}
+              >
                 <View className="flex-col items-center gap-y-2">
                   <LottieView
                     style={{ flex: 1, width: 30, height: 30 }}
@@ -112,56 +127,80 @@ const HomePage = () => {
                   <Text className="font-medium">Chuyển tiền</Text>
                 </View>
               </TouchableOpacity>
-           
-            
+
               <Link href="home/scan-qr">
                 <View className="flex-col items-center gap-y-2">
-                  
                   <Text className="font-medium">Quét mã QR</Text>
                 </View>
               </Link>
             </View>
-          
           </View>
         </LinearGradient>
-          <View className="p-6">
-                <Text className="text-black font-iBold text-[20px]">Tài sản</Text>
-                {isLoading ? <Text>...Loading</Text> : <View>
-                  <ListCurrencies item={walletData?.currencies[0]} name="Vietnamese Dong" symbol="VND"></ListCurrencies> 
-                  <ListCurrencies item={walletData?.currencies[1]} name="US DOllar" symbol="USD"></ListCurrencies>
-                  <ListCurrencies item={walletData?.currencies[2]} name="Ethereum" symbol="ETH"></ListCurrencies>
-                  </View>}
-          </View>
+        <View className="p-6">
+          <Text className="text-black font-iBold text-[20px]">Tài sản</Text>
+          {isLoading ? (
+            <Text>...Loading</Text>
+          ) : (
+            <View>
+              <ListCurrencies
+                item={walletData?.currencies[0]}
+                name="Vietnamese Dong"
+                symbol="VND"
+              ></ListCurrencies>
+              <ListCurrencies
+                item={walletData?.currencies[1]}
+                name="US DOllar"
+                symbol="USD"
+              ></ListCurrencies>
+              <ListCurrencies
+                item={walletData?.currencies[2]}
+                name="Ethereum"
+                symbol="ETH"
+              ></ListCurrencies>
+            </View>
+          )}
+        </View>
       </ScrollView>
-      <StatusBar backgroundColor="#000"/>
+      <StatusBar backgroundColor="#000" />
     </SafeAreaView>
   );
 };
-const formatCurrency = (balance,currency)=>{
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
+const formatCurrency = (balance, currency) => {
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
     currency: currency,
   });
-  return formatter.format(balance)
-}
-const ListCurrencies = ({item,name,symbol})=>{
-  
+  return formatter.format(balance);
+};
+const ListCurrencies = ({ item, name, symbol }) => {
   const data = {
-    item,name,symbol
-  }
-  return(
-    <TouchableOpacity onPress={()=>{router.push({pathname: 'home/details-currency', params:{item:JSON.stringify(data)}})}}>
+    item,
+    name,
+    symbol,
+  };
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        router.push({
+          pathname: "home/details-currency",
+          params: { item: JSON.stringify(data) },
+        });
+      }}
+    >
       <View className="py-2 flex-row">
         <View>
-            <Image className="w-[41px] h-[41px] mx-2" source={images.si} />
-          </View>
-          <View>
-            <Text className="text-[#868686] font-iRegular text-[15px]">{name}</Text>
-            <Text className="text-black font-iBold text-[18px]">{formatCurrency(item?.balance,symbol)}</Text>
-          </View>
+          <Image className="w-[41px] h-[41px] mx-2" source={images.si} />
+        </View>
+        <View>
+          <Text className="text-[#868686] font-iRegular text-[15px]">
+            {name}
+          </Text>
+          <Text className="text-black font-iBold text-[18px]">
+            {formatCurrency(item?.balance, symbol)}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
-  )
-   
-}
+  );
+};
 export default HomePage;
