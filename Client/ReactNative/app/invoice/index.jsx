@@ -15,6 +15,7 @@ import Wallet from "../../components/Wallet";
 import { wallet } from "../../dummy-data/data";
 import constants from "../../constants";
 import BottomSheetSecurityCode from "./bs-security-code";
+import { router } from "expo-router";
 const { images } = constants;
 
 const Invoice = () => {
@@ -164,6 +165,7 @@ const Invoice = () => {
         <View className="flex-row items-center justify-between">
           <TouchableOpacity
             activeOpacity={0.7}
+            onPress={() => router.push("/home")}
             className=" py-4 px-8 border border-[#0D99FF] rounded-xl"
           >
             <Text className="text-[#0D99FF] font-semibold">Quay lại</Text>
