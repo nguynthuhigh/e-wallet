@@ -8,35 +8,9 @@ import ETHMiniIC from "../../../assets/svg/ic_ETHmini.svg"
 import AddCardIC from "../../../assets/svg/ic_addCard.svg"
 import VisaMiniIC from "../../../assets/svg/ic_Visamini.svg"
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { Link } from "expo-router";
 
 
-const CustomRadioButton = ({ options, onSelect }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const handleSelect = (option) => {
-    setSelectedOption(option);
-    if (onSelect) {
-      onSelect(option);
-    }
-  };
-
-  return (
-    <View style={styles.container}>
-      {options.map((option) => (
-        <TouchableOpacity
-          key={option.value}
-          style={styles.radioContainer}
-          onPress={() => handleSelect(option.value)}
-        >
-          <View style={styles.radioCircle}>
-            {selectedOption === option.value && <View style={styles.selectedRb} />}
-          </View>
-          <Text>{option.label}</Text>
-        </TouchableOpacity>
-      ))}
-    </View>
-  );
-};
 
 
 const RechargeWithdraw = () => {
@@ -54,17 +28,22 @@ const RechargeWithdraw = () => {
         return <Text>Chọn một mục</Text>;
     }
   };
-  const options = [
-      { label: '', value: 'option1' },
+  const [selectedItem1, setSelectedItem1] = useState('Visa');
+  const renderContent1 = () => {
+    switch (selectedItem1) {
+      case 'Visa':
+        return <TextInput>1 Jack</TextInput>;
+      case 'Visual':
+        return <Text>Visual</Text>;
+      default:
+        return <Text>Chọn một mục</Text>;
+    }
+  };
 
-    ];
-    const handleSelection = (value) => {
-      console.log('Selected value:', value);
-    };
   const [text, setText] = useState("");
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
-  const [routes] = useState([
+  const [routes] = useState([ 
     { key: 'first', title1: 'Nạp tiền' },
     { key: 'second', title2: 'Rút tiền' },
 
@@ -89,33 +68,53 @@ const RechargeWithdraw = () => {
                 Nạp tiền
             </Text>
             <View className='flex-row justify-between'>
-                <View className='flex-row bg-[#fcf4f4] w-[110px] h-[55px] p-2 justify-between rounded-[10px]'>
-                    <View className='justify-center'>
+            <TouchableOpacity
+                  style={[
+                    styles.touchable,
+                    selectedItem === 'VND' && styles.selectedItem,
+                  ]}
+                  onPress={() => setSelectedItem('VND')}
+                >
+                  <View className='justify-center'>
                         <LogoAppIC/>
                     </View>
                     <View className=' justify-center'>
                         <Text>VNĐ</Text>
                         <Text className='text-[12px]'>5.000.000Đ</Text>
                     </View>
-                </View>
-                <View className='flex-row bg-[#fcf4f4] w-[110px] h-[55px] p-2 justify-between rounded-[10px]'>
-                    <View className='justify-center'>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    styles.touchable,
+                    selectedItem === 'USD' && styles.selectedItem,
+                  ]}
+                  onPress={() => setSelectedItem('USD')}
+                >
+                  <View className='justify-center'>
                         <UsdPPIC/>
                     </View>
                     <View className=' justify-center'>
                         <Text>USD</Text>
                         <Text className='text-[12px]'>888.888$</Text>
                     </View>
-                </View>
-                <View className='flex-row bg-[#fcf4f4] w-[110px] h-[55px] p-2 justify-between rounded-[10px]'>
-                    <View className='justify-center'>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    styles.touchable,
+                    selectedItem === 'ETH' && styles.selectedItem,
+                  ]}
+                  onPress={() => setSelectedItem('ETH')}
+                >
+                  <View className='justify-center'>
                         <ETHMiniIC/>
                     </View>
                     <View className=' justify-center'>
                         <Text>Ether</Text>
                         <Text className='text-[12px]'>77.777 ETH</Text>
                     </View>
-                </View>
+                </TouchableOpacity>
                 
             </View>
             <View className='mt-2'>
@@ -135,44 +134,57 @@ const RechargeWithdraw = () => {
 
                 </TextInput>
             </View>
+
         </View>
         <View className='py-2 mt-4'>
             <Text className='text-[16px] font-semibold'>
                 Chọn nguồn tiền</Text>
         </View>
         <View className='bg-white h-[190px] p-3 rounded-[10px]'>
-            <TouchableOpacity className='w-full border-[2px] border-[#0094ff] px-2 py-3 flex-row rounded-xl '>
-                <View className='justify-center'>
-                    <VisaMiniIC/>
-                </View>
-                <View className='flex-row w-full justify-between'>
+                 <TouchableOpacity
+                  style={[
+                    styles.touchable1,
+                    selectedItem1 === 'Visa' && styles.selectedItem,
+                  ]}
+                  onPress={() => setSelectedItem1('Visa')}
+                >
+                  <View className='justify-center'>
+                        <VisaMiniIC/>
+                    </View>
+                    <View className=' justify-center'>
                     <View className='ml-3'>
                         <Text className='font-bold text-[16px]'>Visa</Text>
                         <Text className='text-[#9c9c9c] text-[12px]'>Miễn phí thanh toán</Text>
                     </View>
-                    <View className='justify-center mr-10'>
-                    <CustomRadioButton options={options} onSelect={handleSelection} />
                     </View>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity className='w-full border-[2px] border-[#8d8d8d] px-2 py-3 flex-row rounded-xl mt-2'>
-                <View className='justify-center'>
-                    <VisaMiniIC/>
-                </View>
-                <View className='flex-row w-full justify-between'>
+                </TouchableOpacity>
+            
+                <TouchableOpacity
+                  className='mt-2'
+                  style={[
+                    styles.touchable1,
+                    selectedItem1 === 'Visual' && styles.selectedItem,
+                  ]}
+                  onPress={() => setSelectedItem1('Visual')}
+                >
+                  <View className='justify-center'>
+                        <VisaMiniIC/>
+                    </View>
+                    <View className=' justify-center'>
                     <View className='ml-3'>
-                        <Text className='font-bold text-[16px]'>Visual Studio</Text>
-                        <Text className='text-[#9c9c9c] text-[12px]'>Miễn phí lập trình </Text>
+                        <Text className='font-bold text-[16px]'>Visual</Text>
+                        <Text className='text-[#9c9c9c] text-[12px]'>Miễn phí lập trình</Text>
                     </View>
-                    <View className='justify-center mr-10'>
-                    <CustomRadioButton options={options} onSelect={handleSelection} />
                     </View>
+                </TouchableOpacity>
+                <View className='flex-row justify-end items-center mt-3'>
+                    <AddCardIC/>
+
+                    <Link href='' className='ml-3 font-bold' >
+                    Thêm thẻ
+                     </Link>
                 </View>
-            </TouchableOpacity>
-            <View className='flex-row justify-end items-center mt-3'>
-              <AddCardIC/>
-              <Text className='ml-3 font-bold'>Thêm thẻ</Text>
-            </View>
+            
             
         </View>
         
@@ -375,6 +387,16 @@ const styles = StyleSheet.create({
     padding: 8,
     justifyContent: 'space-between',
     borderRadius: 10,
+  },
+
+  touchable1: {
+    flexDirection: 'row',
+    borderColor: '#c8c8c8',
+    borderWidth: 2,
+    width: 'auto',
+    height: 60,
+    padding: 8,
+    borderRadius: 12,
   },
 })
 
