@@ -8,6 +8,9 @@ import { Routes,Route } from 'react-router-dom';
 import PageNotFound from './components/pages/page-not-found';
 import Payment from './components/dashboard/pages/payment';
 import Developer from './components/developer/developer';
+import PaymentGateway from './components/payment-gateway/payment-gateway'
+import DemoPaymentGateway from './components/payment-gateway/demo'
+
 function App() {
   return (
     <Routes>
@@ -19,9 +22,9 @@ function App() {
       <Route path='/dashboard/payment' element={<Payment/>}/>
 
       <Route path='/update-profile' element={<UpdateProfile/>}/>
-      <Route path='/dev' element={<Developer/>}/>
-
-      
+      <Route path='/docs' element={<Developer/>}/>
+      <Route path='/payment-gateway' element={<PaymentGateway/>}/>
+      <Route path='/demo' element={<DemoPaymentGateway/>}/>
       <Route path='*' element={<PageNotFound/>}/>
       
     </Routes>
