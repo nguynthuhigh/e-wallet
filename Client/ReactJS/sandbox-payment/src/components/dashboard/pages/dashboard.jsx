@@ -1,12 +1,18 @@
 import Header from '../../header/header_dashboard'
 import LogoVND from '../../../assets/svg/logo_vnd.svg'
 import LogoETH from '../../../assets/svg/logo_eth.svg'
+import LogoUSD from '../../../assets/svg/logo_usd.svg'
+
 import {ItemInfo,ItemInfoLoading} from '../components/item_info';
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import partnerAPI from '../../../api/partner.api'
 import { ItemBalance,ItemBalanceLoading } from '../components/item_balance';
 export default function Dashboard(){
+    const [colors, setColors] = useState({
+        from: '#FC5C7D',
+        to: '#6A82FB'
+      });
     const [privateKey,setPrivatekey] = useState('')
     const [partner, setPartner] = useState('')
     const [partnerWallet, setPartnerWallet] = useState([])
@@ -34,6 +40,7 @@ export default function Dashboard(){
         };
         fetchData(); 
       },[]);
+    
     return(
         <div>
             <Header index={"dashboard"}>
@@ -67,8 +74,8 @@ export default function Dashboard(){
                 </div>
                 <div className='mt-5 font-bold text-3xl'>Balance</div>
                 {!isLoading ? <div className='grid  gap-5 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-5'>
-                    <ItemBalance logo={LogoVND} from="#FC5C7D" to="#6A82FB" end={partnerWallet?.currencies[0]?.balance} prefix="₫" separator="," decimal="" decimals="" currency="Vietnamese Dong"/>
-                    <ItemBalance logo={LogoETH} from="#12FFF7" to="#B3FFAB" end={partnerWallet?.currencies[1]?.balance} prefix="$" separator="," decimal="." decimals="2"  currency="US Dollar"/>
+                    <ItemBalance logo={LogoVND} from="#12FFF7" end={partnerWallet?.currencies[0]?.balance} prefix="₫" separator="," decimal="" decimals="" currency="Vietnamese Dong"/>
+                    <ItemBalance logo={LogoUSD} from="#12FFF7" to="#B3FFAB" end={partnerWallet?.currencies[1]?.balance} prefix="$" separator="," decimal="." decimals="2"  currency="US Dollar"/>
                     <ItemBalance logo={LogoETH} from="#EF32D9" to="#89FFFD" end={partnerWallet?.currencies[2]?.balance} suffix=" ETH" separator="," decimal="." decimals="2"  currency="Ethereum"/>
                 </div>:
                 <div className='grid  gap-5 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-5'>

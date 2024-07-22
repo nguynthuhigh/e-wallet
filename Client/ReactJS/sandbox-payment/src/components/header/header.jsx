@@ -13,7 +13,7 @@ const Button = ({...props})=>{
     )
 }
 
-export default function Home(){
+export default function Home({...props}){
     const [dashboard,setDashboard] = useState({link:'',name:''}) 
     useEffect(()=>{
         const fetchData = async () => {
@@ -29,9 +29,11 @@ export default function Home(){
           fetchData(); 
     },[])
     return(
-        <div className='w-full fixed z-10 my-4'>
+        <div className={`w-full fixed z-10 py-4 ${!props.color ? '' : 'bg-color-default'}`}>
             <div className='flex items-center px-4 max-w-[1250px] mx-auto'>
-                <img alt='logo_presspay' src={logo_white}></img>
+                <Link to='/'>
+                    <img alt='logo_presspay' src={logo_white}></img>
+                </Link>
                 <div className='max-md:hidden flex ml-10 w-[50%] justify-between text-[20px] font-semibold text-white'>
                     <Link to='/dev'>Developer</Link>
                     <Link >Community</Link>
