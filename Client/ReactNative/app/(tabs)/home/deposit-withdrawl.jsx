@@ -14,16 +14,16 @@ import { Link } from "expo-router";
 
 
 const RechargeWithdraw = () => {
-  const [selectedItem, setSelectedItem] = useState('VND');
+  const [selectedItem, setSelectedItem] = useState('Recharge-VND');
 
   const renderContent = () => {
     switch (selectedItem) {
-      case 'VND':
-        return <Text>Số dư trên ví pressPay của bạn là 5.000.000đ</Text>;
-      case 'USD':
-        return <Text>Số dư trên ví USD của bạn là 888.888$</Text>;
-      case 'ETH':
-        return <Text>Số dư trên ví Ether của bạn là 77.777ETH</Text>;
+      case 'Recharge-VND':
+        return <Text>0VNĐ</Text>;
+      case 'Recharge-USD':
+        return <Text>0$</Text>;
+      case 'Recharge-ETH':
+        return <Text>0ETH</Text>;
       default:
         return <Text>Chọn một mục</Text>;
     }
@@ -32,9 +32,23 @@ const RechargeWithdraw = () => {
   const renderContent1 = () => {
     switch (selectedItem1) {
       case 'Visa':
-        return <TextInput>1 Jack</TextInput>;
+        return <Text>1 Jack</Text>;
       case 'Visual':
-        return <Text>Visual</Text>;
+        return <Text>1 Visual</Text>;
+      default:
+        return <Text>Chọn một mục</Text>;
+    }
+  };
+  const [selectedItem2, setSelectedItem2] = useState('VND');
+
+  const renderContent2 = () => {
+    switch (selectedItem2) {
+      case 'VND':
+        return <Text>Số dư trên ví pressPay của bạn là 5.000.000đ</Text>;
+      case 'USD':
+        return <Text>Số dư trên ví USD của bạn là 888.888$</Text>;
+      case 'ETH':
+        return <Text>Số dư trên ví Ether của bạn là 77.777ETH</Text>;
       default:
         return <Text>Chọn một mục</Text>;
     }
@@ -71,9 +85,9 @@ const RechargeWithdraw = () => {
             <TouchableOpacity
                   style={[
                     styles.touchable,
-                    selectedItem === 'VND' && styles.selectedItem,
+                    selectedItem === 'Recharge-VND' && styles.selectedItem,
                   ]}
-                  onPress={() => setSelectedItem('VND')}
+                  onPress={() => setSelectedItem('Recharge-VND')}
                 >
                   <View className='justify-center'>
                         <LogoAppIC/>
@@ -87,9 +101,9 @@ const RechargeWithdraw = () => {
                 <TouchableOpacity
                   style={[
                     styles.touchable,
-                    selectedItem === 'USD' && styles.selectedItem,
+                    selectedItem === 'Recharge-USD' && styles.selectedItem,
                   ]}
-                  onPress={() => setSelectedItem('USD')}
+                  onPress={() => setSelectedItem('Recharge-USD')}
                 >
                   <View className='justify-center'>
                         <UsdPPIC/>
@@ -103,9 +117,9 @@ const RechargeWithdraw = () => {
                 <TouchableOpacity
                   style={[
                     styles.touchable,
-                    selectedItem === 'ETH' && styles.selectedItem,
+                    selectedItem === 'Recharge-ETH' && styles.selectedItem,
                   ]}
-                  onPress={() => setSelectedItem('ETH')}
+                  onPress={() => setSelectedItem('Recharge-ETH')}
                 >
                   <View className='justify-center'>
                         <ETHMiniIC/>
@@ -216,9 +230,9 @@ const RechargeWithdraw = () => {
                 <TouchableOpacity
                   style={[
                     styles.touchable,
-                    selectedItem === 'VND' && styles.selectedItem,
+                    selectedItem2 === 'VND' && styles.selectedItem,
                   ]}
-                  onPress={() => setSelectedItem('VND')}
+                  onPress={() => setSelectedItem2('VND')}
                 >
                   <View className='justify-center'>
                         <LogoAppIC/>
@@ -232,9 +246,9 @@ const RechargeWithdraw = () => {
                 <TouchableOpacity
                   style={[
                     styles.touchable,
-                    selectedItem === 'USD' && styles.selectedItem,
+                    selectedItem2 === 'USD' && styles.selectedItem,
                   ]}
-                  onPress={() => setSelectedItem('USD')}
+                  onPress={() => setSelectedItem2('USD')}
                 >
                   <View className='justify-center'>
                         <UsdPPIC/>
@@ -248,9 +262,9 @@ const RechargeWithdraw = () => {
                 <TouchableOpacity
                   style={[
                     styles.touchable,
-                    selectedItem === 'ETH' && styles.selectedItem,
+                    selectedItem2 === 'ETH' && styles.selectedItem,
                   ]}
-                  onPress={() => setSelectedItem('ETH')}
+                  onPress={() => setSelectedItem2('ETH')}
                 >
                   <View className='justify-center'>
                         <ETHMiniIC/>
@@ -265,7 +279,7 @@ const RechargeWithdraw = () => {
               <View className='mt-2'>
                 <Text className='p-2'>Nhập địa chỉ ví</Text>
             </View>
-              <View style={styles.contentContainer}>{renderContent()}</View>
+              <View style={styles.contentContainer}>{renderContent2()}</View>
             </View>
   
                 
@@ -292,17 +306,17 @@ const RechargeWithdraw = () => {
 
   return (
     <LinearGradient
-      style={{ height: '100%', width: '100%' }}
+      style={{ height: '100%', width: '100%' , backgroundColor: 'blue'}}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
       colors={["#0094FF", "#F2F2F2"]}
       locations={[0, 0.3]}
     >
-      <View style={{ width: '100%' }}>
+      <View className='h-full w-full'>
         <View style={{alignItems: 'center', paddingTop: 66, }}>
         <Text className='text-white text-xl font-semibold'>Nạp/Rút</Text>
         </View>
-        <View style={{ backgroundColor: 'white', width: '100%', height: '100%', marginTop: 10 }}>
+        <View style={{ backgroundColor: 'red', width: '100%', height: '100%', marginTop: 10}}>
           <TabView
             navigationState={{ index, routes }}
             renderScene={renderScene}
@@ -318,8 +332,7 @@ const RechargeWithdraw = () => {
                       <View>
                         <RechargeIC/>
                       </View>
-                      
-                          {route.title1 }
+                          {route.title1}
                           {route.title2}
                     </Text>           
                   </Text>
@@ -328,7 +341,6 @@ const RechargeWithdraw = () => {
               />
             )}
           />
-          
         </View>
       </View>
     </LinearGradient>
@@ -336,24 +348,6 @@ const RechargeWithdraw = () => {
 }; 
 
 const styles = StyleSheet.create({
-  radioContainer: {
-    flexDirection: 'row',
-  },
-  radioCircle: {
-    height: 15,
-    width: 15,
-    borderRadius: 12,
-    borderWidth: 2.5,
-    borderColor: '#0094ff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  selectedRb: {
-    width: 5,
-    height: 5,
-    borderRadius: 6,
-    backgroundColor: '#0094ff',
-  },
   item: {
     padding: 10,
     borderWidth: 1,
