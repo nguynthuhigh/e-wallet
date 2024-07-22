@@ -22,7 +22,11 @@ import logo_pressPay from "../assets/images/logo-pressPay.png";
 import voucher from "../assets/images/voucher.png";
 import plus from "../assets/images/plus.png";
 import alter from "../assets/images/alter.png";
+import addCard from "../assets/images/add-card.png";
+import visaCard from "../assets/images/Visa-Card-3-(Ocean Blue).png";
 export default {
+  visaCard,
+  addCard,
   alter,
   voucher,
   logo_pressPay,

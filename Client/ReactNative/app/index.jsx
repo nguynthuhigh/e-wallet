@@ -31,6 +31,7 @@ const Welcome = () => {
   if (isLoading) {
     return <LoadingComponent />;
   }
+  console.log(accessToken);
   if (accessToken) {
     return <Redirect href="/home" />;
   } else {

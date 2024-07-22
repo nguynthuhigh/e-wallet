@@ -1,137 +1,105 @@
-import {Text, View, TouchableOpacity,SafeAreaView} from 'react-native'
-import React from 'react'
-import { LinearGradient } from "expo-linear-gradient";
-import Back from "../../../assets/svg/back.svg"
-import Eye  from "../../../assets/svg/eye.svg"
-import EyeClosed  from "../../../assets/svg/eyeClosed.svg"
-import { useState } from 'react';
-import { router } from 'expo-router'
+import React, { useEffect, useState } from "react";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  Image,
+  ScrollView,
+  Alert,
+} from "react-native";
+import { router } from "expo-router";
+import { getCards, getCardDetails } from "../../api/creditcard.api";
+import ArrowMore from "../../../assets/svg/arrow_more.svg";
+import constants from "../../../constants";
+const { images } = constants;
+import CreditCard from "../../../components/CreditCard";
+import Loader from "../../../components/Loader"
+const CreditCardList = () => {
+  const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-const CreaditCard = () => {
-    const [isHide, setIsHide] = useState(false);
-    return(
-        <SafeAreaView>
-  <LinearGradient
-        style={{ height: '100%', width: '100%' }}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
-        colors={["#0094FF", "#F2F2F2"]}
-        locations={[0, 0.3]}>
-        <View>
-            <View className="mx-[19px] mt-5">
-                <View className="flex-row items-center">
-                    <TouchableOpacity onPress={() => router.back()}>
-                        <Back></Back>
-                    </TouchableOpacity>
-                    <Text className="text-white text-lg font-bold m-auto">
-                        Quản lý tài khoản/thẻ
-                    </Text>
+  useEffect(() => {
+    const fetchCards = async () => {
+      try {
+        const response = await getCards();
+        console.log("Response:", response.data); 
+        if (response && response.data && Array.isArray(response.data)) {
+          const detailedCards = await Promise.all(
+            response.data.map(async (card) => {
+              const cardDetails = await getCardDetails(card._id);
+              console.log("Card details:", cardDetails); 
+              return {
+                ...cardDetails.data,
+                id: card._id,
+              };
+            })
+          );
+          setCards(detailedCards);
+        } else {
+          console.error("Không đúng định dạng:", response);
+          Alert.alert("Lỗi", "Không đúng định dạng.");
+        }
+      } catch (error) {
+        console.error("Không thể lấy được danh sách thẻ:", error);
+        Alert.alert("Lỗi", "Không thể lấy được danh sách thẻ.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCards();
+  }, []);
+
+  if (loading) {
+    return (
+        <Loader isLoading={loading}/>
+    );
+  }
+
+  return (
+    <SafeAreaView>
+      <ScrollView className="px-4">
+        {cards.map((card) => (
+          <CreditCard
+            key={card.id}
+            type="visa" 
+            number={card.number}
+            expiry={`${card.expiryMonth}/${card.expiryYear - 2000}`}
+            cvc={card.cvv}
+            name={card.name}
+          />
+        ))}
+        <View className="mt-3">
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => router.push("/wallet/credit-card-linking")}
+          >
+            <View className="border-[#0D99FF] border-dashed border px-3 py-2 rounded-lg">
+              <View className="flex-row items-center space-x-1 w-full">
+                <View className="w-[15%]">
+                  <Image source={images.addCard} />
                 </View>
+                <View className="w-[85%] flex-row items-center">
+                  <View className="w-[90%]">
+                    <Text className="font-semibold text-base text-[#0D99FF]">
+                      Liên kết thẻ tín dụng
+                    </Text>
+                    <Text className="text-[10px] font-semibold">
+                      Đăng ký nhanh chóng, miễn phí thanh toán
+                    </Text>
+                  </View>
+                  <View>
+                    <ArrowMore />
+                  </View>
+                </View>
+              </View>
             </View>
-           <View className="bg-white h-full mt-[15px] ">
-                <View className="flex-row items-center justify-between mt-[19px] ml-[13px] ">
-                    <Text className="font-bold text-[18px] mb-[15px] ">
-                        Tài khoản/Thẻ
-                    </Text>
-                    <View className='flex-row mx-[22px]'>
-                        <View className="mx-[22px]">
-                        </View>
-                        <TouchableOpacity 
-                             onPress={() => {
-                            setIsHide(!isHide);}}>
-                            {isHide ? (
-                            <EyeClosed  width={30} height={30} />
-                                    ) : (
-                            <Eye width={30} height={30} />
-                                                )}
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View  className="flex-row items-center justify-between mx-[13px]">
-                    <Text className='font-iRegular text-[14px]'>
-                        Thanh toán, chuyển tiền theo thứ tự  bên
-                    </Text>
-                    <View className="flex-row items-center justify-between mr-[15px]">
-                    <Text className="font-bold text-[14px] mx-[10px]">
-                        Sắp xếp
-                    </Text>
-                    <Text className="font-bold text-[14px]">
-                        Số dư
-                    </Text>
-                    </View>
-                </View>
-                <View className='font-iRegular text-[14px] mx-[13px]'>
-                    <Text>dưới <Text className="text-[#0094FF]">
-                        trường hợp đặc biệt </Text></Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 
-                </View>
-                <View  className="mx-[13px] mt-[10px] ">
-                    <TouchableOpacity onPress={() => router.push("/wallet/credit_details")}>
-                    <View className="bg-[#0D99FF] rounded-[10px] mb-[10px] h-[72px] items-center flex-row">
-                        <View className=" rounded-full bg-white w-[42px] h-[42px] ml-[18px] items-center justify-center ">
-                        </View>
-                        <View className=" ml-[10px]">
-                            <Text className="font-bold text-[16px] text-white">
-                                Ví PressPay
-                            </Text>
-                            <Text className="font-regular text-[14px] text-white mt-[5px]">
-                                      số dư: 1.000.000đ          
-                            </Text>
-                        </View>
-                    </View>
-                    </TouchableOpacity>
-                    <View className="flex-cols justify-between ">
-                        <View className="bg-[#FF0606] rounded-[10px] mb-[10px] h-[72px] items-center flex-row">
-                            <View className=" rounded-full bg-white w-[42px] h-[42px] ml-[18px] items-center  justify-center ">
-                                <Text>Icon</Text>
-                            </View>
-                        <Item_Title title={"Túi thần tài"} content={"Số dư: 1.000.000"}> </Item_Title>
-                    </View>
-                    <View className="bg-[#0057FF] rounded-[10px] mb-[10px] h-[72px] items-center flex-row">
-                        <View className=" rounded-full bg-white w-[42px] h-[42px] ml-[18px] items-center  justify-center ">
-                        </View>
-                        <Item_Title title={"Sacombank"} content={"Thanh toán trực tiếp"}> </Item_Title>
-                    </View>
-                    
-                    <View className="bg-[#FFBDE9] opacity-26 h-[90px] border-dashed border-[1px] justify-between py-[5px] flex-col items-center rounded-[10px] border-[#FF00A8]">
-                        <View className="bg-[#FF00A8] rounded-[10px] h-[36px]  flex-row items-center   mt-[10px]">
-                           <TouchableOpacity onPress={()=>{router.push('wallet/credit_details')}}>
-                            <Text className="font-bold  text-[16px] text-white mx-[10px] ">
-                                    + Thêm thẻ Visa
-                                </Text>
-                           </TouchableOpacity>
-                            
-                        </View>
-                        <Text>
-                           Liên kết thẻ có sẵn
-                        </Text>
-
-                    </View>    
-                </View>  
-                    
-                </View>
-                
-           </View>
-
-        </View> 
-        </LinearGradient>
-        </SafeAreaView>
-      
-    )
-}
-const Item_Title = ({...props})=>{
-    return( 
-       
-    <View className=" ml-[10px]">
-        <Text className="font-bold text-[16px] text-white">
-        {props.title}
-        </Text>
-        <Text className="font-regular text-[14px] text-white mt-[5px]">
-        {props.content}        
-        </Text>
-    </View>
-       
-        
-)
-}
-export default CreaditCard; 
+export default CreditCardList;

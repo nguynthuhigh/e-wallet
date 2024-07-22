@@ -1,20 +1,17 @@
 import { Text, View, Image, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
-import Item from "../../../components/Item";
-import RefIcon from "../../../assets/svg/ref.svg";
-import QrCode from "../../../assets/svg/qr_code_acc.svg";
-import Card from "../../../assets/svg/card.svg";
-import Arrow_More from "../../../assets/svg/arrow_more.svg";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { router } from 'expo-router'
-
+import { router } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import Item from "../../../components/Item";
+import Card from "../../../assets/svg/card.svg";
+import Arrow_More from "../../../assets/svg/arrow_more.svg";
 const Wallet = () => {
-  const hanldeLogout =()=>{
-    AsyncStorage.removeItem('AccessToken')
-    router.replace('/sign-in')
-  }
+  const handleLogout = () => {
+    AsyncStorage.removeItem("AccessToken");
+    router.replace("/sign-in");
+  };
   return (
     <SafeAreaView>
       <LinearGradient
@@ -36,99 +33,66 @@ const Wallet = () => {
                     source={{ uri: "https://reactjs.org/logo-og.png" }}
                   />
                 </View>
-                <View className="w-full absolute rounded-xl h-[150px] bg-white flex-col items-center">
-                  <View className="w-full mt-[47px] ">
+                <View className="w-full absolute rounded-xl py-4 bg-white flex-col items-center">
+                  <View className="w-full mt-9 ">
                     <Text className="w-fit font-bold text-center text-[20px]">
                       Elon Musk
                     </Text>
-                    <View className="w-fit mx-auto flex-row">
+                    <View className=" mt-2 mx-auto flex-row">
                       <Text className=" text-[15px]">0369889XXX</Text>
-                      <View className="bg-[#53C41C] text-[10px] items-center flex-row    rounded-full">
-                        <Text className="text-[10px] text-white mx-[2px]">
+                      <View className="bg-[#53C41C] ml-1 text-[10px] items-center flex-row    rounded-full px-2">
+                        <Text className="text-[10px] text-white">
                           Đã xác thực
                         </Text>
-                      </View>
-                    </View>
-                    {/* <View style={styles.container}>
-                      <View style={styles.row}>
-                        <Gray_1 width="208" height="38" />
-                        <Gray_2 style={styles.mlAuto} width="208" />
-                      </View>
-                    </View> */}
-                    <View className="flex-row mt-5">
-                      <View className="flex-row justify-center items-center w-[50%]">
-                        <View className="z-10 flex-row justify-center items-center">
-                          <QrCode />
-                          <Text className="font-bold text-[13px] ">
-                            Trang cá nhân
-                          </Text>
-                        </View>
-                        {/* <View style={styles.triangleCorner}></View> */}
-                      </View>
-                      <View className="flex-row justify-center items-center w-[50%]">
-                        <RefIcon />
-                        <Text className="font-bold text-[13px]">
-                          Trang cá nhân
-                        </Text>
-                        {/* <View style={styles.triangleCornerRight}></View> */}
                       </View>
                     </View>
                   </View>
                 </View>
               </View>
-              <View className="mt-[60px] ">
+              <View className=" mt-10">
                 <Text className="font-bold text-[20px] my-4">Cài đặt</Text>
-                <View className="w-full rounded-t-xl bg-white p-4">
-                  <Link href="/wallet/notification">
-                    <View className="flex-row w-full my-3">
-                      <Card className="ml-2"></Card>
-                      <Text className="ml-5 font-bold text-[14px]">
-                        Cài đặt thông báo
-                      </Text>
-                      <View className="ml-auto">
+                <View className="w-full flex-col space-y-4 rounded-t-xl bg-white p-4">
+                  <TouchableOpacity activeOpacity={0.7}>
+                    <View className="flex-row items-center w-full">
+                      <Ionicons name="person" size={24} width="15%" />
+                      <View className="flex-row items-center justify-between w-[85%]">
+                        <Text className="font-bold text-sm">
+                          Thông tin tài khoản
+                        </Text>
                         <Arrow_More></Arrow_More>
                       </View>
                     </View>
-                  </Link>
-
-                  <Link href="/wallet/credit_card">
-                  <View className="flex-row w-full my-3">
-                    <Card className="ml-2"></Card>
-                    <Text className="ml-5 font-bold text-[14px]">
-                      Quản lí tài khoản/thẻ
-                    </Text>
-                    <View className="ml-auto">
-                      <Arrow_More></Arrow_More>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => router.navigate("/wallet/credit_card")}
+                  >
+                    <View className="flex-row items-center w-full">
+                      <View className="w-[15%]">
+                        <Card />
+                      </View>
+                      <View className="flex-row items-center justify-between w-[85%]">
+                        <Text className="font-bold text-sm">Quản lý thẻ</Text>
+                        <Arrow_More></Arrow_More>
+                      </View>
                     </View>
-                  </View></Link>
-                  <View className="flex-row w-full my-3">
-                    <Card className="ml-2"></Card>
-                    <Text className="ml-5 font-bold text-[14px]">
-                      Quản lí tài khoản/thẻ
-                    </Text>
-                    <View className="ml-auto">
-                      <Arrow_More></Arrow_More>
+                  </TouchableOpacity>
+                  <TouchableOpacity activeOpacity={0.7}>
+                    <View className="flex-row items-center w-full">
+                      <Ionicons name="settings" size={24} width="15%" />
+                      <View className="flex-row items-center justify-between w-[85%]">
+                        <Text className="font-bold text-sm">
+                          Quản lý bảo mật
+                        </Text>
+                        <Arrow_More></Arrow_More>
+                      </View>
                     </View>
-                  </View>
-                  <View className="flex-row w-full my-3">
-                    <Card className="ml-2"></Card>
-                    <Text className="ml-5 font-bold text-[14px]">
-                      Quản lí tài khoản/thẻ
-                    </Text>
-                    <View className="ml-auto">
-                      <Arrow_More></Arrow_More>
-                    </View>
-                  </View>
+                  </TouchableOpacity>
                 </View>
                 <Text className="font-bold text-[20px] my-4">Tiện ích</Text>
                 <View className="w-full rounded-t-xl bg-white p-4">
                   <Item></Item>
-                  <Item></Item>
-                  <Item></Item>
-                  <Item></Item>
-                  <Item></Item>
-                  <Item></Item>
-                  <TouchableOpacity onPress={hanldeLogout}>
+                  <TouchableOpacity onPress={handleLogout}>
                     <Text>Logout</Text>
                   </TouchableOpacity>
                 </View>

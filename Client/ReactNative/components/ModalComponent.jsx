@@ -13,7 +13,7 @@ const ModalComponent = ({ hideModal }) => {
           <View className="w-full h-14 flex-row items-center justify-evenly">
             <TextInput
               placeholder="Mã khuyến mãi"
-              className="h-full flex-col items-center justify-center border-2 rounded-xl w-[60%] bg-white px-4 border-[#AAAAAA]"
+              className="h-full flex-col items-center justify-center border-2 rounded-xl w-[60%] bg-white px-4 border-[#AAAAAA] focus:outline-none focus:ring focus:border-[#0D99FF]"
               maxLength={10}
               onChange={handleChangeValue}
             />
