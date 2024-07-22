@@ -22,13 +22,11 @@ export default function PaymentGateway(){
                 if(response.status===200){
                     setDataTransaction(response.data.data)
                     setIsLoading(false)
-                    if(!dataTransaction){
-                        navigate('/*')
-                    }
                 }
                 
             } catch (error) {
-               navigate('/*')
+                console.log(error)
+                navigate('/*')
             }
         }
         fetchTransaction()
