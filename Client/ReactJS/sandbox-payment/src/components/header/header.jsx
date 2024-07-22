@@ -3,6 +3,7 @@ import arrow_right from '../../assets/svg/arrow_right.svg'
 import { Link } from "react-router-dom"
 import { useEffect,useState } from 'react'
 import partnerAPI from '../../api/partner.api'
+import Cookies from "universal-cookie";
 const Button = ({...props})=>{
     return ( 
         <Link className='ml-auto' to={props.link}><div className='w-[100px] border-[1px] border-white  h-[30px] justify-center text-[12px]  rounded-full items-center flex   bg-white text-color-default font-semibold'>
@@ -14,20 +15,28 @@ const Button = ({...props})=>{
 }
 
 export default function Home({...props}){
+    const cookie = new Cookies()
     const [dashboard,setDashboard] = useState({link:'',name:''}) 
-    useEffect(()=>{
-        const fetchData = async () => {
-            try {
-              const partnerProfile = await partnerAPI.getProfilePartner();
-              if(partnerProfile.status === 200){
-                setDashboard({name:'Dashboard',link:'/dashboard'})
-              }
-            } catch (error) {
+        useEffect(()=>{
+            const token =cookie.get('token_auth')
+            if(token){
+
+            const fetchData = async () => {
+                try {
+                const partnerProfile = await partnerAPI.getProfilePartner();
+                if(partnerProfile.status === 200){
+                    setDashboard({name:'Dashboard',link:'/dashboard'})
+                }
+                } catch (error) {
+                    setDashboard({name:'SignIn',link:'/sign-in'})
+                }
+            };
+            fetchData(); }
+            else{
                 setDashboard({name:'SignIn',link:'/sign-in'})
             }
-          };
-          fetchData(); 
-    },[])
+        },[])
+    
     return(
         <div className={`w-full fixed z-10 py-4 ${!props.color ? '' : 'bg-color-default'}`}>
             <div className='flex items-center px-4 max-w-[1250px] mx-auto'>

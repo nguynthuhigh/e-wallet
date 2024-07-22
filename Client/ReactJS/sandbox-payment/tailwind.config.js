@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'background-default': "url('./assets/images/bg_home.png')"
+        'background-default': "url('assets/images/bg_home.png')",
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
