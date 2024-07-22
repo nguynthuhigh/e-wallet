@@ -1,7 +1,7 @@
 import CountUp from 'react-countup';
 export function ItemBalance({...props}){
     return(
-        <div className={`bg-gradient-to-r relative from-[${props.from}] rounded-tr-[50px] to-[${props.to}] w-full h-[130px] rounded-2xl p-4`}>
+        <div className={`bg-gradient-to-r relative from-[#FC5C7D] to-[#6A82FB] rounded-tr-[50px]  w-full h-[130px] rounded-2xl p-4`}>
         <h1 className='text-white font-bold text-4xl'>
         <CountUp  
             duration={2.5}
