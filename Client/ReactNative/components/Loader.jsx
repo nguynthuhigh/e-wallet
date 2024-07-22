@@ -6,7 +6,7 @@ const Loader = ({ isLoading }) => {
   if (!isLoading) return null;
   return (
     <View
-      className="absolute flex justify-center items-center w-full h-full bg-[#161622]/60 z-10"
+      className="absolute flex justify-center items-center w-full h-full bg-[#161622]/80 z-10"
       style={{ height: screenHeight }}
     >
       <ActivityIndicator
