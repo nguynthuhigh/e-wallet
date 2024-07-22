@@ -61,9 +61,12 @@ const TransactionHistory = () => {
       ) : (
         <FlatList
           data={dataTransaction}
-          keyExtractor={(item) => item.id}
           renderItem={({ item, index }) => (
-            <Item_Transaction key={index} index={index} item={item} />
+            <Item_Transaction
+              keyExtractor={(item) => item.id}
+              index={index}
+              item={item}
+            />
           )}
         />
       )}
