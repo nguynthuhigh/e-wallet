@@ -44,10 +44,10 @@ export default function Home({...props}){
                     <img alt='logo_presspay' src={logo_white}></img>
                 </Link>
                 <div className='max-md:hidden flex ml-10 w-[50%] justify-between text-[20px] font-semibold text-white'>
-                    <Link to='/dev'>Developer</Link>
+                    <Link to='/docs'>Documents</Link>
                     <Link >Community</Link>
-                    <Link>Download App</Link>
-                    <Link>Payment Gateway</Link>
+                    <Link to='/download-app'>Download App</Link>
+                    <Link to='/demo'>Payment Gateway</Link>
                 </div>
                    <Button name={dashboard.name} link={dashboard.link}></Button>
             </div>
