@@ -28,7 +28,7 @@ const RechargeWithdraw = () => {
         return <Text>Chọn một mục</Text>;
     }
   };
-  const [selectedItem1, setSelectedItem1] = useState('Visa');
+  const [selectedItem1, setSelectedItem1] = useState(null);
   const renderContent1 = () => {
     switch (selectedItem1) {
       case 'Visa':
@@ -44,22 +44,16 @@ const RechargeWithdraw = () => {
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [routes] = useState([ 
-    { key: 'first', title1: 'Nạp tiền' },
-    { key: 'second', title2: 'Rút tiền' },
+    { key: 'first', title1: ' Nạp tiền' },
+    { key: 'second', title2: ' Rút tiền' },
 
   ]);
   const [value, setValue] = useState('');
 
   const handleChangeText = (text) => {
-    const numericText = text.replace(/[^0-9]/g, ''); // Loại bỏ các ký tự không phải số
-    const formattedText = formatNumber(numericText); // Định dạng số
-    setValue(formattedText);
+    
+    setValue(text);
   };
-
-  const formatNumber = (num) => {
-    return num.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Thêm dấu chấm vào số
-  };
-
   const FirstRoute = () => (
     <View className='h-full'>
       <View className='p-4 bg-gray-200 h-[63%]'>
@@ -120,15 +114,15 @@ const RechargeWithdraw = () => {
             <View className='mt-2'>
                 <Text className='p-2'>Số tiền cần nạp</Text>
             </View>
-            <View className='h-[50px] border-[1px] border-[rgb(194,194,194)] rounded-[10px] justify-center relative'>
+            <View className='h-[50px] border-[1.5px] border-blue-500 rounded-[10px] justify-center relative'>
               
                 <TextInput
                 
                     className='pl-7 text-[20px]'
-                    placeholder="0Đ"
+                    placeholder="0đ"
                     value={value}
                     onChangeText={handleChangeText}
-                    keyboardType="numeric" // Đảm bảo hiển thị bàn phím số
+                    keyboardType="numeric" 
                 >
                 {value !== '' && <Text style={styles.currency}>Đ</Text>}
 

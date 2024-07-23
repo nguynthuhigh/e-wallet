@@ -16,11 +16,12 @@ import OTPIcon from "../../assets/svg/ic_OTP.svg";
 import { useLocalSearchParams, router } from "expo-router";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { err } from "react-native-svg";
 
 const VerifySignUp = () => {
   const { email } = useLocalSearchParams();
   const [OTP, setOTP] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const handleOTPChange = (newOTP) => {
     setOTP(newOTP);
@@ -62,14 +63,14 @@ const VerifySignUp = () => {
       }
     } catch (error) {
       console.error("Error response:", error.response);
-      setErrorMessage("Có lỗi xảy ra, vui lòng thử lại sau.");
+      setErrorMessage(error.response.message);
     }
   };
 
   return (
     <SafeAreaView style={styles.backgroundColor}>
       <ScrollView>
-        <View className="h-[255px] flex flex-wrap justify-center ml-[110px]">
+        <View className="h-[255px]  flex flex-wrap justify-center ml-[110px]">
           <View className="absolute top-2 ml-[-10px]">
             <BG_BCIcon />
           </View>
@@ -83,14 +84,14 @@ const VerifySignUp = () => {
             <BG_ETHIcon />
           </View>
         </View>
-        <View className="p-6 pt-0 bg-white rounded-[35px] h-[80%]">
+        <View className="p-6 pt-0 bg-white rounded-[35px] h-full">
           <View
             className="absolute top-[-50px] ml-[105px]"
             style={styles.rotatedUSDTIcon}
           >
             <BG_USDTIcon />
           </View>
-          <Text className="font-bold text-[24px] text-center mt-10 mb-5">
+          <Text className="font-bold text-[24px]  text-center mt-10 mb-5">
             Xác Thực Đăng Ký
           </Text>
           <View className="items-center mb-5">
@@ -99,6 +100,7 @@ const VerifySignUp = () => {
               {email}
             </Text>
           </View>
+          {errorMessage ? <Text className="text-center text-red-400 mb-1 mt-0" >{errorMessage}</Text> : ''}
           <View className="border-[1.5px] border-[#0094FF] rounded-[30px] h-[75px]">
             <View className="h-[100%] flex-row items-center ml-4">
               <OTPIcon />

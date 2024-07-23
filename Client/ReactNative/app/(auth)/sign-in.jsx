@@ -21,6 +21,7 @@ import axios from "axios";
 const SignIn = () => {
   const [text, setText] = useState("");
   const [password, setPassword] = useState("");
+  const [errorLogin,setErrorLogin] = useState(null)
   const login = async () => {
     try {
       console.log(process.env.API_URL + "/api/v1/user/signin");
@@ -44,7 +45,8 @@ const SignIn = () => {
         router.push({ pathname: "/verify-sign-in", params: { text } });
       }
     } catch (error) {
-      console.error(error);
+      console.error(error.response.data.message);
+      setErrorLogin(error.response.data.message)
     }
   };
   return (
@@ -71,36 +73,41 @@ const SignIn = () => {
           >
             <BG_USDTIcon />
           </View>
-          <Text className="font-bold text-[24px] text-center mt-10 mb-8">
+          <Text className="font-bold text-[24px] text-center mt-10 mb-3">
             Đăng Nhập
           </Text>
-          <View className="border-[1.5px] border-[#0094FF] rounded-[30px]  h-[150px]">
-            <View className="h-[50%] flex-row items-center ml-4">
-              <AccountIcon className="" />
-              <TextInput
-                style={styles.input}
-                className="font-semibold ml-4"
-                placeholder="Email"
-                onChangeText={(newText) => setText(newText)}
-                defaultValue={text}
-              ></TextInput>
+          {errorLogin ? <Text className="text-center text-red-400 mb-1 mt-0" >{errorLogin}</Text> : ''}
+          <View className="   h-[150px]">
+            <View className="h-[65px] flex-row items-center  rounded-[30px] border-[1.5px] border-[#0094FF] ">
+              <View className="flex-row items-center ml-4">
+                <AccountIcon className="" />
+                <TextInput
+                  style={styles.input}
+                  className="font-semibold ml-4"
+                  placeholder="Email"
+                  onChangeText={(newText) => setText(newText.toLowerCase())}
+                  defaultValue={text}
+                ></TextInput>
+              </View>
             </View>
-            <View className="border-b-[1.5px] border-[#0094FF]"></View>
-            <View className="h-[50%] flex-row items-center ml-4">
-              <PasswordIcon />
-              <TextInput
-                style={styles.input}
-                className="font-semibold ml-4"
-                placeholder="Mật khẩu"
-                onChangeText={(newText) => setPassword(newText)}
-                defaultValue={password}
-              ></TextInput>
+            <View className="h-[65px] flex-row items-center mt-2 rounded-[30px] border-[1.5px] border-[#0094FF]">
+              <View className="flex-row items-center ml-4">
+                <PasswordIcon />
+                <TextInput
+                  style={styles.input}
+                  className="font-semibold ml-4"
+                  placeholder="Mật khẩu"
+                  secureTextEntry
+                  onChangeText={(newText) => setPassword(newText)}
+                  defaultValue={password}
+                ></TextInput>
+              </View>
             </View>
           </View>
           <TouchableOpacity className="items-end">
-            <Text className="my-4 font-bold">Quên mật khẩu?</Text>
+            <Text className="my-2 font-bold">Quên mật khẩu?</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={login} className="w-full mt-5">
+          <TouchableOpacity onPress={login} className="w-full">
             <View className="w-full bg-[#0094FF] h-[60px] flex-row items-center justify-center rounded-full mt-6">
               <Text className="text-white text-[20px] text-center font-bold">
                 Đăng Nhập
