@@ -35,12 +35,8 @@ export default function ScanQR() {
   }, [borderAnimation]);
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    console.log(data)
-    console.log(
-      `Bar code with type ${type} and data ${Linking.openURL(
-        `${data}`
-      )}  has been scanned!`
-    );
+    const id = JSON.stringify(data);
+    router.push({ pathname: "invoice", params: { item: id } });
   };
   const borderColor = borderAnimation.interpolate({
     inputRange: [0, 0.5, 1],

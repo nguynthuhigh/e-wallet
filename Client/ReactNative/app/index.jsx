@@ -36,6 +36,7 @@ const Welcome = () => {
     return <Redirect href="/home" />;
   } else {
     return <Redirect href="/sign-in" />;
+    ``;
   }
 };
 

@@ -8,20 +8,21 @@ import React, {
 import { StatusBar } from "expo-status-bar";
 import { Tabs, useSegments } from "expo-router";
 import { View, Text, Animated, Dimensions } from "react-native";
+import LottieView from "lottie-react-native"
 import constants from "../../constants";
 const { icons } = constants;
 import TabIcon from "../../components/TabIcon";
 
 const ScanTabIcon = React.memo(({ focused }) => {
   return (
-    <View className="items-center justify-end">
+    <View className="items-center">
       <View className="w-20 h-20 items-center bg-white overflow-hidden rounded-full">
-        {/* <LottieView
+        <LottieView
           style={{ flex: 1, width: 60, height: 60 }}
           source={require("../../assets/animation/qr_scan.json")}
           autoPlay
           loop
-        /> */}
+        />
       </View>
       <Text
         className={`${
@@ -80,7 +81,7 @@ const TabLayout = () => {
     () => ({
       backgroundColor: "#fff",
       borderTopWidth: 2,
-      height: 84,
+      height: 100,
       borderTopColor: "rgba(140, 140, 140, 0.2)",
     }),
     []
@@ -236,7 +237,7 @@ const TabLayout = () => {
             height: 2,
             backgroundColor: "#0D99FF",
             position: "absolute",
-            bottom: 83,
+            bottom: 99,
             left: 0,
             borderRadius: 20,
             transform: [{ translateX: tabOffsetValue }],

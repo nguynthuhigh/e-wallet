@@ -28,6 +28,7 @@ const StackLayout = () => {
           ),
         }}
       />
+      <Stack.Screen name="details-bill" options={{ headerShown: false }} />
     </Stack>
   );
 };
