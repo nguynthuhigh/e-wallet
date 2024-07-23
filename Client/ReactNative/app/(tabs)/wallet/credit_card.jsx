@@ -23,8 +23,8 @@ const CreditCardList = () => {
     const fetchCards = async () => {
       try {
         const response = await getCards();
-        console.log("Response:", response.data); 
-        if (response && response.data && Array.isArray(response.data)) {
+        console.log("Response:", response?.data); 
+        if (response && response?.data && Array.isArray(response?.data)) {
           const detailedCards = await Promise.all(
             response.data.map(async (card) => {
               const cardDetails = await getCardDetails(card._id);
@@ -63,7 +63,7 @@ const CreditCardList = () => {
         {cards.map((card) => (
           <CreditCard
             key={card.id}
-            type="visa" 
+            type={card.type} 
             number={card.number}
             expiry={`${card.expiryMonth}/${card.expiryYear - 2000}`}
             cvc={card.cvv}
