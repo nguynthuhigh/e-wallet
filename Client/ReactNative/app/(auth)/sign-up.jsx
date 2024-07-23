@@ -94,7 +94,7 @@ const SignUp = () => {
                 style={styles.input}
                 className="font-semibold ml-4"
                 placeholder="Email"
-                onChangeText={(newText) => setEmail(newText)}
+                onChangeText={(newText) => setEmail(newText.toLowerCase())}
                 defaultValue={email}
               />
             </View>

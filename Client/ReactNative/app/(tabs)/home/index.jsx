@@ -12,6 +12,9 @@ import NotificationIcon from "../../../assets/svg/notification.svg";
 import CashInIcon from "../../../assets/svg/cashin.svg";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
+import logoETH from '../../../assets/svg/logo_eth.svg'
+import logoUSD from '../../../assets/svg/logo_usd.svg'
+import logoVND from '../../../assets/svg/logo_vnd.svg'
 const { images } = constants;
 import authAPI from "../../api/auth.api";
 const HomePage = () => {
@@ -38,13 +41,13 @@ const HomePage = () => {
 
   return (
     <SafeAreaView>
-      <ScrollView className="bg-white">
-        <LinearGradient
+      <ScrollView className="bg-white h-full">
+        {/* <LinearGradient
           className="rounded-b-[50px] p-[3px] pt-0 w-full mx-auto"
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 1 }}
           colors={["#FFFFFF", "#0094FF"]}
-        >
+        > */}
           <View className="bg-white p-5 rounded-b-[50px]">
             <View className="flex-row w-full">
               <View className="flex-row justify-center items-center">
@@ -135,8 +138,8 @@ const HomePage = () => {
               </Link>
             </View>
           </View>
-        </LinearGradient>
-        <View className="p-6">
+        {/* </LinearGradient> */}
+        <View className="p-6 pt-0 ">
           <Text className="text-black font-iBold text-[20px]">Tài sản</Text>
           {isLoading ? (
             <Text>...Loading</Text>
@@ -146,16 +149,19 @@ const HomePage = () => {
                 item={walletData?.currencies[0]}
                 name="Vietnamese Dong"
                 symbol="VND"
+                Image={logoVND}
               ></ListCurrencies>
               <ListCurrencies
                 item={walletData?.currencies[1]}
-                name="US DOllar"
+                name="US Dollar"
                 symbol="USD"
+                Image={logoUSD}
               ></ListCurrencies>
               <ListCurrencies
                 item={walletData?.currencies[2]}
                 name="Ethereum"
                 symbol="ETH"
+                Image={logoETH}
               ></ListCurrencies>
             </View>
           )}
@@ -172,7 +178,7 @@ const formatCurrency = (balance, currency) => {
   });
   return formatter.format(balance);
 };
-const ListCurrencies = ({ item, name, symbol }) => {
+const ListCurrencies = ({ item, name, symbol,Image }) => {
   const data = {
     item,
     name,
@@ -187,11 +193,9 @@ const ListCurrencies = ({ item, name, symbol }) => {
         });
       }}
     >
-      <View className="py-2 flex-row">
-        <View>
-          <Image className="w-[41px] h-[41px] mx-2" source={images.si} />
-        </View>
-        <View>
+      <View className="py-2 flex-row items-center">
+          <Image width='40'></Image>
+        <View className="ml-2">
           <Text className="text-[#868686] font-iRegular text-[15px]">
             {name}
           </Text>

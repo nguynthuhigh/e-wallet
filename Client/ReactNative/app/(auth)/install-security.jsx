@@ -87,6 +87,7 @@ const InstallSecurity = () => {
               placeholder="Nhập mã bảo mật"
               onChangeText={(newText) => setSecurityCode(newText)}
               defaultValue={securityCode}
+              maxLength={6}
             ></TextInput>
           </View>
         </View>
@@ -99,6 +100,7 @@ const InstallSecurity = () => {
               placeholder="Nhập lại mã bảo mật"
               onChangeText={(newText) => setConfirmSecurityCode(newText)}
               defaultValue={confirmSecurityCode}
+              maxLength={6}
             ></TextInput>
           </View>
         </View>
