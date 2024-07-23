@@ -7,12 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import Countdown from 'react-countdown';
 import QRCode from "react-qr-code";
 import logo_presspay from '../../assets/images/logo.png'
+import format from '../../utils/format'
 export default function PaymentGateway(){
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get('token');
     const [isLoading,setIsLoading] = useState(true)
     const [dataTransaction,setDataTransaction] = useState(null)
+    const [currency,setCurrency] = useState('')
     const navigate = useNavigate()
  
     useEffect(()=>{
@@ -21,6 +23,8 @@ export default function PaymentGateway(){
                 const response = await paymentAPI.PaymentGateway(token);
                 if(response.status===200){
                     setDataTransaction(response.data.data)
+                    setCurrency(response?.data.data.currency?.symbol)
+                    console.log(currency)
                     setIsLoading(false)
                 }
                 
@@ -54,7 +58,7 @@ export default function PaymentGateway(){
                                 <p className='font-bold text-[20px] justify-center flex'>Thông tin giao dịch</p>
                                 <div className='mt-5'>
                                     <p className='text-[#959595]'>Số tiền thanh toán</p>
-                                    <p className='text-[#0094ff] font-semibold'>{dataTransaction?.amount}</p>
+                                    <p className='text-[#0094ff] font-semibold'>{format.formatCurrency(dataTransaction?.amount,currency)}</p>
                                 </div>
                                 <div className='mt-5'>
                                     <p className='text-[#959595]'>Nhà cung cấp</p>
