@@ -22,15 +22,8 @@ export default function PaymentGateway(){
                 const response = await paymentAPI.PaymentGateway(token);
                 if(response.status===200){
                     setDataTransaction(response.data.data)
-                    console.log(dataTransaction)
-                    if(dataTransaction === null){
-                        setIsLoading(false)
-                        return<div>123</div>
-                    }else{
-                        setCurrency(response?.data.data.currency?.symbol ? response?.data.data.currency?.symbol : 'VND')
-                        setIsLoading(false)
-                    }
-                    
+                    setCurrency(response?.data.data.currency?.symbol)
+                    setIsLoading(false)
                 }
                 
             } catch (error) {
