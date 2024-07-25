@@ -55,12 +55,20 @@ export default function Developer(){
     "private_key":"pk_presspay_62849c1e70084b1d3372ad5a8913f918fab3d64324a9de6a7b4adbbfdcf8e70d",
     "amount":"20000",
     "currency":"VND",
-    "message":"payment",
-    "userID":"668fd2abaa7b610a6e7089ee"
+    "message":"Product's name",
+    "userID":"668fd2abaa7b610a6e7089ee",
+    "OrderID":"Order001"
+    "return_url":"your.domain.com/order?id={orderID}",
+    
 }`}>    
           </Component>
-          <Component language="http" api_url={"Response"} stringcode={
-`https://presspay-api.azurewebsites.net/payment-gateway?token={id}`}>    
+          <Component language="javascript" api_url={"Response"} stringcode={
+`{
+    "message":"Redirect to url",
+    "data":{
+        "url":"https://presspay.vercel.app/payment-gateway?token={token}"
+    }
+}`}>    
           </Component>
           <div className='mt-10'>
         

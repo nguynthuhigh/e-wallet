@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "apexcharts": "^3.50.0",
     "axios": "^1.7.2",
+    "credit-card-type": "^10.0.1",
     "dotenv": "^16.4.5",
     "flowbite": "^2.4.1",
     "flowbite-react": "^0.10.1",
