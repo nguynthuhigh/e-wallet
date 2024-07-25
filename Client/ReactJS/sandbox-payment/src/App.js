@@ -10,7 +10,7 @@ import Payment from './components/dashboard/pages/payment';
 import Developer from './components/developer/developer';
 import PaymentGateway from './components/payment-gateway/payment-gateway'
 import DemoPaymentGateway from './components/payment-gateway/demo'
-
+import Success from './components/payment-gateway/success';
 function App() {
   return (
     <Routes>
@@ -25,7 +25,9 @@ function App() {
       <Route path='/docs' element={<Developer/>}/>
       <Route path='/payment-gateway' element={<PaymentGateway/>}/>
       <Route path='/demo' element={<DemoPaymentGateway/>}/>
+      <Route path='/success' element={<Success/>}/>
       <Route path='*' element={<PageNotFound/>}/>
+
       
     </Routes>
   );
