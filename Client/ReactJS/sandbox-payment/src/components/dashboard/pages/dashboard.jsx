@@ -2,20 +2,24 @@ import Header from '../../header/header_dashboard'
 import LogoVND from '../../../assets/svg/logo_vnd.svg'
 import LogoETH from '../../../assets/svg/logo_eth.svg'
 import LogoUSD from '../../../assets/svg/logo_usd.svg'
+
 import {ItemInfo,ItemInfoLoading} from '../components/item_info';
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import partnerAPI from '../../../api/partner.api'
 import { ItemBalance,ItemBalanceLoading } from '../components/item_balance';
-import LastestPayment from '../components/lastest_payment'
 export default function Dashboard(){
+    const [colors, setColors] = useState({
+        from: '#FC5C7D',
+        to: '#6A82FB'
+      });
     const [privateKey,setPrivatekey] = useState('')
     const [partner, setPartner] = useState('')
     const [partnerWallet, setPartnerWallet] = useState([])
     const [isLoading,setIsLoading] = useState(true)
     const navigate = useNavigate()
     useEffect(() => {
-        document.title = 'Dashboard'
+
         const fetchData = async () => {
           try {
             const partnerProfile = await partnerAPI.getProfilePartner();
@@ -79,9 +83,7 @@ export default function Dashboard(){
                     <ItemBalanceLoading></ItemBalanceLoading>
                     <ItemBalanceLoading></ItemBalanceLoading>
                 </div>}
-                <div>
-                    <LastestPayment></LastestPayment>
-                </div>
+                
             </div>
         </div>
     )

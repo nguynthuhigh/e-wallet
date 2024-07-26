@@ -15,8 +15,7 @@ export default function Demo(){
                 currency:formData.currency,
                 message:formData.message,
                 return_url:formData.return_url,
-                orderID:formData.orderID,
-                userID:"userO1"
+                orderID:formData.orderID
             }
             const response = await paymentAPI.paymentSend(body)
             if(response.status === 200){
@@ -38,7 +37,7 @@ export default function Demo(){
         e.preventDefault()
         setError(null)
         setFormData({
-            private_key:"pk_presspay_82fad953e33c472656094ab3b6a3d7d3553d3215ea09fda4e7d363caae555811",
+            private_key:"pk_presspay_8599733e5ddde8e02b540b76abd0cee078a90716da502b41ff7f4b6517b989a7",
             currency:"VND",
             amount:"200000",
             message:"Áo postman x2",

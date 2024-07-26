@@ -6,12 +6,12 @@ const Loader = ({ isLoading }) => {
   if (!isLoading) return null;
   return (
     <View
-      className="absolute flex justify-center items-center w-full h-full bg-[#1616222f] z-10"
+      className="absolute flex justify-center items-center w-full h-full z-10"
       style={{ height: screenHeight }}
     >
       <ActivityIndicator
         animating={isLoading}
-        color="#fff"
+        color="#0094FF"
         size={osName === "ios" ? "large" : 50}
       />
     </View>

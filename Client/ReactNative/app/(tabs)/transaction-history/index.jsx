@@ -110,12 +110,6 @@ const TransactionHistory = () => {
           Tháng 6/2024
         </Text>
       </View>
-      {/* <FlatList
-      data={Transaction}
-      keyExtractor={(item) => item}
-      
-      renderItem={({ item,index }) => <Item_Transaction index={index} item={item} />}
-    /> */}
     </View>
   );
 
@@ -133,12 +127,6 @@ const TransactionHistory = () => {
           Tháng 6/2024
         </Text>
       </View>
-      {/* <FlatList
-      data={Transaction}
-      keyExtractor={(item) => item}
-      
-      renderItem={({ item,index }) => <Item_Transaction index={index} item={item} />}
-    /> */}
     </View>
   );
 

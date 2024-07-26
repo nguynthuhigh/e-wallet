@@ -37,7 +37,7 @@ export default function CreditCardLinking() {
   const [focusedField, setFocusedField] = useState();
   const [formData, setFormData] = useState({ values: {} });
   const [cardHolderName, setCardHolderName] = useState("");
-
+  const [isUpdating, setIsUpdating] = useState(false);
   const handleOnChange = (data) => {
     setFormData({ ...data, values: { ...data.values, name: cardHolderName } });
   };
@@ -95,13 +95,23 @@ export default function CreditCardLinking() {
           expiryYear: `20${expiryYear}`,
         });
         if (response && response.data) {
+          setIsUpdating(!isUpdating);
+          Alert.alert("Thông báo!!", "Thêm thẻ tín dụng thành công", [
+            {
+              text: "OK",
+              onPress: () =>
+                router.push({
+                  pathname: "wallet/credit_card",
+                  params: { isUpdating },
+                }),
+            },
+          ]);
           console.log("Thêm thẻ tính dụng thành công:", response.data);
-          router.back();
         }
       } catch (error) {
-        console.error("Thêm thẻ thất bại:", error);
+        console.log("Thêm thẻ thất bại:", error);
         Alert.alert(
-          "Có lỗi",
+          "Thông báo!!",
           "Có lỗi xảy ra trong quá trình thêm thẻ tín dụng."
         );
       }
