@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-tailwind/react": "^2.1.9",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "apexcharts": "^3.50.0",
     "axios": "^1.7.2",
+    "credit-card-type": "^10.0.1",
     "dotenv": "^16.4.5",
     "flowbite": "^2.4.1",
     "flowbite-react": "^0.10.1",
@@ -18,8 +20,8 @@
     "react-countup": "^6.5.3",
     "react-dom": "^18.3.1",
     "react-paginate": "^8.2.0",
+    "react-router-dom": "^6.25.1",
     "react-qr-code": "^2.0.15",
-    "react-router-dom": "^6.24.1",
     "react-scripts": "5.0.1",
     "react-syntax-highlighter": "^15.5.0",
     "universal-cookie": "^7.1.4",
@@ -51,6 +53,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",
+    "daisyui": "^4.12.10",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.4"
   }

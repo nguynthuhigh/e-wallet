@@ -28,6 +28,15 @@ export default function Home(){
                         </div>
                     </div>
                 </div>
+                <div className='ml-[350px]'>
+                    <Link className='ml-auto' to='/information-transaction'>
+                        <div className='w-[200px] border-[1px] border-white  h-[30px] justify-center text-[12px]  rounded-full items-center flex   bg-white text-color-default font-semibold'>
+                            <h1>Information-Transaction</h1>
+                            <img alt='' className='w-[4px] h-[7px] ml-2' src={arrow_right}></img>
+                        </div>
+                    </Link>
+                </div>
+
             </div>
         </div>
     </>

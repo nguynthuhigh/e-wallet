@@ -2,7 +2,7 @@ import Header from '../header/header'
 import paymentAPI from '../../api/payment-gateway.api'
 import { useState } from 'react'
 export default function Demo(){
-    const [formData,setFormData]  = useState({amount:null,private_key:null,currency:null,message:"1"})
+    const [formData,setFormData]  = useState({amount:null,private_key:null,currency:null,message:"1",return_url:null,orderID:null})
     const [error,setError] = useState(null)
     const [isLoading,setIsLoading] = useState(false)
     const hanldeCreatePayment =async (e)=>{
@@ -13,7 +13,10 @@ export default function Demo(){
                 private_key:formData.private_key,
                 amount:formData.amount,
                 currency:formData.currency,
-                message:formData.message
+                message:formData.message,
+                return_url:formData.return_url,
+                orderID:formData.orderID,
+                userID:"userO1"
             }
             const response = await paymentAPI.paymentSend(body)
             if(response.status === 200){
@@ -35,11 +38,14 @@ export default function Demo(){
         e.preventDefault()
         setError(null)
         setFormData({
-            private_key:"pk_presspay_8599733e5ddde8e02b540b76abd0cee078a90716da502b41ff7f4b6517b989a7",
+            private_key:"pk_presspay_82fad953e33c472656094ab3b6a3d7d3553d3215ea09fda4e7d363caae555811",
             currency:"VND",
             amount:"200000",
-            message:"Payment"
+            message:"Áo postman x2",
+            return_url:"https://presspay.vercel.app/success",
+            orderID:'order01',
         })
+        console.log(formData)
     }
     return(<>
         <Header color={true}></Header>
@@ -59,6 +65,7 @@ export default function Demo(){
                         <label for="small-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Currency</label>
                         <input value={formData.currency}  onChange={handleChange}  type="text" id="small-input" name="currency" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 h-[50px] focus:border-blue-500 "/>
                     </div>
+                    
                     {error ? <div className='text-red-600'>{error}</div> : ''}
       
                     {isLoading ? <button disabled  className='bg-gray-300 text-white rounded-xl mt-5 p-4 py-2 font-semibold'>Create payment</button> : <button  className='bg-blue-500 text-white rounded-xl mt-5 p-4 py-2 font-semibold'>Create payment</button>}
