@@ -13,6 +13,7 @@ import DemoPaymentGateway from './components/payment-gateway/demo'
 import Success from './components/payment-gateway/success';
 import WebHook from './components/webhook/webhook';
 import Voucher from './components/voucher/voucher';
+
 function App() {
   return (
     <Routes>
@@ -22,7 +23,6 @@ function App() {
       <Route path='/verify' element={<VerifyForm/>}/>
       <Route path='/dashboard' element={<Dashboard/>}/>
       <Route path='/history-payment' element={<Payment/>}/>
-
       <Route path='/update-profile' element={<UpdateProfile/>}/>
       <Route path='/docs' element={<Developer/>}/>
       <Route path='/payment-gateway' element={<PaymentGateway/>}/>
