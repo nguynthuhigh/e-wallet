@@ -8,11 +8,14 @@ export function ItemTransaction({item}){
         <label for="hs-table-pagination-checkbox-3" class="sr-only">Checkbox</label>
       </div>
     </td>
-    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200 flex text-[20px]">{formatUtils.formatCurrency(item.amount,"VND")} <div className="mx-2 bg-green-300 text-green-700 p-1 rounded-lg text-[12px]">Succeeded</div></td>
-    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">31</td>
-    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">66864a916bb586f64e86e9e4</td>
-    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">Nguyn</td>
-    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{formatUtils.formatTime(item.createdAt)}</td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200 flex text-[20px]">{formatUtils.formatCurrency(item?.amount,"VND")} 
+      {item?.status === 'pending' && <div className="mx-2 bg-yellow-200 text-yellow-600 p-1 rounded-lg text-[12px]">Pending</div>}
+      {item?.status === 'completed' && <div className="mx-2 bg-green-200 text-green-600 p-1 rounded-lg text-[12px]">Completed</div>}
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{item?.message}</td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{item?._id}</td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{item?.orderID}</td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">{formatUtils.formatTime(item?.createdAt)}</td>
   </tr>
   )
 }

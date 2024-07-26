@@ -31,9 +31,21 @@ export const getTransactions = async(page,pagesize)=>{
         console.log(error)
     }
 }
+export const getVouchers = async()=>{
+    try{
+        return await axios.get(process.env.REACT_APP_LOCAL_HOST+`/api/v1/voucher/get-vouchers`,{
+            headers:{
+                Authorization: 'Bearer '+cookie.get('token_auth')
+            }
+        })
+    }catch(error){
+        console.log(error)
+    }
+}
 const exportObject = {
     getProfilePartner,
     updateProfilePartner,
-    getTransactions
+    getTransactions,
+    getVouchers
 }
 export default exportObject;

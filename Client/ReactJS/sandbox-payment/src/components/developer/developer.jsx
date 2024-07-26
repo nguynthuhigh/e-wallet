@@ -1,12 +1,13 @@
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import Header from '../header/header'
+import { Link } from 'react-router-dom';
 const Component = ({...props}) => {
     const codeString = props.stringcode;
 
     return (
       <div>
-        <h1 className='font-bold text-xl py-2'>{props.api_url}</h1>
+        <div className='flex items-center'><h1 className='font-bold text-xl py-2'>{props.api_url}</h1><Link className='ml-2 font-semibold text-blue-500' to='/webhook'>{props.condition}</Link></div>
         <SyntaxHighlighter language={props.language} style={docco} className="rounded-xl">
         {codeString}
       </SyntaxHighlighter>
@@ -19,6 +20,11 @@ const Component = ({...props}) => {
         <td class="p-4">
           <p class="block font-sans text-lg antialiased font-normal leading-normal text-blue-gray-900">
             {props.properties}
+          </p>
+        </td>
+        <td class="p-4">
+          <p class="block font-sans text-lg antialiased font-normal leading-normal text-blue-gray-900">
+          {props.type}
           </p>
         </td>
         <td class="p-4">
@@ -50,7 +56,7 @@ export default function Developer(){
               <Component language="http" api_url="BASE URL" stringcode={`https://presspay-api.azurewebsites.net`}></Component>
             </div>
           </div>
-          <Component language="javascript" api_url={"POST /api/v1/payment"} stringcode={
+          <Component language="javascript" api_url={"POST /api/v1/payment"} condition={"Use Webhooks"} stringcode={
 `{
     "private_key":"pk_presspay_62849c1e70084b1d3372ad5a8913f918fab3d64324a9de6a7b4adbbfdcf8e70d",
     "amount":"20000",
@@ -70,6 +76,9 @@ export default function Developer(){
     }
 }`}>    
           </Component>
+          <div className='mt-5'> 
+            <Table></Table>
+          </div>
           <div className='mt-10'>
         
             <Component language="javascript" api_url={"POST /api/v1/refund"} stringcode={
@@ -91,26 +100,40 @@ export default function Developer(){
       </div>
    )
 }
-const A = ()=>{
-  <div class="relative flex flex-col w-full h-full  text-gray-700 bg-white shadow-md bg-clip-border rounded-xl">
-  <table class="w-full text-left table-auto min-w-max">
-  <thead>
-  <tr>
-  <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-    <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-      Name
-    </p>
-  </th>
-  <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-    <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-      Job
-    </p>
-  </th>
-  </tr>
-  </thead>
-  <tbody>
-  <Description properties="private_key" description=""></Description>
-  </tbody>
-  </table>
-  </div>
+const Table = ()=>{
+  return(
+    <div class="relative flex flex-col w-full h-full  text-gray-700 bg-white shadow-md bg-clip-border rounded-lg">
+      <table class="w-full text-left table-auto min-w-max">
+        <thead>
+          <tr>
+            <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+              <p class="block font-sans text-sm antialiased text-black leading-none font-semibold opacity-70">
+                Field
+              </p>
+            </th>
+            <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+              <p class="block font-sans text-sm antialiased text-black leading-none font-semibold opacity-70">
+                Type
+              </p>
+            </th>
+            <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+              <p class="block font-sans text-sm antialiased text-black leading-none font-semibold opacity-70">
+                Decriptions
+              </p>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+        <Description properties="private_key" type="string" description="The private key used for authentication." />
+        <Description properties="amount" type="string" description="The amount of money in the transaction, usually in the smallest unit of the currency (e.g.,  USD or VND)." />
+        <Description properties="currency" type="string" description="The currency code (e.g., 'VND', 'USD', 'ETH')." />
+        <Description properties="message" type="string" description="A message or description of the product or transaction." />
+        <Description properties="user_id" type="string" description="The unique identifier of the user making the transaction." />
+        <Description properties="order_id" type="string" description="The unique identifier of the order associated with the transaction, used for tracking and managing the order." />
+        <Description properties="return_url" type="string" description="The URL to which the user will be redirected after the transaction is completed, often including the orderID in query parameters." />
+
+        </tbody>
+      </table>
+    </div>
+  )
 }
