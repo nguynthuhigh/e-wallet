@@ -10,6 +10,7 @@ import Payment from './components/dashboard/pages/payment';
 import Developer from './components/developer/developer';
 import PaymentGateway from './components/payment-gateway/payment-gateway'
 import DemoPaymentGateway from './components/payment-gateway/demo'
+import Voucher from './components/dashboard/pages/voucher';
 import Success from './components/payment-gateway/success';
 import WebHook from './components/webhook/webhook';
 import Voucher from './components/voucher/voucher';
@@ -31,8 +32,6 @@ function App() {
       <Route path='/webhook' element={<WebHook/>}/>
       <Route path='/voucher' element={<Voucher/>}/>
       <Route path='*' element={<PageNotFound/>}/>
-
-      
     </Routes>
   );
 }
