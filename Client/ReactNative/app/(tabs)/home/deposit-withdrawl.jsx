@@ -10,20 +10,86 @@ import VisaMiniIC from "../../../assets/svg/ic_Visamini.svg"
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Link } from "expo-router";
 
-
-
-
 const RechargeWithdraw = () => {
   const [selectedItem, setSelectedItem] = useState('Recharge-VND');
 
   const renderContent = () => {
+    const [value, setValue] = useState('');
+    const [numericValue, setNumericValue] = useState('');
+
+    const handleChangeText = (text) => {
+      // Loại bỏ các ký tự không phải số
+      let numericText = text.replace(/[^0-9]/g, '');
+      
+      const MAX_VALUE = 50000000; // Giới hạn giá trị tối đa
+      let numberValue = parseInt(numericText, 10);
+
+    // Nếu giá trị vượt quá giới hạn, đặt lại giá trị
+    if (numberValue > MAX_VALUE) {
+      numberValue = MAX_VALUE;
+      numericText = numberValue.toString();
+    }
+
+      if (numericText.length > 8) {
+        numericText = numericText.slice(0, 8);
+      }
+      // Loại bỏ số 0 đầu tiên nếu có
+      if (numericText.startsWith('0')) {
+        numericText = numericText.slice(1);
+      }
+  
+      setNumericValue(numericText);
+  
+      // Định dạng số
+      const formattedText = formatNumber(numericText);
+      setValue(formattedText);
+    };
+  
+    const formatNumber = (num) => {
+      return num.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Thêm dấu chấm vào số
+    };
     switch (selectedItem) {
       case 'Recharge-VND':
-        return <Text>0VNĐ</Text>;
+        return <View>
+                    <View className='mt-2'>
+                        <Text className='p-2'>Số tiền cần nạp</Text>
+                    </View>
+                    <View className='flex-row items-center h-[50px] border-[1.5px] border-[#e3e3e3] rounded-[10px]'>
+                    <TextInput
+                      className='h-full pl-7 text-[20px]'
+                      placeholder="0Đ"
+                      value={value}
+                      onChangeText={handleChangeText}
+                      keyboardType="numeric" // Đảm bảo hiển thị bàn phím số
+                    />
+                    {numericValue !== '' && <Text style={styles.currency}>Đ</Text>}
+                    </View>
+                </View>
       case 'Recharge-USD':
-        return <Text>0$</Text>;
+        return <View>
+                    <View className='mt-2'>
+                        <Text className='p-2'>Số tiền cần nạp</Text>
+                    </View>
+                    <View className='flex-row items-center h-[50px] border-[1.5px] border-[#e3e3e3] rounded-[10px]'>
+                    <TextInput
+                      className='h-full pl-7 text-[20px]'
+                      placeholder="0USD"
+                      value={value}
+                      onChangeText={handleChangeText}
+                      keyboardType="numeric" // Đảm bảo hiển thị bàn phím số
+                    />
+                    {numericValue !== '' && <Text style={styles.currency}>USD</Text>}
+                    </View>
+                </View>
       case 'Recharge-ETH':
-        return <Text>0ETH</Text>;
+        return <View>
+                    <View className='mt-2'>
+                        <Text className='p-2'>Mạng lưới Ethereum Sepolia</Text>
+                    </View>
+                    <View className='px-3 h-[50px] border-[1.5px] border-[#e3e3e3] rounded-[10px] justify-center relative'>
+                        <Text className='text-[13px]'>0x4F09952cFF9Cc02d210A35F4de3B41a652454249</Text>
+                    </View>
+                </View>
       default:
         return <Text>Chọn một mục</Text>;
     }
@@ -54,7 +120,6 @@ const RechargeWithdraw = () => {
     }
   };
 
-  const [text, setText] = useState("");
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [routes] = useState([ 
@@ -62,17 +127,6 @@ const RechargeWithdraw = () => {
     { key: 'second', title2: 'Rút tiền' },
 
   ]);
-  const [value, setValue] = useState('');
-
-  const handleChangeText = (text) => {
-    const numericText = text.replace(/[^0-9]/g, ''); // Loại bỏ các ký tự không phải số
-    const formattedText = formatNumber(numericText); // Định dạng số
-    setValue(formattedText);
-  };
-
-  const formatNumber = (num) => {
-    return num.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Thêm dấu chấm vào số
-  };
 
   const FirstRoute = () => (
     <View className='h-full'>
@@ -131,23 +185,7 @@ const RechargeWithdraw = () => {
                 </TouchableOpacity>
                 
             </View>
-            <View className='mt-2'>
-                <Text className='p-2'>Số tiền cần nạp</Text>
-            </View>
-            <View className='h-[50px] border-[1px] border-[rgb(194,194,194)] rounded-[10px] justify-center relative'>
-              
-                <TextInput
-                
-                    className='pl-7 text-[20px]'
-                    placeholder="0Đ"
-                    value={value}
-                    onChangeText={handleChangeText}
-                    keyboardType="numeric" // Đảm bảo hiển thị bàn phím số
-                >
-                {value !== '' && <Text style={styles.currency}>Đ</Text>}
-
-                </TextInput>
-            </View>
+            <View>{renderContent()}</View>
 
         </View>
         <View className='py-2 mt-4'>
@@ -158,7 +196,7 @@ const RechargeWithdraw = () => {
                  <TouchableOpacity
                   style={[
                     styles.touchable1,
-                    selectedItem1 === 'Visa' && styles.selectedItem,
+                    selectedItem1 === 'Visa' && styles.selectedItem1,
                   ]}
                   onPress={() => setSelectedItem1('Visa')}
                 >
@@ -177,7 +215,7 @@ const RechargeWithdraw = () => {
                   className='mt-2'
                   style={[
                     styles.touchable1,
-                    selectedItem1 === 'Visual' && styles.selectedItem,
+                    selectedItem1 === 'Visual' && styles.selectedItem1,
                   ]}
                   onPress={() => setSelectedItem1('Visual')}
                 >
@@ -312,11 +350,11 @@ const RechargeWithdraw = () => {
       colors={["#0094FF", "#F2F2F2"]}
       locations={[0, 0.3]}
     >
-      <View className='h-full w-full'>
+      <View className=''>
         <View style={{alignItems: 'center', paddingTop: 66, }}>
         <Text className='text-white text-xl font-semibold'>Nạp/Rút</Text>
         </View>
-        <View style={{ backgroundColor: 'red', width: '100%', height: '100%', marginTop: 10}}>
+        <View style={{ backgroundColor: 'white', height: '100%', marginTop: 10}}>
           <TabView
             navigationState={{ index, routes }}
             renderScene={renderScene}
@@ -327,15 +365,17 @@ const RechargeWithdraw = () => {
                 {...props}
                 indicatorStyle={{ backgroundColor: '#0D99FF', height: 2 }}
                 renderLabel={({ route }) => (
-                  <Text className='text-[15px] items-center justify-center'>
-                    <Text>
-                      <View>
+                  <View className='text-[15px] items-center justify-center'>
+                    <Text className=''>
+                      <View className='ml-1'>
                         <RechargeIC/>
                       </View>
-                          {route.title1}
-                          {route.title2}
+                      <Text className='text-[16px]'>
+                      {route.title1}
+                      {route.title2}
+                      </Text>
                     </Text>           
-                  </Text>
+                  </View>
                 )}
                 style={{ backgroundColor: 'white' }}
               />
@@ -348,14 +388,13 @@ const RechargeWithdraw = () => {
 }; 
 
 const styles = StyleSheet.create({
-  item: {
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    marginHorizontal: 5,
-  },
+  
   selectedItem: {
     borderColor: '#0094ff',
+  },
+  selectedItem1: {
+    borderColor: '#0094ff',
+    borderWidth: 2,
   },
   contentContainer: {
     paddingVertical: 15,
@@ -385,8 +424,8 @@ const styles = StyleSheet.create({
 
   touchable1: {
     flexDirection: 'row',
-    borderColor: '#c8c8c8',
-    borderWidth: 2,
+    borderColor: '#e8e8e8',
+    borderWidth: 1,
     width: 'auto',
     height: 60,
     padding: 8,
