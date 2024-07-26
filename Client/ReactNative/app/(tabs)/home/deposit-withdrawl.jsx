@@ -183,8 +183,8 @@ const RechargeWithdraw = () => {
                         <Text className='text-[12px]'>77.777 ETH</Text>
                     </View>
                 </TouchableOpacity>
-                
             </View>
+            <View>{renderContent()}</View>
         </View>
         <View className='py-2 mt-4'>
             <Text className='text-[16px] font-semibold'>
@@ -341,7 +341,7 @@ const RechargeWithdraw = () => {
   });
 
   return (
-    <LinearGradient
+      <LinearGradient
       style={{ height: '100%', width: '100%' , backgroundColor: 'blue'}}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
