@@ -1,22 +1,28 @@
-import React, { useRef, useEffect, useCallback, useMemo } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { StatusBar } from "expo-status-bar";
 import { Tabs, useSegments } from "expo-router";
-import LottieView from "lottie-react-native";
 import { View, Text, Animated, Dimensions } from "react-native";
+import LottieView from "lottie-react-native"
 import constants from "../../constants";
 const { icons } = constants;
 import TabIcon from "../../components/TabIcon";
 
 const ScanTabIcon = React.memo(({ focused }) => {
   return (
-    <View className="items-center justify-end">
+    <View className="items-center">
       <View className="w-20 h-20 items-center bg-white overflow-hidden rounded-full">
-        {/* <LottieView
+        <LottieView
           style={{ flex: 1, width: 60, height: 60 }}
           source={require("../../assets/animation/qr_scan.json")}
           autoPlay
           loop
-        /> */}
+        />
       </View>
       <Text
         className={`${
@@ -35,6 +41,8 @@ const TabLayout = () => {
   const tabOffsetValue = useRef(new Animated.Value(0)).current;
   const segment = useSegments();
   const page = segment[segment.length - 1];
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
+
   const pagesToHideBar = useMemo(
     () => [
       "transfer",
@@ -52,17 +60,19 @@ const TabLayout = () => {
       "confirm-bill",
       "deposit-withdrawl",
       "credit_card",
-      "credit_details"
+      "credit_details",
+      "credit-card-linking",
     ],
     []
   );
 
   const handleTabPress = useCallback(
-    (toValue) => {
+    (toValue, index) => {
       Animated.spring(tabOffsetValue, {
         toValue,
         useNativeDriver: true,
       }).start();
+      setActiveTabIndex(index);
     },
     [tabOffsetValue]
   );
@@ -71,13 +81,38 @@ const TabLayout = () => {
     () => ({
       backgroundColor: "#fff",
       borderTopWidth: 2,
-      height: 84,
+      height: 100,
       borderTopColor: "rgba(140, 140, 140, 0.2)",
     }),
     []
   );
 
   const shouldHideTabBar = pagesToHideBar.includes(page) || page === "scanQR";
+
+  useEffect(() => {
+    const syncIndicator = () => {
+      switch (page) {
+        case "home":
+          handleTabPress(0, 0);
+          break;
+        case "promote":
+          handleTabPress(getWidth(), 1);
+          break;
+        case "scan-qr":
+          handleTabPress(getWidth() * 2, 2);
+          break;
+        case "transaction-history":
+          handleTabPress(getWidth() * 3, 3);
+          break;
+        case "wallet":
+          handleTabPress(getWidth() * 4, 4);
+          break;
+        default:
+          break;
+      }
+    };
+    syncIndicator();
+  }, [page, handleTabPress]);
 
   return (
     <>
@@ -106,11 +141,12 @@ const TabLayout = () => {
               />
             ),
           }}
-          listeners={{
-            tabPress: () => {
-              handleTabPress(0);
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              handleTabPress(0, 0);
+              navigation.navigate("home");
             },
-          }}
+          })}
         />
         <Tabs.Screen
           name="promote"
@@ -127,11 +163,12 @@ const TabLayout = () => {
               />
             ),
           }}
-          listeners={{
-            tabPress: () => {
-              handleTabPress(getWidth());
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              handleTabPress(getWidth(), 1);
+              navigation.navigate("promote");
             },
-          }}
+          })}
         />
         <Tabs.Screen
           name="scanQR"
@@ -141,11 +178,12 @@ const TabLayout = () => {
             unmountOnBlur: true,
             tabBarIcon: ({ focused }) => <ScanTabIcon focused={focused} />,
           }}
-          listeners={{
-            tabPress: () => {
-              handleTabPress(getWidth() * 2);
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              handleTabPress(getWidth() * 2, 2);
+              navigation.navigate("scanQR");
             },
-          }}
+          })}
         />
         <Tabs.Screen
           name="transaction-history"
@@ -153,7 +191,6 @@ const TabLayout = () => {
             title: "transaction-history",
             headerShown: false,
             unmountOnBlur: true,
-
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.history}
@@ -163,11 +200,12 @@ const TabLayout = () => {
               />
             ),
           }}
-          listeners={{
-            tabPress: () => {
-              handleTabPress(getWidth() * 3);
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              handleTabPress(getWidth() * 3, 3);
+              navigation.navigate("transaction-history");
             },
-          }}
+          })}
         />
         <Tabs.Screen
           name="wallet"
@@ -179,16 +217,17 @@ const TabLayout = () => {
               <TabIcon
                 icon={icons.account}
                 color={color}
-                name="Ví"
+                name="Tôi"
                 focused={focused}
               />
             ),
           }}
-          listeners={{
-            tabPress: () => {
-              handleTabPress(getWidth() * 4);
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              handleTabPress(getWidth() * 4, 4);
+              navigation.navigate("wallet");
             },
-          }}
+          })}
         />
       </Tabs>
       {!shouldHideTabBar && (
@@ -198,7 +237,7 @@ const TabLayout = () => {
             height: 2,
             backgroundColor: "#0D99FF",
             position: "absolute",
-            bottom: 83,
+            bottom: 99,
             left: 0,
             borderRadius: 20,
             transform: [{ translateX: tabOffsetValue }],

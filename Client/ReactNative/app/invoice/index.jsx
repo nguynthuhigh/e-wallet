@@ -7,7 +7,7 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import BottomSheetPromotion from "./bs-promotion";
 import EyeOpen from "../../assets/svg/eye.svg";
 import EyeClosed from "../../assets/svg/eyeClosed.svg";
@@ -15,10 +15,32 @@ import Wallet from "../../components/Wallet";
 import { wallet } from "../../dummy-data/data";
 import constants from "../../constants";
 import BottomSheetSecurityCode from "./bs-security-code";
-import { router } from "expo-router";
+import format from "../../utils/fomart_currency";
 const { images } = constants;
-
+import { router, useLocalSearchParams } from "expo-router";
+import paymentAPI from "../api/payment.api";
 const Invoice = () => {
+  const { item } = useLocalSearchParams();
+  const dataBill = JSON.parse(item);
+  const [transactionData, setTransactionData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  console.log(dataBill);
+  useEffect(() => {
+    const fetchTransaction = async () => {
+      try {
+        const response = await paymentAPI.getTransaction(dataBill);
+        if (response.status === 200) {
+          setTransactionData(response.data.data);
+          console.log(response.data.data);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchTransaction();
+  }, []);
   const [isHide, setIsHide] = useState(false);
   const [selectedWalletIndex, setSelectedWalletIndex] = useState(0);
   const [openBottomSheet, setOpenBottomSheet] = useState(false);
@@ -80,14 +102,18 @@ const Invoice = () => {
           <Text className="text-lg text-[#868686]">CHI TIẾT GIAO DỊCH</Text>
           <View className="border border-[#0D99FF] rounded-2xl px-3 py-2 mt-2">
             <View>
-              <Text className="text-lg font-semibold">Vietnam Airlines</Text>
+              <Text className="text-lg font-semibold">
+                {transactionData?.partnerID?.name}
+              </Text>
               <View className="mb-4 mt-2 space-y-2">
                 <View className="border-b-[0.5px] border-[#86868646]">
                   <View className="flex-row items-center justify-between mb-2">
                     <Text className="text-sm font-semibold text-[#868686]">
                       Mã giao dịch
                     </Text>
-                    <Text className="text-sm font-semibold">52050137103</Text>
+                    <Text className="text-sm font-semibold">
+                      {transactionData?._id}
+                    </Text>
                   </View>
                 </View>
                 <View className="border-b-[0.5px]  border-[#86868646]">
@@ -123,7 +149,9 @@ const Invoice = () => {
                     <Text className="text-sm font-semibold text-[#868686]">
                       Số tiền
                     </Text>
-                    <Text className="text-sm font-semibold">5.000.000đ</Text>
+                    <Text className="text-sm font-semibold">
+                      {format.formatCurrency(transactionData?.amount, "VND")}
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -193,6 +221,7 @@ const Invoice = () => {
           <BottomSheetSecurityCode
             title="Nhập mã bảo mật"
             ref={bottomSheetRef}
+            transactionID={transactionData?._id}
             onClose={handleSecurityCodeClose}
           />
         </View>

@@ -123,8 +123,8 @@ const RechargeWithdraw = () => {
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [routes] = useState([ 
-    { key: 'first', title1: 'Nạp tiền' },
-    { key: 'second', title2: 'Rút tiền' },
+    { key: 'first', title1: ' Nạp tiền' },
+    { key: 'second', title2: ' Rút tiền' },
 
   ]);
 
@@ -185,8 +185,6 @@ const RechargeWithdraw = () => {
                 </TouchableOpacity>
                 
             </View>
-            <View>{renderContent()}</View>
-
         </View>
         <View className='py-2 mt-4'>
             <Text className='text-[16px] font-semibold'>
