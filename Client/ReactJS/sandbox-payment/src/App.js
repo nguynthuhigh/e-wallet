@@ -8,14 +8,21 @@ import { Routes,Route } from 'react-router-dom';
 import PageNotFound from './components/pages/page-not-found';
 import Payment from './components/dashboard/pages/payment';
 import Developer from './components/developer/developer';
+<<<<<<< HEAD
+import { InformationTransaction } from './components/auth/information-transaction';
+=======
 import PaymentGateway from './components/payment-gateway/payment-gateway'
 import DemoPaymentGateway from './components/payment-gateway/demo'
 import Success from './components/payment-gateway/success';
+>>>>>>> 087e9fd17852f50ad3932c758d7824f41f70cc38
 function App() {
   return (
     <Routes>
       <Route path='/' element={<Home></Home>}/>
       <Route path='/sign-in' element={<SignIn/>}/>
+
+      <Route path='/information-transaction' element={<InformationTransaction/>}/>
+
       <Route path='/sign-up' element={<SignUp/>}/>
       <Route path='/verify' element={<VerifyForm/>}/>
       <Route path='/dashboard' element={<Dashboard/>}/>

@@ -35,8 +35,8 @@ const Welcome = () => {
   if (accessToken) {
     return <Redirect href="/home" />;
   } else {
-    return <Redirect href="/sign-in" />;
-    ``;
+    
+    return <Redirect href="/sign-in"/>;
   }
 };
 
