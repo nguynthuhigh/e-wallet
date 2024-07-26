@@ -10,6 +10,7 @@ import Payment from './components/dashboard/pages/payment';
 import Developer from './components/developer/developer';
 import PaymentGateway from './components/payment-gateway/payment-gateway'
 import DemoPaymentGateway from './components/payment-gateway/demo'
+import Voucher from './components/dashboard/pages/voucher';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Route path='/payment-gateway' element={<PaymentGateway/>}/>
       <Route path='/demo' element={<DemoPaymentGateway/>}/>
       <Route path='*' element={<PageNotFound/>}/>
+      <Route path='/voucher' element={<Voucher/>}/>
       
     </Routes>
   );
