@@ -5,43 +5,15 @@ import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetTextInput,
 } from "@gorhom/bottom-sheet";
-import api from "../../api/wallet.api.js";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const BottomSheetSecurityCode = forwardRef((props, ref) => {
-  const { amount, cardID, currency } = props;
-  console.log('amount'+amount);
-  console.log('card' + cardID);
-  console.log('currency'+currency);
-  const [securityCode, setSecurityCode] = useState(" ");
-  const [data, setData] = useState(" ");
-  const [error, setError] = useState();
-  const [message, setMessage] = useState();
-  const { code } = props;
   const handleOnChange = (security_code) => {
     if (security_code.length === 6) {
-      console.log(security_code);
-      const deposit = async () => {
-        try {
-          setMessage("Đang nạp tiền");
-          const response = await api.depositMoney({
-            security_code,
-            amount,
-            cardID,
-            currency,
-          });
-          if (response.status == 200) {
-            setData(response.data);
-          }
-        } catch (error) {
-          setError(error.response.data.message);
-          setMessage(null);
-        }
-      };
-      deposit();
+      props.handleSubmit(security_code)
     }
   };
-  console.log(securityCode);
+  
   const snapPoints = useMemo(() => ["25%", "50%", "60%"], []);
 
   const handleSheetChanges = useCallback(
@@ -78,11 +50,11 @@ const BottomSheetSecurityCode = forwardRef((props, ref) => {
         backdropComponent={renderBackdrop}
         keyboardBehavior="extend"
       >
+        
         <BottomSheetView style={styles.contentContainer}>
           <Text className="text-base font-semibold">{props.title}</Text>
-          <Text className="text-red-500 font-semibold">{error}</Text>
-          <Text className="text-green-500 font-semibold">{message}</Text>
-
+          <Text className="text-red-500 font-semibold">{props.error}</Text>
+          <Text className="text-green-500 font-semibold">{props.message ? 'Đang chuyển tiền vui lòng đợi...' : ''}</Text>
           <BottomSheetTextInput
             style={styles.input}
             onChangeText={handleOnChange}

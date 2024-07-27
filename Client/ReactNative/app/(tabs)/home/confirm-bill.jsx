@@ -7,13 +7,14 @@ import transactionAPI from '../../api/transaction.api'
 import currency from '../../../utils/fomart_currency'
 import BackArrow from "../../../assets/svg/arrow_back.svg";
 import Close from '../../../assets/svg/close.svg'
+import BottomSheetSecurityCode from './bs-security-code-send'
 const DetailTransaction = () => {
     const {item} = useLocalSearchParams()
     const dataBill = JSON.parse(item)
     const [isModalVisible, setModalVisible] = useState(false);
     const [OTP, setOTP] = useState(null);
     const [errorMessage,setErrorMessage] = useState(null)
-    const [isLoading,setIsLoading] = useState(true)
+    const [isLoading,setIsLoading] = useState(false)
 
 
     const handleOTPChange = (newOTP) => {
@@ -23,8 +24,9 @@ const DetailTransaction = () => {
           handleOTP(newOTP);
         }
       };
-      const handleOTP = async (newOTP) => {
+      const handleSubmit = async (newOTP) => {
         try {
+            setIsLoading(true)
             const body = {
                 receiver:dataBill.receiver,
                 amount:dataBill.amount,
@@ -37,15 +39,17 @@ const DetailTransaction = () => {
                 setModalVisible(false)
                 const transaction = response.data.data
                 router.push({ pathname: "home/details-bill", params: {item: JSON.stringify(transaction)} })
+                setIsLoading(false)
             }
         } catch (error) {
             console.log(error.response.data.message)
             setErrorMessage(error.response.data.message)
+            setIsLoading(false)
         }
       }
   return (
     <SafeAreaView className="text-black">
-        <View className="flex-row items-center px-5 gap-x-2 mb-4">
+        <View className="flex-row items-center bg-white px-5 gap-x-2 pt-2">
           <TouchableOpacity onPress={() => router.back()}>
             <BackArrow width={30} height={26.5} />
           </TouchableOpacity>
@@ -54,30 +58,6 @@ const DetailTransaction = () => {
             <Text className="font-bold text-lg text-black mx-auto">Xác nhận giao dịch</Text>
           </View>
         </View>
-         <Modal isVisible={isModalVisible} className="">
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}} >
-
-                <View className="bg-[#FAFAFA] font-semibold text-[22px] w-full p-4 rounded-t-[10px] flex-row items-center">
-                    <TouchableOpacity onPress={()=>{setModalVisible(!isModalVisible)}}><Close ></Close></TouchableOpacity>
-                    <Text className="font-semibold text-[22px] text-center mx-auto">Nhập mã bảo mật</Text>
-                    <View className="w-[25px] h-[25px]"></View>
-                    </View>
-                <View className="bg-[#EEEEEE] w-full  flex-col items-center py-10 rounded-b-lg">
-                    {errorMessage ? <Text className="text-red-500 mb-2">{errorMessage}</Text>:<Text></Text>}
-                    <TextInput  
-                    style={styles.input} 
-                    className={`font-semibold w-[160px] text-center text-[30px] h-[60px] bg-white rounded-full px-5 ${errorMessage ? 'border-red-500 border-[1px]': ''}`} 
-                    placeholder='••••••'
-                    maxLength = {6}
-                    keyboardType='numeric'
-                    autoFocus={true}
-                    onChangeText={handleOTPChange}
-                    defaultValue={OTP}
-                    >
-                    </TextInput>
-                </View>
-            </View>
-            </Modal>
         <View className="p-6 bg-white h-full">
            
             <Text className='font-semibold'>CHI TIẾT GIAO DỊCH</Text>
@@ -119,7 +99,16 @@ const DetailTransaction = () => {
                 </TouchableOpacity>
             </View>
         </View>
-        
+        {isModalVisible && (
+        <View style={{ ...StyleSheet.absoluteFillObject, zIndex: 10 }}>
+          <BottomSheetSecurityCode
+            title="Nhập mã bảo mật"
+            error= {errorMessage}
+            message={isLoading}
+            handleSubmit={handleSubmit}
+          />
+        </View>
+      )}
     </SafeAreaView>
   )
 }
