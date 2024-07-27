@@ -33,7 +33,7 @@ const Welcome = () => {
   }
   console.log(accessToken);
   if (accessToken) {
-    return <Redirect href="/home" />;
+    return <Redirect href="/home"/>;
   } else {
     
     return <Redirect href="/sign-in"/>;
