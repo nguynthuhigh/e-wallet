@@ -42,7 +42,7 @@ export default function AddWebHook(){
     }
     return<form onSubmit={hanldeRegister}> 
          <div>
-            <label for="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Register webhook</label>
+            <label for="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Register enpoint</label>
             <input type="text" onChange={hanldeChange} value={webhookValue} id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="http://your.domain.com/hello-world" required />
         </div>
         <div className="text-green-400 mx-auto w-fit font-semibold">{notification}</div>

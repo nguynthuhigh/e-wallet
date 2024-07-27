@@ -1,28 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Header from '../header/header_dashboard'
 import { Loading } from '../auth/loading';
 import voucherAPI from '../../api/voucher.api'
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 const initialData = {
-  title: '',
-  code: '',
-  content: '',
-  quantity: '',
-  discountValue: '',
-  type: 'discount_amount',
-  min_condition: '',
-};
-
-export default function VoucherForm() {
-  const [voucherData, setVoucherData] = useState(initialData);
-  const [errors, setErrors] = useState({});
-  const [errorSubmit,setErrorSubmit] = useState(null)
-  const [isLoading,setIsLoading] = useState(false)
-  const [message,setMessage] = useState(false)
-  const handleChange = (name, value) => {
-    setVoucherData({ ...voucherData, [name]: value });
-    setErrors({discountValue:null,code:null})
+    title: '',
+    code: '',
+    content: '',
+    quantity: '',
+    discountValue: '',
+    type: 'discount_amount',
+    min_condition: '',
   };
-
+export default function EditVoucher() {
+    const navigate = useNavigate()
+    const [voucherData, setVoucherData] = useState(initialData);
+    const [errors, setErrors] = useState({});
+    const [errorSubmit,setErrorSubmit] = useState(null)
+    const [isLoading,setIsLoading] = useState(true)
+    const [message,setMessage] = useState(false)
+    const handleChange = (name, value) => {
+        setVoucherData({ ...voucherData, [name]: value });
+        setErrors({discountValue:null,code:null})
+        console.log(voucherData)
+    };
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const id = queryParams.get('id');
+    useEffect(()=>{
+        const fetchVoucher =async()=>{
+            try {
+                const response =await voucherAPI.getVoucher(id)
+                if(response.status === 200){
+                    setVoucherData(response.data.data)
+                    console.log(voucherData)
+                    setIsLoading(false)
+                }
+            } catch (error) {
+                console.log(error)
+                navigate('/*')
+            }
+        }
+    fetchVoucher()
+  },[])
   const validate = () => {
     let tempErrors = {};
     if (voucherData.discountValue > 100 && voucherData.type === "discount_percent"){
@@ -46,18 +67,22 @@ export default function VoucherForm() {
       return false
     }
   };
-
+  
   const handleSubmit =async (e) => {
     e.preventDefault();
+    if(validate() === false){
+        return
+    }
+    const body = {
+        ...voucherData,
+        voucherID: id
+    }
     try {
-        if(validate() === false){
-          return
-        }
-
         setIsLoading(true)
-        const response = await voucherAPI.addVoucher(voucherData)
+        const response = await voucherAPI.editVoucher(body)
         if(response.status === 200){
-            setMessage("Add successfully!")
+            alert("Edit successfully!")
+            navigate('/voucher')
             setIsLoading(false)
         }
     } catch (error) {
@@ -77,7 +102,7 @@ export default function VoucherForm() {
           <label className="block text-lg font-semibold mb-2">Title</label>
           <input
             className="w-full border border-gray-300 rounded-lg p-2 "
-            value={voucherData.title}
+            value={voucherData?.title}
             onChange={(e) => handleChange('title', e.target.value)}
             placeholder='Discount 10% when payment with pressPay'
             required
@@ -87,7 +112,7 @@ export default function VoucherForm() {
           <label className="block text-lg font-semibold mb-2">Code</label>
           <input
             className="w-full border border-gray-300 rounded-lg p-2 "
-            value={voucherData.code}
+            value={voucherData?.code}
             onChange={(e) => handleChange('code', e.target.value)}
             placeholder='VOUCHER100K'
             required
@@ -100,7 +125,7 @@ export default function VoucherForm() {
           <label className="block text-lg font-semibold mb-2">Descriptions</label>
           <input
             className="w-full border border-gray-300 p-2 rounded-lg"
-            value={voucherData.content}
+            value={voucherData?.content}
             onChange={(e) => handleChange('content', e.target.value)}
             required
             placeholder='Descriptions voucher'
@@ -112,7 +137,7 @@ export default function VoucherForm() {
           <label className="block text-lg font-semibold rounded-lg mb-2">Quantity</label>
           <input
             className="w-full border border-gray-300 p-2 rounded-lg"
-            value={voucherData.quantity}
+            value={voucherData?.quantity}
             onChange={(e) => handleChange('quantity', e.target.value)}
             type="number"
             required
@@ -126,7 +151,7 @@ export default function VoucherForm() {
           <label className="block text-lg font-semibold mb-2">Discount Value </label>
           <input
             className="w-full border border-gray-300 rounded-lg p-2 "
-            value={voucherData.discountValue}
+            value={voucherData?.discountValue}
             onChange={(e) => handleChange('discountValue', e.target.value)}
             type="number"
             placeholder="-99,000đ or -99%"
@@ -136,7 +161,7 @@ export default function VoucherForm() {
         </div>
         <div>
           <label className="block text-lg font-semibold mb-2">Type</label>
-          <select id="countries" onChange={(e) => handleChange('type', e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-g0 ">
+          <select value={voucherData?.type} id="countries" onChange={(e) => handleChange('type', e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-g0 ">
             <option value="discount_amount" >Discount amount</option>
             <option value="discount_percent" >Percent discount</option>
           </select>
@@ -148,7 +173,7 @@ export default function VoucherForm() {
           <label className="block text-lg font-semibold mb-2">Min Condition</label>
           <input
             className="w-full border border-gray-300 p-2 rounded-lg"
-            value={voucherData.min_condition}
+            value={voucherData?.min_condition}
             onChange={(e) => handleChange('min_condition', e.target.value)}
             type="number"
             placeholder="120,000..."
@@ -179,3 +204,4 @@ export default function VoucherForm() {
   
   );
 }
+
