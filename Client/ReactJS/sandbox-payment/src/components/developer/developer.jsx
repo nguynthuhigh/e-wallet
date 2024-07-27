@@ -83,11 +83,8 @@ export default function Developer(){
         
             <Component language="javascript" api_url={"POST /api/v1/refund"} stringcode={
 `{
-    "receiver":"668fd2abaa7b610a6e7089ee",
-    "amount":"2200",
-    "message":"refund money",
-    "currency":"VND",
-    "private_key":"pk_presspay_62849c1e70084b1d3372ad5a8913f918fab3d64324a9de6a7b4adbbfdcf8e70d"
+    "private_key":"pk_presspay_62849c1e70084b1d3372ad5a8913f918fab3d64324a9de6a7b4adbbfdcf8e70d",
+    "orderID":"Order001"
 }`}>    
             </Component>
             <Component language="javascript" api_url={"Response"} stringcode={
@@ -125,7 +122,7 @@ const Table = ()=>{
         </thead>
         <tbody>
         <Description properties="private_key" type="string" description="The private key used for authentication." />
-        <Description properties="amount" type="string" description="The amount of money in the transaction, usually in the smallest unit of the currency (e.g.,  USD or VND)." />
+        <Description properties="amount" type="number" description="The amount of money in the transaction, usually in the smallest unit of the currency (e.g.,  USD or VND)." />
         <Description properties="currency" type="string" description="The currency code (e.g., 'VND', 'USD', 'ETH')." />
         <Description properties="message" type="string" description="A message or description of the product or transaction." />
         <Description properties="user_id" type="string" description="The unique identifier of the user making the transaction." />

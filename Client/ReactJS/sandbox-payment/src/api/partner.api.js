@@ -9,38 +9,28 @@ export const getProfilePartner =async ()=>{
     })
 }
 export const updateProfilePartner =async (body)=>{
-    try{
-        return await axios.put(process.env.REACT_APP_LOCAL_HOST+'/api/v1/partner/update-profile',body,{
-            headers:{
-                Authorization: 'Bearer '+cookie.get('token_auth')
-            }
-        })
-    }catch(error){
-        console.log(error)
-    }
+    return await axios.put(process.env.REACT_APP_LOCAL_HOST+'/api/v1/partner/update-profile',body,{
+        headers:{
+            Authorization: 'Bearer '+cookie.get('token_auth')
+        }
+    })
+  
     
 }
 export const getTransactions = async(page,pagesize)=>{
-    try{
-        return await axios.get(process.env.REACT_APP_LOCAL_HOST+'/api/v1/partner/get-transactions?page='+page+'&pagesize='+pagesize,{
-            headers:{
-                Authorization: 'Bearer '+cookie.get('token_auth')
-            }
-        })
-    }catch(error){
-        console.log(error)
-    }
+    return await axios.get(process.env.REACT_APP_LOCAL_HOST+'/api/v1/partner/get-transactions?page='+page+'&pagesize='+pagesize,{
+        headers:{
+            Authorization: 'Bearer '+cookie.get('token_auth')
+        }
+    })
+
 }
 export const getVouchers = async()=>{
-    try{
-        return await axios.get(process.env.REACT_APP_LOCAL_HOST+`/api/v1/voucher/get-vouchers`,{
-            headers:{
-                Authorization: 'Bearer '+cookie.get('token_auth')
-            }
-        })
-    }catch(error){
-        console.log(error)
-    }
+    return await axios.get(process.env.REACT_APP_LOCAL_HOST+`/api/v1/voucher/get-vouchers`,{
+        headers:{
+            Authorization: 'Bearer '+cookie.get('token_auth')
+        }
+    })
 }
 const exportObject = {
     getProfilePartner,
