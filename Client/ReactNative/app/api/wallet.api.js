@@ -47,9 +47,28 @@ export const getWallet = async () => {
     console.log(error);
   }
 };
+export const depositMoney = async (body) => {
+  try {
+    const token = await AsyncStorage.getItem("AccessToken");
+    const response = await axios.post(
+      `${process.env.API_URL}/api/v1/wallet/deposit-money`,
+      body,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
 const api = {
   sendMoney,
   confirmSendMoney,
   getWallet,
+  depositMoney,
 };
 export default api;
