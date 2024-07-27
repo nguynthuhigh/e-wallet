@@ -29,7 +29,7 @@ import CashIn from "../../../assets/svg/cashin.svg";
 import CashOut from "../../../assets/svg/cashout.svg";
 import EyeOpen from "../../../assets/svg/eye.svg";
 import EyeClosed from "../../../assets/svg/eyeClosed.svg";
-
+import { useLocalSearchParams } from "expo-router";
 const DepositWithdraw = () => {
   const [isHide, setIsHide] = useState(false);
   const [cards, setCards] = useState([]);
@@ -47,31 +47,15 @@ const DepositWithdraw = () => {
     { key: "first", title: "Nạp tiền", icon: <CashIn /> },
     { key: "second", title: "Rút tiền", icon: <CashOut /> },
   ]);
-
+  const {item} = useLocalSearchParams();
+  
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const user = await api.getProfile();
-        setWalletData(user.data.walletData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    setWalletData(JSON.parse(item))
     const fetchCards = async () => {
       try {
         const response = await getCards();
         if (response?.data && Array.isArray(response.data)) {
-          const detailedCards = await Promise.all(
-            response.data.map(async (card) => {
-              const cardDetails = await getCardDetails(card._id);
-              return {
-                ...cardDetails.data,
-                id: card._id,
-                type: card.type,
-              };
-            })
-          );
-          setCards(detailedCards);
+          
         } else {
           Alert.alert(
             "Thông báo!",
@@ -83,14 +67,13 @@ const DepositWithdraw = () => {
       }
     };
     fetchCards();
-    fetchUser();
   }, []);
 
   const { width: viewportWidth } = Dimensions.get("window");
 
   const renderItem = useCallback(
     ({ item }) => (
-      <Pressable onPress={() => setCardID(item.id)}>
+      <Pressable onPress={() => {setCardID(item.id); console.log(item.id)}}>
         <CreditCard
           key={item.id}
           type={item.type}
@@ -106,21 +89,17 @@ const DepositWithdraw = () => {
 
   const bottomSheetRef = useRef(null);
 
-  const handleSecurityCodeClose = useCallback(() => {
+  const handleSecurityCodeClose = () => {
     setOpenBS(false);
-  }, []);
+  }
 
-  const handleWalletPress = useCallback((index, currency) => {
+  const handleWalletPress =(index, currency) => {
     setSelectedWallet({ index, currency });
-  }, []);
+  }
 
-  const handleAmountChange = useCallback((text) => {
-    setTimeout(() => {
-      setAmount(text);
-    }, 6000);
+  const handleAmountChange = (text) => {
     setAmount(text);
-  }, []);
-  console.log(cardID);
+  };
   const walletItems = useMemo(
     () =>
       wallet.map((value, index) => (
@@ -166,6 +145,8 @@ const DepositWithdraw = () => {
             horizontal={true}
             contentContainerStyle={{ display: "flex", flexDirection: "row" }}
             showsHorizontalScrollIndicator={false}
+            keyboardDismissMode="on-drag"
+            keyboardShouldPersistTaps="handled"
           >
             {walletItems}
           </ScrollView>
@@ -176,6 +157,7 @@ const DepositWithdraw = () => {
             className="px-5 py-3 border-2 border-[#868686a0] rounded-lg focus:outline-none focus:ring focus:border-[#0D99FF]"
             keyboardType="numeric"
             placeholder="0đ"
+            value={amount}
             onChangeText={handleAmountChange}
           />
           <View>
@@ -207,18 +189,7 @@ const DepositWithdraw = () => {
                 Nạp tiền
               </Text>
             </TouchableOpacity>
-            {openBS && (
-              <View style={{ ...StyleSheet.absoluteFillObject, zIndex: 10 }}>
-                <BottomSheetSecurityCode
-                  title="Nhập mã bảo mật"
-                  ref={bottomSheetRef}
-                  amount={amount}
-                  currency={selectedWallet.currency}
-                  cardID={cardID}
-                  onClose={handleSecurityCodeClose}
-                />
-              </View>
-            )}
+           
           </View>
         </View>
       </View>
@@ -280,6 +251,18 @@ const DepositWithdraw = () => {
           )}
         />
       </View>
+      {openBS && (
+              <View style={{ ...StyleSheet.absoluteFillObject, zIndex: 10 }}>
+                <BottomSheetSecurityCode
+                  title="Nhập mã bảo mật"
+                  ref={bottomSheetRef}
+                  amount={amount}
+                  currency={selectedWallet.currency}
+                  cardID={cardID}
+                  onClose={handleSecurityCodeClose}
+                />
+              </View>
+            )}
     </View>
   );
 };

@@ -10,9 +10,9 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const BottomSheetSecurityCode = forwardRef((props, ref) => {
   const { amount, cardID, currency } = props;
-  console.log(amount);
-  console.log(cardID);
-  console.log(currency);
+  console.log('amount'+amount);
+  console.log('card' + cardID);
+  console.log('currency'+currency);
   const [securityCode, setSecurityCode] = useState(" ");
   const [data, setData] = useState(" ");
   const [error, setError] = useState();
@@ -23,7 +23,7 @@ const BottomSheetSecurityCode = forwardRef((props, ref) => {
       console.log(security_code);
       const deposit = async () => {
         try {
-          setMessage("Đang chuyển tiền");
+          setMessage("Đang nạp tiền");
           const response = await api.depositMoney({
             security_code,
             amount,

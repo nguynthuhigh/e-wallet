@@ -2,7 +2,7 @@
   "expo": {
     "name": "pressPay Wallet",
     "scheme": "presspay-wallet",
-    "slug": "presspay wallet",
+    "slug": "presspay-wallet",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
