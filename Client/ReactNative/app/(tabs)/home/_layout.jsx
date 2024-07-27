@@ -21,13 +21,15 @@ const StackLayout = () => {
         <Stack.Screen name="details-bill" options={{ headerShown: false }} />
         <Stack.Screen name="my-qr" options={{ headerShown: false }} />
 
-        
         <Stack.Screen
           name="details-currency"
           options={{ headerShown: false }}
         />
         <Stack.Screen name="list-currencies" options={{ headerShown: false }} />
-
+        <Stack.Screen
+          name="bs-security-code"
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="deposit-withdraw"
           options={{

@@ -26,7 +26,11 @@ import paymentLink from "../assets/svg/payment-link.svg";
 import paymentReminder from "../assets/svg/payment-reminder.svg";
 import reqMoney from "../assets/svg/request-money.svg";
 import bill from "../assets/svg/bill.svg";
+import pressPay from "../assets/svg/logo_vnd.svg";
+import usd from "../assets/svg/logo_usd.svg";
 export default {
+  pressPay,
+  usd,
   bill,
   grFund,
   paymentLink,

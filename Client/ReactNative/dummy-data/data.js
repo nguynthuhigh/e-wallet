@@ -1,5 +1,6 @@
 import constant from "../constants";
-const { images,logo } = constant;
+const { images, logo, svg } = constant;
+
 export const Message = [
   {
     message: "😏Em đẹp lắm",
@@ -46,19 +47,16 @@ export const getUser = [
 ];
 export const wallet = [
   {
-    img: logo.presspay,
-    currency: "VNĐ",
-    value: "5.000.000đ",
+    img: svg.pressPay,
+    currency: "VND",
   },
   {
-    img: logo.paypal,
+    img: svg.usd,
     currency: "USD",
-    value: "1000 USD",
   },
   {
-    img: logo.eth,
-    currency: "Ether",
-    value: "1 ETH",
+    img: svg.eth,
+    currency: "ETH",
   },
 ];
 export const UserData = [
