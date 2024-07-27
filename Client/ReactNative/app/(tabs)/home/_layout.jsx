@@ -8,7 +8,7 @@ const StackLayout = () => {
     <>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="confirm-send" />
+        <Stack.Screen name="confirm-send" options={{ headerShown: false }} />
         <Stack.Screen
           name="receive-money"
           options={{
@@ -19,6 +19,9 @@ const StackLayout = () => {
         <Stack.Screen name="search-result" options={{ headerShown: false }} />
         <Stack.Screen name="confirm-bill" options={{ headerShown: false }} />
         <Stack.Screen name="details-bill" options={{ headerShown: false }} />
+        <Stack.Screen name="my-qr" options={{ headerShown: false }} />
+
+        
         <Stack.Screen
           name="details-currency"
           options={{ headerShown: false }}

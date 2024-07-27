@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { View, Text,TextInput,SafeAreaView,TouchableOpacity,StyleSheet } from 'react-native'
 import BG_BCIcon from '../../assets/svg/bg_BCic.svg'
 import BG_PPIcon from '../../assets/svg/bg_PPic.svg'
@@ -6,15 +6,28 @@ import BG_ETHIcon from '../../assets/svg/bg_ETHic.svg'
 import BG_USDTIcon from '../../assets/svg/bg_USDTic.svg'
 import OTPIcon from '../../assets/svg/ic_OTP.svg'
 
-import { Link } from "expo-router";
-import axios from "axios"
+import { router } from "expo-router";
+import authAPI from '../api/auth.api'
 const UpdateInformation = () => {
   const [text, setText] = useState('');
-  const [password, setPassword] = useState('');
- 
-  
+  const [error,setError] = useState('')
+  const handleSubmit =async()=>{
+    if(text===""){
+      return setError("Vui lòng nhập tên")
+    }
+    try 
+    {
+      const response =await authAPI.updateInfo({full_name:text})
+      if(response.status === 200){
+        router.push("/home");
+      }
+    } catch (error) {
+        console.log(error)
+        setError(error.response.data.message)
+    }
+  }
   return (
-    <SafeAreaView style={styles.backgroundColor}>
+    <SafeAreaView style={styles.backgroundColor} className="flex-1">
       <View className="h-[255px] flex flex-wrap justify-center ml-[110px]">
         <View className='absolute top-2 ml-[-10px]'>
         <BG_BCIcon/>
@@ -43,22 +56,14 @@ const UpdateInformation = () => {
                 </TextInput>
           </View>
         </View>
-        <View className="border-[1.5px] border-[#0094FF] rounded-[30px]  h-[75px] mt-4">
-          <View className="h-[100%] flex-row items-center ml-4">
-              <OTPIcon/>
-              <TextInput  style={styles.input} 
-                className="font-semibold ml-4" 
-                placeholder='Mã bảo mật đăng nhập'
-                onChangeText={newText => setText(newText)}
-                defaultValue={text}>
-                </TextInput>
-          </View>
-        </View>
-        <Link href='/sign-in' className='w-[697px] mt-10'>
+        {error ? (
+          <Text className="text-red-500 text-center">{error}</Text>
+        ) : null}
+        <TouchableOpacity onPress={handleSubmit} className='w-full mt-5'>
           <View className="w-full bg-[#0094FF] h-[60px] flex-row items-center justify-center rounded-full mt-6">
             <Text className="text-white text-[20px] text-center font-bold">Lưu</Text>
           </View>
-        </Link>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   )

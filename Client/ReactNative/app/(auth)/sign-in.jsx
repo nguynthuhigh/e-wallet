@@ -24,6 +24,9 @@ const SignIn = () => {
   const [errorLogin,setErrorLogin] = useState(null)
   const login = async () => {
     try {
+      if(text === '' || password === ""){
+        return setErrorLogin("Vui lòng điền thông tin")
+      }
       console.log(process.env.API_URL + "/api/v1/user/signin");
       const response = await fetch(
         "https://presspay-api.azurewebsites.net/api/v1/user/signin",
@@ -45,12 +48,12 @@ const SignIn = () => {
         router.push({ pathname: "/verify-sign-in", params: { text } });
       }
     } catch (error) {
-      console.error(error.response.data.message);
+      console.error(error);
       setErrorLogin(error.response.data.message)
     }
   };
   return (
-    <SafeAreaView style={styles.backgroundColor}>
+    <SafeAreaView style={styles.backgroundColor} className="flex-1">
       <ScrollView>
         <View className="h-[255px] flex flex-wrap justify-center ml-[110px]">
           <View className="absolute top-2 ml-[-10px]">

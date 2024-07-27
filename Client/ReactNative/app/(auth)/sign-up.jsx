@@ -22,8 +22,20 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
+  const validateEmail = (inputEmail) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(inputEmail);
+  };
   const handleSignUp = async () => {
+    if(!validateEmail(email)){
+      return setErrorMessage("Email không đúng định dạng")
+    }
+    if(password === "" || email === ""){
+      return setErrorMessage("Vui lòng điền thông tin")
+    }
+    if(password.length < 6){
+      return setErrorMessage("Vui lòng mật khẩu phải dài hơn 6 ký tự")
+    }
     if (password !== confirmPassword) {
       setErrorMessage("Mật khẩu không khớp");
     } else {
@@ -55,7 +67,7 @@ const SignUp = () => {
         }
       } catch (error) {
         console.error(error);
-        setErrorMessage("Có lỗi xảy ra, vui lòng thử lại sau");
+        setErrorMessage(error.response.data.message);
       }
     }
   };
@@ -84,11 +96,12 @@ const SignUp = () => {
           >
             <BG_USDTIcon />
           </View>
-          <Text className="font-bold text-[24px] text-center mt-10 mb-8">
+          <Text className="font-bold text-[24px] text-center mt-10 mb-5">
             Đăng Ký
           </Text>
-          <View className="border-[1.5px] border-[#0094FF] rounded-[30px] h-[228px] mb-6">
-            <View className="h-[75px] flex-row items-center ml-4">
+          <View className="  h-[228px] mb-6">
+            <View className="h-[65px] flex-row items-center mt-2 rounded-[30px] border-[1.5px] border-[#0094FF]">
+            <View className="flex-row items-center ml-4">
               <AccountIcon />
               <TextInput
                 style={styles.input}
@@ -98,8 +111,9 @@ const SignUp = () => {
                 defaultValue={email}
               />
             </View>
-            <View className="border-b-[2px] border-[#0094FF]" />
-            <View className="h-[75px] flex-row items-center ml-4">
+            </View>
+            <View className="h-[65px] flex-row items-center mt-2 rounded-[30px] border-[1.5px] border-[#0094FF]">
+            <View className="flex-row items-center ml-4">
               <PasswordIcon />
               <TextInput
                 style={styles.input}
@@ -110,8 +124,9 @@ const SignUp = () => {
                 defaultValue={password}
               />
             </View>
-            <View className="border-b-[2px] border-[#0094FF]" />
-            <View className="h-[75px] flex-row items-center ml-4">
+            </View>
+            <View className="h-[65px] flex-row items-center mt-2 rounded-[30px] border-[1.5px] border-[#0094FF]">
+            <View className="flex-row items-center ml-4">
               <PasswordIcon />
               <TextInput
                 style={styles.input}
@@ -123,10 +138,9 @@ const SignUp = () => {
               />
             </View>
           </View>
-          {errorMessage ? (
+          </View>
             <Text className="text-red-500 text-center">{errorMessage}</Text>
-          ) : null}
-          <TouchableOpacity onPress={handleSignUp} className="w-full mt-6">
+          <TouchableOpacity onPress={handleSignUp} className="w-full ">
             <View className="w-full bg-[#0094FF] h-[60px] flex-row items-center justify-center rounded-full mt-6">
               <Text className="text-white text-[20px] text-center font-bold">
                 Đăng Ký

@@ -13,7 +13,7 @@ const NavigationHeader = ({ title }) => {
         <BackArrow width={30} height={26.5} />
       </TouchableOpacity>
       <View className="flex-1 items-center">
-        <Text className="font-bold color-white text-lg">{title}</Text>
+        <Text className="font-bold color-black text-lg">{title}</Text>
       </View>
       <View className="w-1/4" />
       <StatusBar backgroundColor="#fff" />
