@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Header from '../header/header_dashboard'
-
+import { Link } from 'react-router-dom'
 import partnerAPI from '../../api/partner.api'
 
 export default function Voucher(){
@@ -27,7 +27,7 @@ export default function Voucher(){
     return(<>
         <Header></Header>
         <div className="max-w-[1200px] mx-auto bg-gray-50 ">
-            <h1 className='font-bold text-xl py-2'> List vouchers</h1>
+            <div className='flex my-2 items-center'><h1 className='font-bold text-xl py-2'> List vouchers</h1><Link className='ml-auto mr-2 rounded-xl bg-blue-600 font-semibold text-white py-2 px-4' to='/add-voucher'>Add voucher</Link></div>
         <table className="rounded-xl w-full">
             <tr className="text-xs text-gray-700 uppercase bg-gray-100 ">
                 <th scope="col" class="p-4">Title</th>

@@ -46,6 +46,7 @@ const TabLayout = () => {
   const pagesToHideBar = useMemo(
     () => [
       "transfer",
+      "sign-in",
       "confirm-send",
       "scan-qr",
       "receive-money",

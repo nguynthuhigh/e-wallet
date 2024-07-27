@@ -24,7 +24,6 @@ const BottomSheetSecurityCode = forwardRef((props, ref) => {
           });
           if (response.status == 200) {
             setData(response.data);
-            console.log(data);
             router.push({
               pathname: "/invoice/details-bill",
               params: { item: response.data.data._id },
