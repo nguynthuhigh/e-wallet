@@ -122,7 +122,9 @@ const Invoice = () => {
                       Trạng thái
                     </Text>
                     <Text className="text-sm font-semibold">
-                      Chờ thanh toán
+                      {transactionData.status == "pending"
+                        ? "Chờ thanh toán"
+                        : transactionData.status}
                     </Text>
                   </View>
                 </View>
@@ -131,7 +133,12 @@ const Invoice = () => {
                     <Text className="text-sm font-semibold text-[#868686]">
                       Loại giao dịch
                     </Text>
-                    <Text className="text-sm font-semibold">Thanh toán</Text>
+                    <Text className="text-sm font-semibold">
+                      {" "}
+                      {transactionData.type == "payment"
+                        ? "Thanh toán"
+                        : transactionData.type}
+                    </Text>
                   </View>
                 </View>
                 <View className="border-b-[0.5px]  border-[#86868646]">
@@ -185,7 +192,9 @@ const Invoice = () => {
                 <Text className="text-sm font-semibold text-[#868686]">
                   Tổng tiền
                 </Text>
-                <Text className="text-sm font-semibold">5.000.000đ</Text>
+                <Text className="text-sm font-semibold">
+                  {format.formatCurrency(transactionData?.amount, "VND")}
+                </Text>
               </View>
             </View>
           </View>
