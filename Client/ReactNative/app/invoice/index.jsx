@@ -24,15 +24,15 @@ const Invoice = () => {
   const dataBill = JSON.parse(item);
   const [transactionData, setTransactionData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  console.log(dataBill);
+  const [code,setCode] = useState(null)
+  const [newAmount,setNewAmount] = useState(null)
   useEffect(() => {
     const fetchTransaction = async () => {
       try {
         const response = await paymentAPI.getTransaction(dataBill);
-        if (response.status === 200) {
+        console.log(response)
+        if (response?.status === 200) {
           setTransactionData(response.data.data);
-          console.log(response.data.data);
           setIsLoading(false);
         }
       } catch (error) {
@@ -54,49 +54,17 @@ const Invoice = () => {
   const handleSecurityCodeClose = () => {
     setOpenSecurityCode(false);
   };
-
+  const handleApllyVoucher = (code,newAmount) => {
+    setNewAmount(newAmount);
+    setCode(code)
+  };
+  const handleCloseBottomSheet = () => {
+    setOpenBottomSheet(false)
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView className="p-4">
+      <ScrollView className="p-4 bg-white">
         <View className="mb-4">
-          <View className="flex-row items-center space-x-2 mb-4">
-            <Text className=" text-base font-semibold">Tài khoản</Text>
-            <View>
-              <TouchableOpacity
-                onPress={() => setIsHide(!isHide)}
-                activeOpacity={0.7}
-              >
-                {isHide ? (
-                  <EyeClosed width={24} height={24} />
-                ) : (
-                  <EyeOpen width={24} height={24} />
-                )}
-              </TouchableOpacity>
-            </View>
-          </View>
-          <ScrollView
-            horizontal={true}
-            contentContainerStyle={{
-              display: "flex",
-              flexDirection: "row",
-            }}
-            showsHorizontalScrollIndicator={false}
-          >
-            {wallet.map((value, index) => (
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => setSelectedWalletIndex(index)}
-                key={index}
-              >
-                <Wallet
-                  logo={value.img}
-                  currency={value.currency}
-                  value={value.value}
-                  isSelected={selectedWalletIndex === index}
-                />
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
         </View>
         <View className="mb-4">
           <Text className="text-lg text-[#868686]">CHI TIẾT GIAO DỊCH</Text>
@@ -122,7 +90,9 @@ const Invoice = () => {
                       Trạng thái
                     </Text>
                     <Text className="text-sm font-semibold">
-                      Chờ thanh toán
+                      {transactionData?.status == "pending"
+                        ? "Chờ thanh toán"
+                        : transactionData?.status}
                     </Text>
                   </View>
                 </View>
@@ -131,7 +101,12 @@ const Invoice = () => {
                     <Text className="text-sm font-semibold text-[#868686]">
                       Loại giao dịch
                     </Text>
-                    <Text className="text-sm font-semibold">Thanh toán</Text>
+                    <Text className="text-sm font-semibold">
+                      {" "}
+                      {transactionData?.type == "payment"
+                        ? "Thanh toán"
+                        : transactionData?.type}
+                    </Text>
                   </View>
                 </View>
                 <View className="border-b-[0.5px]  border-[#86868646]">
@@ -140,7 +115,7 @@ const Invoice = () => {
                       Mô tả
                     </Text>
                     <Text className="text-sm font-semibold">
-                      Thanh toán vé máy bay
+                      {transactionData?.message}
                     </Text>
                   </View>
                 </View>
@@ -150,7 +125,7 @@ const Invoice = () => {
                       Số tiền
                     </Text>
                     <Text className="text-sm font-semibold">
-                      {format.formatCurrency(transactionData?.amount, "VND")}
+                      {isLoading ? '...loading' : format.formatCurrency(transactionData?.amount, transactionData?.currency?.symbol)}
                     </Text>
                   </View>
                 </View>
@@ -168,7 +143,7 @@ const Invoice = () => {
                   <View className="flex-row items-center space-x-4 justify-center">
                     <Image source={images.plus} />
                     <Text className="text-sm font-semibold text-[#0D99FF]">
-                      Chọn thẻ quà tặng
+                      {code ? `Mã giảm giá đang sử dụng ${code}` : 'Chọn thẻ quà tặng'}
                     </Text>
                   </View>
                   {/* <View className="flex-row items-center justify-between">
@@ -185,7 +160,9 @@ const Invoice = () => {
                 <Text className="text-sm font-semibold text-[#868686]">
                   Tổng tiền
                 </Text>
-                <Text className="text-sm font-semibold">5.000.000đ</Text>
+                <Text className="text-sm font-semibold">
+                {isLoading ? '...loading' : newAmount ? format.formatCurrency(newAmount, transactionData?.currency?.symbol) :format.formatCurrency(transactionData?.amount, transactionData?.currency?.symbol)}
+                </Text>
               </View>
             </View>
           </View>
@@ -211,14 +188,17 @@ const Invoice = () => {
         <View style={{ ...StyleSheet.absoluteFillObject, zIndex: 10 }}>
           <BottomSheetPromotion
             title="Danh sách các khuyến mãi"
+            transactionID={transactionData?._id}
             ref={bottomSheetRef}
             onClose={handleBottomSheetClose}
+            onData={handleApllyVoucher}
           />
         </View>
       )}
       {openSecurityCode && (
         <View style={{ ...StyleSheet.absoluteFillObject, zIndex: 10 }}>
           <BottomSheetSecurityCode
+            code={code}
             title="Nhập mã bảo mật"
             ref={bottomSheetRef}
             transactionID={transactionData?._id}

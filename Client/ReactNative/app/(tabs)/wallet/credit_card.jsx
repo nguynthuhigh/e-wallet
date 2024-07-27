@@ -5,17 +5,22 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
-  ScrollView,
   Alert,
+  Dimensions,
+  Pressable,
 } from "react-native";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { getCards, getCardDetails } from "../../api/creditcard.api";
 import ArrowMore from "../../../assets/svg/arrow_more.svg";
 import constants from "../../../constants";
-const { images } = constants;
 import CreditCard from "../../../components/CreditCard";
-import Loader from "../../../components/Loader"
+import Loader from "../../../components/Loader";
+import Carousel from "react-native-reanimated-carousel";
+
+const { images } = constants;
+
 const CreditCardList = () => {
+  const { isUpdating } = useLocalSearchParams();
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -23,54 +28,87 @@ const CreditCardList = () => {
     const fetchCards = async () => {
       try {
         const response = await getCards();
-        console.log("Response:", response?.data); 
-        if (response && response?.data && Array.isArray(response?.data)) {
+        console.log("Response:", response?.data);
+        if (response?.data && Array.isArray(response.data)) {
           const detailedCards = await Promise.all(
             response.data.map(async (card) => {
               const cardDetails = await getCardDetails(card._id);
-              console.log("Card details:", cardDetails); 
+              console.log("Card details:", cardDetails);
               return {
                 ...cardDetails.data,
                 id: card._id,
+                type: card.type,
               };
             })
           );
           setCards(detailedCards);
         } else {
-          console.error("Không đúng định dạng:", response);
-          Alert.alert("Lỗi", "Không đúng định dạng.");
+          Alert.alert(
+            "Thông báo!",
+            "Bạn chưa có thẻ tín dụng nào. Nhấn vào liên kết thẻ tín dụng để liên kết với thẻ tín dụng của bạn nhé!!"
+          );
         }
       } catch (error) {
-        console.error("Không thể lấy được danh sách thẻ:", error);
-        Alert.alert("Lỗi", "Không thể lấy được danh sách thẻ.");
+        console.log("Unable to fetch card list:", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchCards();
-  }, []);
+  }, [isUpdating]);
+
+  const renderItem = ({ item }) => {
+    return (
+      <Pressable
+        onPress={() =>
+          router.push({
+            pathname: "wallet/credit-card-details",
+            params: { item: JSON.stringify(item) },
+          })
+        }
+      >
+        <CreditCard
+          key={item.id}
+          type={item.type}
+          number={item.number}
+          expiry={`${item.expiryMonth}/${item.expiryYear % 100}`}
+          cvc={item.cvv}
+          name={item.name}
+        />
+      </Pressable>
+    );
+  };
 
   if (loading) {
-    return (
-        <Loader isLoading={loading}/>
-    );
+    return <Loader isLoading={loading} />;
   }
+
+  const { width: viewportWidth } = Dimensions.get("window");
+  const itemWidth = viewportWidth * 0.75;
 
   return (
     <SafeAreaView>
-      <ScrollView className="px-4">
-        {cards.map((card) => (
-          <CreditCard
-            key={card.id}
-            type={card.type} 
-            number={card.number}
-            expiry={`${card.expiryMonth}/${card.expiryYear - 2000}`}
-            cvc={card.cvv}
-            name={card.name}
+      <View className="px-4">
+        <View className="items-center">
+          <Carousel
+            data={cards}
+            renderItem={renderItem}
+            width={viewportWidth}
+            height={300}
+            mode="vertical-stack"
+            modeConfig={{
+              snapDirection: "left",
+              stackInterval: 18,
+              showLength: 3,
+              scaleInterval: 0.08,
+              opacityInterval: 0.15,
+              translateYInterval: 15,
+              rotate: 2,
+            }}
           />
-        ))}
-        <View className="mt-3">
+        </View>
+        <View className="mt-[70%]">
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => router.push("/wallet/credit-card-linking")}
@@ -97,7 +135,7 @@ const CreditCardList = () => {
             </View>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

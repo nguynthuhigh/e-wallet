@@ -11,7 +11,7 @@ import * as Linking from "expo-linking";
 import { CameraView, Camera } from "expo-camera";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
-import BackArrow from "../../../../assets/svg/arrow_back.svg";
+import BackArrow from "../../../assets/svg/arrow_back.svg";
 export default function ScanQR() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -36,8 +36,8 @@ export default function ScanQR() {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     const id = JSON.stringify(data);
-    console.log(id.length);
-    if (id.length == 24) {
+    console.log(data);
+    if (id.length == 26) {
       router.push({ pathname: "invoice", params: { item: id } });
     } else {
       Alert.alert("Undefined", "Invalid QR Code");

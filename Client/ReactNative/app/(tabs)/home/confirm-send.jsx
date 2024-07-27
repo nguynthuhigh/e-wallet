@@ -68,8 +68,6 @@ const ConfirmSend = () => {
     setError(null)
   }
   return (
-    <SafeAreaView>
-      <BlueBg />
       <SafeAreaView className="absolute top-7">
         <View className="flex-row items-center px-5 gap-x-2 mb-4">
           <TouchableOpacity onPress={() => router.back()}>
@@ -81,10 +79,10 @@ const ConfirmSend = () => {
             source={{ uri: "https://reactjs.org/logo-og.png" }}
           />
           <View>
-            <Text className=" font-bold text-sm text-white">
-            {userData?.name}
+            <Text className=" font-bold text-sm text-black">
+            {userData?.full_name}
             </Text>
-            <Text className="text-xs text-white">{userData?.email} </Text>
+            <Text className="text-xs text-black">{userData?.email} </Text>
           </View>
         </View>
         <ScrollView className="px-5">
@@ -159,7 +157,6 @@ const ConfirmSend = () => {
         <StatusBar backgroundColor="#fff" style="inverted" />
    
       </SafeAreaView>
-    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

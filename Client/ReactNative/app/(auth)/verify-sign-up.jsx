@@ -63,12 +63,12 @@ const VerifySignUp = () => {
       }
     } catch (error) {
       console.error("Error response:", error.response);
-      setErrorMessage(error.response.message);
+      setErrorMessage(error.response.data.message);
     }
   };
 
   return (
-    <SafeAreaView style={styles.backgroundColor}>
+    <SafeAreaView style={styles.backgroundColor} className="flex-1">
       <ScrollView>
         <View className="h-[255px]  flex flex-wrap justify-center ml-[110px]">
           <View className="absolute top-2 ml-[-10px]">
@@ -115,9 +115,6 @@ const VerifySignUp = () => {
               />
             </View>
           </View>
-          {errorMessage ? (
-            <Text className="text-red-500 text-center">{errorMessage}</Text>
-          ) : null}
           <TouchableOpacity className="items-end">
             <Text className="my-4 text-[#0094ff] font-bold">Gửi lại mã</Text>
           </TouchableOpacity>

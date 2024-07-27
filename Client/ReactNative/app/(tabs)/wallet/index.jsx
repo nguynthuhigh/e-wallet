@@ -7,11 +7,28 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Item from "../../../components/Item";
 import Card from "../../../assets/svg/card.svg";
 import Arrow_More from "../../../assets/svg/arrow_more.svg";
+import { useEffect,useState } from "react";
+import authAPI from "../../api/auth.api";
 const Wallet = () => {
   const handleLogout = () => {
     AsyncStorage.removeItem("AccessToken");
     router.replace("/sign-in");
   };
+  const [userData, setUserData] = useState("");
+  const [walletData, setWalletData] = useState("");
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await authAPI.getProfile();
+        setUserData(user.data.userData);
+        setWalletData(user.data.walletData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUser();
+  }, []);
   return (
     <SafeAreaView>
       <LinearGradient
@@ -36,15 +53,11 @@ const Wallet = () => {
                 <View className="w-full absolute rounded-xl py-4 bg-white flex-col items-center">
                   <View className="w-full mt-9 ">
                     <Text className="w-fit font-bold text-center text-[20px]">
-                      Elon Musk
+                      {userData?.full_name}
                     </Text>
                     <View className=" mt-2 mx-auto flex-row">
-                      <Text className=" text-[15px]">0369889XXX</Text>
-                      <View className="bg-[#53C41C] ml-1 text-[10px] items-center flex-row    rounded-full px-2">
-                        <Text className="text-[10px] text-white">
-                          Đã xác thực
-                        </Text>
-                      </View>
+                      <Text className=" text-[15px]">{userData?.email}</Text>
+                      
                     </View>
                   </View>
                 </View>

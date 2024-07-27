@@ -13,25 +13,30 @@ const BottomSheetSecurityCode = forwardRef((props, ref) => {
   const { transactionID } = props;
   const [securityCode, setSecurityCode] = useState(" ");
   const [data, setData] = useState(" ");
+  const [error,setError] = useState()
+  const [message,setMessage] = useState()
+  const {code} = props
   const handleOnChange = (security_code) => {
     if (security_code.length === 6) {
       console.log(security_code);
       const fetchPayment = async () => {
         try {
+          setMessage("Đang thanh toán vui lòng đợi")
           const response = await confirmPayment({
             security_code,
             transactionID,
+            voucher_code:code
           });
           if (response.status == 200) {
             setData(response.data);
-            console.log(data);
             router.push({
               pathname: "/invoice/details-bill",
               params: { item: response.data.data._id },
             });
           }
         } catch (error) {
-          console.log(error.response.data.message);
+          setError(error.response.data.message);
+          setMessage(null)
         }
       };
       fetchPayment();
@@ -74,8 +79,12 @@ const BottomSheetSecurityCode = forwardRef((props, ref) => {
         backdropComponent={renderBackdrop}
         keyboardBehavior="extend"
       >
+        
         <BottomSheetView style={styles.contentContainer}>
           <Text className="text-base font-semibold">{props.title}</Text>
+          <Text className="text-red-500 font-semibold">{error}</Text>
+          <Text className="text-green-500 font-semibold">{message}</Text>
+
           <BottomSheetTextInput
             style={styles.input}
             onChangeText={handleOnChange}

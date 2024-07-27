@@ -8,7 +8,7 @@ import React, {
 import { StatusBar } from "expo-status-bar";
 import { Tabs, useSegments } from "expo-router";
 import { View, Text, Animated, Dimensions } from "react-native";
-import LottieView from "lottie-react-native"
+import LottieView from "lottie-react-native";
 import constants from "../../constants";
 const { icons } = constants;
 import TabIcon from "../../components/TabIcon";
@@ -17,12 +17,12 @@ const ScanTabIcon = React.memo(({ focused }) => {
   return (
     <View className="items-center">
       <View className="w-20 h-20 items-center bg-white overflow-hidden rounded-full">
-        <LottieView
+        {/* <LottieView
           style={{ flex: 1, width: 60, height: 60 }}
           source={require("../../assets/animation/qr_scan.json")}
           autoPlay
           loop
-        />
+        /> */}
       </View>
       <Text
         className={`${
@@ -46,6 +46,7 @@ const TabLayout = () => {
   const pagesToHideBar = useMemo(
     () => [
       "transfer",
+      "sign-in",
       "confirm-send",
       "scan-qr",
       "receive-money",
@@ -58,10 +59,12 @@ const TabLayout = () => {
       "list-currencies",
       "search-result",
       "confirm-bill",
-      "deposit-withdrawl",
+      "deposit-withdraw",
       "credit_card",
       "credit_details",
       "credit-card-linking",
+      "credit-card-details",
+      "my-qr"
     ],
     []
   );
@@ -95,17 +98,15 @@ const TabLayout = () => {
         case "home":
           handleTabPress(0, 0);
           break;
-        case "promote":
+
+        case "scan-qr":
           handleTabPress(getWidth(), 1);
           break;
-        case "scan-qr":
+        case "transaction-history":
           handleTabPress(getWidth() * 2, 2);
           break;
-        case "transaction-history":
-          handleTabPress(getWidth() * 3, 3);
-          break;
         case "wallet":
-          handleTabPress(getWidth() * 4, 4);
+          handleTabPress(getWidth() * 3, 3);
           break;
         default:
           break;
@@ -149,16 +150,16 @@ const TabLayout = () => {
           })}
         />
         <Tabs.Screen
-          name="promote"
+          name="scanQR"
           options={{
-            title: "promotion",
+            title: "scan-qr",
             headerShown: false,
             unmountOnBlur: true,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.promotion}
                 color={color}
-                name="Ưu đãi"
+                name="Quét mã"
                 focused={focused}
               />
             ),
@@ -166,25 +167,11 @@ const TabLayout = () => {
           listeners={({ navigation }) => ({
             tabPress: (e) => {
               handleTabPress(getWidth(), 1);
-              navigation.navigate("promote");
-            },
-          })}
-        />
-        <Tabs.Screen
-          name="scanQR"
-          options={{
-            title: "scan-qr",
-            headerShown: false,
-            unmountOnBlur: true,
-            tabBarIcon: ({ focused }) => <ScanTabIcon focused={focused} />,
-          }}
-          listeners={({ navigation }) => ({
-            tabPress: (e) => {
-              handleTabPress(getWidth() * 2, 2);
               navigation.navigate("scanQR");
             },
           })}
         />
+    
         <Tabs.Screen
           name="transaction-history"
           options={{

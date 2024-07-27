@@ -38,7 +38,7 @@ const TransactionResults = () => {
   return (
     <SafeAreaView>
       <View></View>
-      <View className="h-[680px] p-5">
+      <View className="h-[450px] p-5">
         <View className=" items-center mb-10 flex-row justify-between">
           <View className="w-[20px]"></View>
           <Text className="font-semibold text-xl text-black">

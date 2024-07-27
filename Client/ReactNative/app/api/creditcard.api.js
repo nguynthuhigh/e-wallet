@@ -31,7 +31,7 @@ export const addCard = async ({
     );
     return response.data;
   } catch (error) {
-    console.error("Thêm thẻ thất bại:", error);
+    console.log("Thêm thẻ thất bại:", error);
   }
 };
 
@@ -48,7 +48,7 @@ export const getCards = async () => {
     );
     return response.data;
   } catch (error) {
-    console.error("Failed to fetch cards:", error);
+    console.log("Failed to fetch cards:", error);
   }
 };
 
@@ -65,7 +65,7 @@ export const getCardDetails = async (cardID) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Không thể lấy chi tiết thẻ:", error);
+    console.log("Không thể lấy chi tiết thẻ:", error);
   }
 };
 
@@ -101,7 +101,7 @@ export const editCard = async ({
     );
     return response.data;
   } catch (error) {
-    console.error("Cập nhật thông tin không thành công:", error);
+    console.log("Cập nhật thông tin không thành công:", error);
   }
 };
 
@@ -116,6 +116,7 @@ export const deleteCard = async (cardID) => {
         },
       }
     );
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Xóa thẻ thất bại:", error);

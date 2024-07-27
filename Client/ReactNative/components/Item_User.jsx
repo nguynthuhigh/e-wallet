@@ -1,7 +1,6 @@
 import { View, Text, TouchableOpacity,Image } from "react-native";
 import { router } from "expo-router";
 export default function ItemUser({item,wallet}){
-
     const data ={item,wallet:JSON.parse(wallet)}
     return(
         <TouchableOpacity onPress={()=>{router.push({pathname:'home/confirm-send',params: { item: JSON.stringify(data) }})}} className="flex-row items-centerp my-1 m-2 bg-white">
