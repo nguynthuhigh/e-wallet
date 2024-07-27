@@ -3,9 +3,9 @@ import {
   View,
   Text,
   SafeAreaView,
-  Button,
   TouchableOpacity,
   Animated,
+  Alert,
 } from "react-native";
 import * as Linking from "expo-linking";
 import { CameraView, Camera } from "expo-camera";
@@ -36,17 +36,31 @@ export default function ScanQR() {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     const id = JSON.stringify(data);
-    router.push({ pathname: "invoice", params: { item: id } });
+    console.log(id.length);
+    if (id.length == 24) {
+      router.push({ pathname: "invoice", params: { item: id } });
+    } else {
+      Alert.alert("Undefined", "Invalid QR Code");
+    }
+    setTimeout(() => setScanned(false), 4000);
   };
   const borderColor = borderAnimation.interpolate({
     inputRange: [0, 0.5, 1],
     outputRange: ["#0094FF", "#00FF94", "#0094FF"],
   });
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return (
+      <View className="flex-1 items-center justify-center">
+        <Text>Requesting for camera permission</Text>
+      </View>
+    );
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return (
+      <View className="flex-1 items-center justify-center">
+        <Text>No access to camera</Text>
+      </View>
+    );
   }
 
   return (
@@ -78,12 +92,6 @@ export default function ScanQR() {
             <Text className="font-semibold text-lg text-white">Quét mã QR</Text>
           </Animated.View>
         </View>
-        {scanned && (
-          <Button
-            title={"Tap to Scan Again"}
-            onPress={() => setScanned(false)}
-          />
-        )}
         <View className="flex-1 flex-col px-5 justify-center items-center">
           <View className="flex-row justify-between items-center w-full mb-60">
             <View className=" w-10 h-10 border-[#fff] border-[5px]  border-b-0 border-r-0"></View>
