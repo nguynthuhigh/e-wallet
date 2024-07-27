@@ -200,12 +200,7 @@ const ListCurrencies = ({ item, name, symbol, Image }) => {
   };
   return (
     <TouchableOpacity
-      onPress={() => {
-        router.push({
-          pathname: "home/details-currency",
-          params: { item: JSON.stringify(data) },
-        });
-      }}
+      
     >
       <View className="py-2 flex-row items-center">
         <Image width="40"></Image>

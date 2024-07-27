@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 
-const LoadingComponent = () => {
-  return (
-    <View>
-      <Text>Loading</Text>
-    </View>
-  );
-};
+const LoadingComponent = () => (
+  <View style={styles.loadingContainer}>
+    <ActivityIndicator size="large" color="#0000ff" />
+    <Text>Loading...</Text>
+  </View>
+);
 
 const Welcome = () => {
   const [accessToken, setAccessToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchToken = async () => {
       try {
@@ -28,16 +28,20 @@ const Welcome = () => {
 
     fetchToken();
   }, []);
+
   if (isLoading) {
     return <LoadingComponent />;
   }
-  console.log(accessToken);
-  if (accessToken) {
-    return <Redirect href="/home"/>;
-  } else {
-    
-    return <Redirect href="/sign-in"/>;
-  }
+
+  return accessToken ? <Redirect href="/home" /> : <Redirect href="/onboarding-main" />;
 };
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default Welcome;

@@ -22,6 +22,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading,setIsLoading] = useState(false)
   const validateEmail = (inputEmail) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(inputEmail);
@@ -41,6 +42,7 @@ const SignUp = () => {
     } else {
       setErrorMessage("");
       try {
+        setIsLoading(true)
         const response = await axios.post(
           "https://presspay-api.azurewebsites.net/api/v1/user/signup",
           {
@@ -68,6 +70,7 @@ const SignUp = () => {
       } catch (error) {
         console.error(error);
         setErrorMessage(error.response.data.message);
+        setIsLoading(false)
       }
     }
   };
@@ -99,7 +102,7 @@ const SignUp = () => {
           <Text className="font-bold text-[24px] text-center mt-10 mb-5">
             Đăng Ký
           </Text>
-          <View className="  h-[228px] mb-6">
+          <View className="  h-[228px] mb-1">
             <View className="h-[65px] flex-row items-center mt-2 rounded-[30px] border-[1.5px] border-[#0094FF]">
             <View className="flex-row items-center ml-4">
               <AccountIcon />
@@ -139,9 +142,9 @@ const SignUp = () => {
             </View>
           </View>
           </View>
-            <Text className="text-red-500 text-center">{errorMessage}</Text>
-          <TouchableOpacity onPress={handleSignUp} className="w-full ">
-            <View className="w-full bg-[#0094FF] h-[60px] flex-row items-center justify-center rounded-full mt-6">
+            <Text className="text-red-500 text-center my-1">{errorMessage}</Text>
+          <TouchableOpacity disabled={isLoading} onPress={handleSignUp} className="w-full ">
+            <View className="w-full bg-[#0094FF] h-[60px] flex-row items-center justify-center rounded-full">
               <Text className="text-white text-[20px] text-center font-bold">
                 Đăng Ký
               </Text>

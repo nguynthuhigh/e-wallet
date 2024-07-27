@@ -1,12 +1,13 @@
 {
   "expo": {
-    "name": "e-wallet",
-    "scheme": "e-wallet",
-    "slug": "e-wallet",
+    "name": "pressPay Wallet",
+    "scheme": "presspay-wallet",
+    "slug": "presspay wallet",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "description":"pressPay is a wallet mutiple currencies",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
