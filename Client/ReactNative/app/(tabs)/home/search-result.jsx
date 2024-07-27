@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 import Search from "../../../assets/svg/search.svg";
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import searchAPI from "../../api/search.api";
 import ItemUser from "../../../components/Item_User";
 import { useLocalSearchParams } from "expo-router";
@@ -26,7 +26,16 @@ const useDebounce = (callback, time) => {
 export default function SearchResult() {
   const [textEmail, setTextEmail] = useState(null);
   const [userData, setUserData] = useState(null);
-  const { item } = useLocalSearchParams();
+  const { item,qr_code } = useLocalSearchParams();
+  const [itemInfo,setItemInfo] = useState(null)
+  useEffect(()=>{
+    if(qr_code){
+      setTextEmail(qr_code)
+      setItemInfo(`{"item":{"balance":0,"currency":"667ee9da8868e89c7832a35e","_id":"66a4ff1c4ea7d311d52558be"},"name":"Vietnamese Dong","symbol":"VND"}`)
+    }else{
+      setItemInfo(item)
+    }
+  },[])
   const searchUser = async (email) => {
     try {
       const respone = await searchAPI.getUser(email);
@@ -52,7 +61,7 @@ export default function SearchResult() {
             className="flex-1 h-full justify-center"
           ></TextInput>
         </View>
-        {userData ? <ItemUser item={userData} wallet={item}></ItemUser> : ""}
+        {userData ? <ItemUser item={userData} wallet={itemInfo}></ItemUser> : ""}
       </View>
     </SafeAreaView>
   );

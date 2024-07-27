@@ -32,9 +32,15 @@ export const getTransaction = async (token) => {
   );
   return response;
 };
-
+export const applyVoucher = async (body) => {
+  const response = await axios.post(
+    `${process.env.API_URL}/api/v1/apply-voucher`,body
+  );
+  return response;
+};
 const api = {
   sendMoney,
   getTransaction,
+  applyVoucher
 };
 export default api;

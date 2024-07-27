@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   Text,
@@ -20,9 +20,22 @@ const InstallSecurity = () => {
   const [securityCode, setSecurityCode] = useState("");
   const [confirmSecurityCode, setConfirmSecurityCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
-  const handleSecurityCodeSubmit = async () => {
-    if (securityCode !== confirmSecurityCode) {
+  const [isLoading,setIsLoading] = useState(false)
+  const [code, setCode] = useState("");
+  useEffect(() => {
+    console.log(code);
+  }, [code]);
+  const handleCodeChange = (newOTP) => {
+    setCode(newOTP);
+    setErrorMessage('')
+    if (newOTP.length === 6) {
+      
+      handleSecurityCodeSubmit(newOTP)
+    }
+  };
+  const handleSecurityCodeSubmit = async (newOTP) => {
+    if (securityCode !== newOTP) {
+      console.log(securityCode + ' ' + newOTP)
       setErrorMessage("Mã bảo mật không khớp");
     } else {
       setErrorMessage("");
@@ -41,7 +54,7 @@ const InstallSecurity = () => {
         );
 
         if (response.status === 200) {
-          router.push("/home");
+          router.push("/update-information");
         } else {
           setErrorMessage("Có lỗi xảy ra, vui lòng thử lại.");
         }
@@ -53,7 +66,7 @@ const InstallSecurity = () => {
   };
 
   return (
-    <SafeAreaView style={styles.backgroundColor}>
+    <SafeAreaView style={styles.backgroundColor} className="flex-1">
       <View className="h-[255px] flex flex-wrap justify-center ml-[110px]">
         <View className="absolute top-2 ml-[-10px]">
           <BG_BCIcon />
@@ -78,6 +91,9 @@ const InstallSecurity = () => {
         <Text className="font-bold text-[24px] text-center mt-10 mb-5">
           Cài Đặt Mã Bảo Mật
         </Text>
+        {errorMessage ? (
+          <Text className="text-red-500 text-center">{errorMessage}</Text>
+        ) : null}
         <View className="border-[1.5px] border-[#0094FF] rounded-[30px]  h-[75px] mt-2">
           <View className="h-[100%] flex-row items-center ml-4">
             <OTPIcon />
@@ -85,8 +101,10 @@ const InstallSecurity = () => {
               style={styles.input}
               className="font-semibold ml-4"
               placeholder="Nhập mã bảo mật"
-              onChangeText={(newText) => setSecurityCode(newText)}
+              onChangeText={(newOTP) => setSecurityCode(newOTP)}
               defaultValue={securityCode}
+              secureTextEntry
+              keyboardType='number-pad'
               maxLength={6}
             ></TextInput>
           </View>
@@ -98,25 +116,15 @@ const InstallSecurity = () => {
               style={styles.input}
               className="font-semibold ml-4"
               placeholder="Nhập lại mã bảo mật"
-              onChangeText={(newText) => setConfirmSecurityCode(newText)}
-              defaultValue={confirmSecurityCode}
+              onChangeText={handleCodeChange}
+              defaultValue={code}
+              secureTextEntry
+              keyboardType='number-pad'
               maxLength={6}
             ></TextInput>
           </View>
         </View>
-        {errorMessage ? (
-          <Text className="text-red-500 text-center">{errorMessage}</Text>
-        ) : null}
-        <TouchableOpacity
-          onPress={handleSecurityCodeSubmit}
-          className="w-full mt-10"
-        >
-          <View className="w-full bg-[#0094FF] h-[60px] flex-row items-center justify-center rounded-full mt-6">
-            <Text className="text-white text-[20px] text-center font-bold">
-              Xác Nhận
-            </Text>
-          </View>
-        </TouchableOpacity>
+  
       </View>
     </SafeAreaView>
   );

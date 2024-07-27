@@ -22,7 +22,6 @@ const HomePage = () => {
   const [isHide, setIsHide] = useState(false);
   const [userData, setUserData] = useState("");
   const [walletData, setWalletData] = useState("");
-
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchUser = async () => {
@@ -30,11 +29,16 @@ const HomePage = () => {
         const user = await authAPI.getProfile();
         setUserData(user.data.userData);
         setWalletData(user.data.walletData);
+        if(user.data.userData.full_name === undefined){
+          router.push('/update-information')
+        }
+        if(user.data.userData.security_code === undefined){
+          router.push('/install-security')
+        }
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
+      } 
     };
 
     fetchUser();
@@ -52,9 +56,9 @@ const HomePage = () => {
               <Image className="w-[41px] h-[41px]" source={images.si} />
             </View>
             <View className="ml-2">
-              <Text className="text-[12px]">Chào buổi tối</Text>
+              <Text className="text-[12px]">{getTimeOfDay((new Date()).getHours())}</Text>
               <Text className="text-[14px] font-bold">
-                {isLoading ? "Loading..." : userData?.email}
+                {isLoading ? "Loading..." : userData?.full_name}
               </Text>
             </View>
             <View className="flex-row ml-auto justify-between">
@@ -91,7 +95,7 @@ const HomePage = () => {
                     ? "...Loading"
                     : `${
                         isHide
-                          ? "*******"
+                          ? "*****"
                           : formatCurrency(
                               walletData?.currencies[0]?.balance,
                               "VND"
@@ -129,7 +133,24 @@ const HomePage = () => {
                 <Text className="font-medium">Chuyển tiền</Text>
               </View>
             </TouchableOpacity>
-
+            <TouchableOpacity
+              onPress={() => {
+                router.push({
+                  pathname: "home/my-qr",
+                  params: { item: JSON.stringify(userData) },
+                });
+              }}
+            >
+              <View className="flex-col items-center gap-y-2">
+                <LottieView
+                  style={{ flex: 1, width: 30, height: 30 }}
+                  source={require("../../../assets/animation/transfer.json")}
+                  autoPlay
+                  loop
+                />
+                <Text className="font-medium">Nhận tiền</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
         <View className="px-4">
@@ -200,4 +221,21 @@ const ListCurrencies = ({ item, name, symbol, Image }) => {
     </TouchableOpacity>
   );
 };
+function getTimeOfDay(hour) {
+  if (hour >= 0 && hour < 5) {
+      return "Chào buối khuya";
+  } else if (hour >= 5 && hour < 10) {
+      return "Chào buối sáng";
+  } else if (hour >= 10 && hour < 13) {
+      return "Chào buổi trưa";
+  } else if (hour >= 13 && hour < 18) {
+      return "Chào buổi chiều";
+  } else if (hour >= 18 && hour < 23) {
+      return "Chào buổi tối";
+  } else {
+      return "Chào lúc khuya";
+  }
+}
+
+
 export default HomePage;

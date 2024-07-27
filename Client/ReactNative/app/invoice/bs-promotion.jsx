@@ -1,16 +1,18 @@
 import React, { useCallback, useMemo, forwardRef, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from "react-native";
 import BottomSheet, {
   BottomSheetView,
   BottomSheetBackdrop,
   BottomSheetTextInput,
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Voucher from "../../components/Voucher";
-
+import paymentAPI from '../api/payment.api'
 const BottomSheetPromotion = forwardRef((props, ref) => {
-  const [count, setCount] = useState(0);
+  const {transactionID} = props
+  const {onData} = props
+  const [codeAplly, setCodeAplly] = useState(null);
   const snapPoints = useMemo(() => ["25%", "50%", "75%"], []);
+  const [error, setError] = useState(null);
 
   const handleSheetChanges = useCallback(
     (index) => {
@@ -32,11 +34,22 @@ const BottomSheetPromotion = forwardRef((props, ref) => {
     ),
     []
   );
-
-  const handleChangeValue = (e) => {
-    return setCount(e.nativeEvent.text.length);
-  };
-
+  const handleAppyVoucher =async()=>{
+    try {
+        const body = {
+          "transactionID":transactionID,
+          "code":codeAplly
+        }
+        const response = await paymentAPI.applyVoucher(body)
+        if(response.status === 200){
+          onData(codeAplly,response.data.data)
+          props.onClose()
+        }
+    } catch (error) {
+      console.log(error)
+      setError(error.response.data.message)
+    }
+  }
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheet
@@ -51,18 +64,18 @@ const BottomSheetPromotion = forwardRef((props, ref) => {
       >
         <BottomSheetView style={styles.contentContainer}>
           <Text className="text-base font-semibold">{props.title}</Text>
+          <Text className="text-red-500 font-semibold">{error}</Text>
           <View className="px-5 py-3 mt-5 border-2 rounded-xl border-[#86868695] focus:outline-none focus:ring focus:border-[#0D99FF]">
-            <View className="w-full flex-row justify-between items-center">
-              <BottomSheetTextInput
-                style={styles.input}
+            <View className="w-full flex-row justify-between items-center p-4">
+              <TextInput 
+                style={styles.input} 
                 placeholder="Nhập mã khuyến mãi"
-                maxLength={10}
-                onChange={handleChangeValue}
-              />
-              <TouchableOpacity activeOpacity={0.7}>
+                onChangeText={(newText)=>{setCodeAplly(newText)}}>
+              </TextInput>
+              <TouchableOpacity activeOpacity={0.7} onPress={handleAppyVoucher}>
                 <Text
                   className={`text-sm font-semibold ${
-                    count === 10 ? "text-[#0D99FF]" : "text-[#C5C5C5]"
+                 "text-[#0D99FF]"
                   }`}
                 >
                   APPLY
@@ -70,7 +83,7 @@ const BottomSheetPromotion = forwardRef((props, ref) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View className="mt-4 w-full flex-1">
+          {/* <View className="mt-4 w-full flex-1">
             <Text className="font-semibold text-base mb-4">
               Khuyến mãi dành cho bạn
             </Text>
@@ -81,7 +94,7 @@ const BottomSheetPromotion = forwardRef((props, ref) => {
               <Voucher />
               <Voucher />
             </ScrollView>
-          </View>
+          </View> */}
         </BottomSheetView>
       </BottomSheet>
     </GestureHandlerRootView>
