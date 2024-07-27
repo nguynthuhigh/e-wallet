@@ -8,7 +8,7 @@ import React, {
 import { StatusBar } from "expo-status-bar";
 import { Tabs, useSegments } from "expo-router";
 import { View, Text, Animated, Dimensions } from "react-native";
-import LottieView from "lottie-react-native"
+import LottieView from "lottie-react-native";
 import constants from "../../constants";
 const { icons } = constants;
 import TabIcon from "../../components/TabIcon";
@@ -59,10 +59,11 @@ const TabLayout = () => {
       "list-currencies",
       "search-result",
       "confirm-bill",
-      "deposit-withdrawl",
+      "deposit-withdraw",
       "credit_card",
       "credit_details",
       "credit-card-linking",
+      "credit-card-details",
     ],
     []
   );
