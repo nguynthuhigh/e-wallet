@@ -1,20 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
-  TextInput,
   useWindowDimensions,
   FlatList,
   SafeAreaView,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import Search from "../../../assets/svg/Search_transaction.svg";
-import Filter from "../../../assets/svg/filter.svg";
-import Hide from "../../../assets/svg/hide.svg";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import Item_Transaction from "../../../components/Item_Transaction";
-import { useEffect } from "react";
 import transactionAPI from "../../api/transaction.api";
+import SkeletonLoader from "../../../components/SkeletonLoader"; // Adjust the import path as needed
+
 const TransactionHistory = () => {
   const [text, setText] = useState("");
   const layout = useWindowDimensions();
@@ -27,13 +22,14 @@ const TransactionHistory = () => {
   ]);
   const [dataTransaction, setDataTransaction] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [id,setId] = useState()
+  const [id, setId] = useState();
+
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
         const data = await transactionAPI.getTransaction();
         setDataTransaction(data.data.transactions);
-        setId(data.data.id)
+        setId(data.data.id);
       } catch (error) {
         console.log(error);
       } finally {
@@ -45,9 +41,8 @@ const TransactionHistory = () => {
 
   const FirstRoute = () => (
     <View>
-   
       {isLoading ? (
-        <Text>Loading...</Text>
+        <SkeletonLoader />
       ) : (
         <FlatList
           data={dataTransaction}
@@ -64,14 +59,11 @@ const TransactionHistory = () => {
     </View>
   );
 
-  
-
-
-
   return (
-    <SafeAreaView
-    >
-      <Text className="font-semibold text-center text-xl pt-5 bg-white">Lịch sử giao dịch</Text>
+    <SafeAreaView>
+      <Text className="font-semibold text-center text-xl pt-5 bg-white">
+        Lịch sử giao dịch
+      </Text>
       <View style={{ width: "100%" }} className="bg-white h-full">
         <View
           style={{
@@ -81,7 +73,7 @@ const TransactionHistory = () => {
             marginTop: 10,
           }}
         >
-        <FirstRoute></FirstRoute>
+          <FirstRoute />
         </View>
       </View>
     </SafeAreaView>

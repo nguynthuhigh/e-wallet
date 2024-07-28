@@ -31,9 +31,9 @@ const StackLayout = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="deposit-withdraw"
+          name="deposit-withdrawl"
           options={{
-            headerTitle: "Nạp/Rút",
+            headerTitle: "Nạp tiền",
             headerTintColor: "white",
             headerBackground: () => (
               <LinearGradient

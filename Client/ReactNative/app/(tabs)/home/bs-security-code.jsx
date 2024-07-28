@@ -10,38 +10,43 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const BottomSheetSecurityCode = forwardRef((props, ref) => {
   const { amount, cardID, currency } = props;
-  console.log('amount'+amount);
-  console.log('card' + cardID);
-  console.log('currency'+currency);
-  const [securityCode, setSecurityCode] = useState(" ");
-  const [data, setData] = useState(" ");
-  const [error, setError] = useState();
-  const [message, setMessage] = useState();
-  const { code } = props;
+  console.log(amount);
+  console.log(cardID);
+  console.log(currency);
+  const [securityCode, setSecurityCode] = useState("");
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
+
   const handleOnChange = (security_code) => {
+    setSecurityCode(security_code);
     if (security_code.length === 6) {
-      console.log(security_code);
       const deposit = async () => {
         try {
-          setMessage("Đang nạp tiền");
+          setMessage("Đang nạp tiền...");
           const response = await api.depositMoney({
             security_code,
             amount,
             cardID,
             currency,
           });
-          if (response.status == 200) {
+          if (response.status === 200) {
             setData(response.data);
+            setMessage("Nạp tiền thành công");
+            setError(null);
+          } else {
+            setMessage(null);
+            setError(response.data.message || "Đã xảy ra lỗi");
           }
         } catch (error) {
-          setError(error.response.data.message);
           setMessage(null);
+          setError(error.response?.data?.message || "Đã xảy ra lỗi");
         }
       };
       deposit();
     }
   };
-  console.log(securityCode);
+
   const snapPoints = useMemo(() => ["25%", "50%", "60%"], []);
 
   const handleSheetChanges = useCallback(
@@ -90,6 +95,7 @@ const BottomSheetSecurityCode = forwardRef((props, ref) => {
             keyboardType="numeric"
             secureTextEntry
             placeholder="○ ○ ○ ○ ○ ○ "
+            value={securityCode}
           />
         </BottomSheetView>
       </BottomSheet>
