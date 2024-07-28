@@ -105,11 +105,11 @@ const HomePage = () => {
               </LinearGradient>
             </View>
             <TouchableOpacity
-              onPress={() => router.push({pathname:"/home/deposit-withdraw",params:{item:JSON.stringify(walletData)}})}
+              onPress={() => router.push({pathname:"/home/deposit-withdrawl",params:{item:JSON.stringify(walletData)}})}
             >
               <View className="flex-col items-center ">
                 <CashInIcon width={30} height={30} />
-                <Text className="font-medium">Nạp/Rút</Text>
+                <Text className="font-medium">Nạp tiền</Text>
               </View>
             </TouchableOpacity>
           </View>

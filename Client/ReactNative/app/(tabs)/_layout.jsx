@@ -1,4 +1,10 @@
-import React, { useRef, useEffect, useCallback, useMemo, useState } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { StatusBar } from "expo-status-bar";
 import { Tabs, useSegments } from "expo-router";
 import { View, Text, Animated, Dimensions } from "react-native";
@@ -12,27 +18,52 @@ const TabLayout = () => {
   const page = segment[segment.length - 1];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
-  const pagesToHideBar = useMemo(() => [
-    "transfer", "sign-in", "confirm-send", "scan-qr", "receive-money", "qr-payment",
-    "notification", "my-qr", "categorized-promotions", "promotional-details",
-    "details-bill", "list-currencies", "search-result", "confirm-bill", "deposit-withdraw",
-    "credit_card", "credit_details", "credit-card-linking", "credit-card-details", "my-qr"
-  ], []);
+  const pagesToHideBar = useMemo(
+    () => [
+      "transfer",
+      "sign-in",
+      "confirm-send",
+      "scan-qr",
+      "receive-money",
+      "qr-payment",
+      "notification",
+      "my-qr",
+      "categorized-promotions",
+      "promotional-details",
+      "details-bill",
+      "list-currencies",
+      "search-result",
+      "confirm-bill",
+      "deposit-withdrawl",
+      "credit_card",
+      "credit_details",
+      "credit-card-linking",
+      "credit-card-details",
+      "my-qr",
+    ],
+    []
+  );
 
-  const handleTabPress = useCallback((toValue, index) => {
-    Animated.spring(tabOffsetValue, {
-      toValue,
-      useNativeDriver: true,
-    }).start();
-    setActiveTabIndex(index);
-  }, [tabOffsetValue]);
+  const handleTabPress = useCallback(
+    (toValue, index) => {
+      Animated.spring(tabOffsetValue, {
+        toValue,
+        useNativeDriver: true,
+      }).start();
+      setActiveTabIndex(index);
+    },
+    [tabOffsetValue]
+  );
 
-  const defaultTabBarStyle = useMemo(() => ({
-    backgroundColor: "#fff",
-    borderTopWidth: 2,
-    height: 100,
-    borderTopColor: "rgba(140, 140, 140, 0.2)",
-  }), []);
+  const defaultTabBarStyle = useMemo(
+    () => ({
+      backgroundColor: "#fff",
+      borderTopWidth: 2,
+      height: 100,
+      borderTopColor: "rgba(140, 140, 140, 0.2)",
+    }),
+    []
+  );
 
   const shouldHideTabBar = pagesToHideBar.includes(page);
 
