@@ -15,6 +15,7 @@ import Success from './components/payment-gateway/success';
 import WebHook from './components/webhook/webhook';
 import Voucher from './components/voucher/voucher';
 import EditVoucher from './components/voucher/edit-voucher'
+import DownloadApp from './components/download-app/download-app';
 function App() {
   return (
     <Routes>
@@ -33,6 +34,7 @@ function App() {
       <Route path='/voucher' element={<Voucher/>}/>
       <Route path='/add-voucher' element={<AddVoucher/>}/>
       <Route path='/edit-voucher' element={<EditVoucher/>}/>
+      <Route path='/download-app' element={<DownloadApp/>}/>
       <Route path='*' element={<PageNotFound/>}/>
     </Routes>
   );
