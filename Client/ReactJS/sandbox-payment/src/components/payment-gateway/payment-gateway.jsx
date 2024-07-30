@@ -25,6 +25,9 @@ export default function PaymentGateway(){
                     setCurrency(response?.data.data.currency?.symbol)
                     setIsLoading(false)
                 }
+                if(response.status === 201){
+                    window.location.replace(response.data.data)
+                }
                 
             } catch (error) {
                 console.log(error)
