@@ -25,6 +25,9 @@ export default function PaymentGateway(){
                     setCurrency(response?.data.data.currency?.symbol)
                     setIsLoading(false)
                 }
+                if(response.status === 201){
+                    window.location.replace(response.data.data)
+                }
                 
             } catch (error) {
                 console.log(error)
@@ -50,8 +53,8 @@ export default function PaymentGateway(){
                         <div className='text-[20px] ml-5 '>
                             Cổng thanh toán pressPay
                         </div>
-                        {isTab ? <button onClick={handleTab} className='w-fit flex items-center ml-auto transition delay-150 duration-300 ease-in-out border-[1.5px] px-4 py-2 rounded-lg  my-5 text-[#0094ff]  border-[#0094ff] font-semibold'>
-                            Thẻ thanh toán quốc tế <img alt='' className='w-[30px] mx-[2px] border-[1px] border-gray-300 p-1 rounded-[5px]' src='https://static-00.iconduck.com/assets.00/visa-icon-2048x628-6yzgq2vq.png'></img>
+                        {isTab ? <button disabled onClick={handleTab} className='bg-gray-100 w-fit flex items-center ml-auto transition delay-150 duration-300 ease-in-out border-[1.5px] px-4 py-2 rounded-lg  my-5 text-[#0094ff]  border-[#0094ff] font-semibold'>
+                            Thẻ thanh toán quốc tế  <span className='text-[8px]'>(bảo trì)</span><img alt='' className='w-[30px] mx-[2px] border-[1px] border-gray-300 p-1 rounded-[5px]' src='https://static-00.iconduck.com/assets.00/visa-icon-2048x628-6yzgq2vq.png'></img>
                             <img alt='' className='w-[20px] mx-[2px] border-[1px] border-gray-300 p-1 rounded-[5px]' src='https://static-00.iconduck.com/assets.00/mastercard-icon-2048x1587-tygju446.png'></img>
                             <img alt='' className='w-[20px] mx-[2px] border-[1px] border-gray-300 p-1 rounded-[5px]' src='https://static-00.iconduck.com/assets.00/jcb-icon-2048x1537-sqmx1xp9.png'></img>
                         </button> : <button onClick={handleTab} className='w-fit flex items-center ml-auto transition delay-150 duration-300 ease-in-out border-[1.5px] px-4 py-2 rounded-lg  my-5 text-[#0094ff]  border-[#0094ff] font-semibold'>
